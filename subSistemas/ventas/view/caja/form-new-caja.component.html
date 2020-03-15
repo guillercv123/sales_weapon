@@ -1,0 +1,1102 @@
+<div class="login-panel panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{tituloPanel}}</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+
+
+            <div *ngIf="idVentaSelected==null || registro_actualizacion==true" class="col-md-3">
+                <button (click)="abrirModalCotizacion()" class="btn btn-primary btn-block">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Buscar Cotizacion </button>
+            </div>
+
+            <div *ngIf="idVentaSelected==null || registro_actualizacion==true" class="col-md-2">
+                <button (click)="guardar()" class="btn btn-primary btn-block">
+                    <i class="fa fa-save fa-fw ic-dfa"></i>Guardar</button>
+            </div>
+
+
+            <div *ngIf="idVentaSelected!=null && idComprobanteSelected==null && registro_actualizacion==false"
+                class="col-md-3">
+                <button (click)="generarComprobante()" class="btn btn-primary btn-block">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>generar Comprobante</button>
+            </div>
+
+
+            <div *ngIf=" idComprobanteSelected != null " class="col-md-3">
+                <button (click)="imprimirComprobanteBlanco()" class="btn btn-primary btn-block">
+                    <i class="fa fa-print fa-fw ic-dfa"></i>Impr. Blanco
+                </button>
+            </div>
+
+            <div *ngIf=" idComprobanteSelected != null " class="col-md-3">
+                <button (click)="imprimirComprobanteTicketera()" class="btn btn-primary btn-block">
+                    <i class="fa fa-print fa-fw ic-dfa"></i>Impr. Ticketera
+                </button>
+            </div>
+
+            <div *ngIf=" idComprobanteSelected != null " class="col-md-3">
+                <button (click)="imprimirComprobante2()" class="btn btn-primary btn-block">
+                    <i class="fa fa-print fa-fw ic-dfa"></i>Impr.Comprobante 2</button>
+            </div>
+
+            <div *ngIf=" idComprobanteSelected != null " class="col-md-3">
+                <button (click)="imprimirComprobante()" class="btn btn-primary btn-block">
+                    <i class="fa fa-print fa-fw ic-dfa"></i>Impr. A4 Horiz.</button>
+            </div>
+
+            <div *ngIf="idComprobanteSelected != null " class="col-md-3">
+                <button (click)="imprimirComprobanteA4()" class="btn btn-primary btn-block">
+                    <i class="fa fa-print fa-fw ic-dfa"></i>Impri A4 Verti.</button>
+            </div>
+
+            <div class="col-md-2">
+                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+            </div>
+
+        </div>
+
+
+        <fieldset>
+            <legend>Datos Cliente</legend>
+
+            <div class="col-md-12 col-xd-2">
+
+                <!-- <div class="col-md-3 col-xd-6">
+                    <div class="form-group">
+                        <label>Nombres:</label>
+                        <input class="form-control" name="txtNombre" required [(ngModel)]="nombresSelected"
+                            placeholder="Juan" />
+                        <ul class="lista-diego" *ngIf="lista_autocompletado_cliente!=null">
+                            <li *ngFor="let bean of lista_autocompletado_cliente">
+                                <a (click)="elegirLista(bean)">
+                                    {{ bean.nombres }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>-->
+                <!--<div class="col-md-3 col-xd-6">
+                    <div class="form-group">
+                        <label>Nombres:</label>
+                        <input class="form-control" type="text" (keyup)="autocompletarCliente($event)" [(ngModel)]="nombresSelected"/>
+                        <ul class="lista-diego" *ngIf="lista_clientes_autocompletada!=null">
+                            <li *ngFor="let bean of lista_clientes_autocompletada">
+                                <a (click)="elegirListaCliente(bean)">
+                                    {{ bean.nombres }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-3 col-xd-2">
+                    <div class="form-group">
+                        <label>Nro Doc.: </label>
+                        <input class="form-control" minlength=8 maxlength=11 required placeholder="84512654" type="text"
+                            [(ngModel)]="numeroDocSelected" name="txtNumeroDocCliente"
+                            onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;">
+                    </div>
+                </div>-->
+
+
+                <!--    <div class="col-md-2 col-xd-2">
+                    <div class="input-group">
+                        <span class="input-group-addon">Id Cliente:</span>
+                        <span class="form-control">
+                            <span *ngIf="clienteSelected!=null">{{clienteSelected.id_cliente}}</span>
+                        </span>
+                    </div>
+                </div>-->
+
+                <div class="col-md-4 col-xd-2">
+                    <div class="input-group">
+                        <span class="input-group-addon">Nro Doc: </span>
+                        <input class="form-control" type="text" (keyup)="autocompletarClienteNroDoc($event)"
+                            [(ngModel)]="clienteSelected.numero_documento" />
+                        <ul class="lista-diego-autocompletado" *ngIf="lista_clientes_nro_doc_autocompletada!=null">
+                            <li *ngFor="let bean of lista_clientes_nro_doc_autocompletada">
+                                <a (click)="elegirListaCliente(bean)">
+                                    {{ bean.numero_documento }}-{{ bean.nombres }}
+                                </a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xd-2">
+                    <div class="input-group">
+                        <span class="input-group-addon">Nombres: </span>
+                        <input class="form-control" type="text" (keyup)="autocompletarClienteNombre($event)"
+                            [(ngModel)]="clienteSelected.nombres" />
+                        <ul class="lista-diego-autocompletado" *ngIf="lista_clientes_nombres_autocompletada!=null">
+                            <li *ngFor="let bean of lista_clientes_nombres_autocompletada">
+                                <a (click)="elegirListaCliente(bean)">
+                                    {{ bean.nombres }}
+                                </a>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                    <!--<div class="form-group">
+                        <label>Nombres:</label>
+                        <input class="form-control" type="text" (keyup)="autocompletarCliente($event)" [(ngModel)]="clienteSelected.nombres"/>
+                        <ul class="lista-diego" *ngIf="lista_clientes_autocompletada!=null">
+                            <li *ngFor="let bean of lista_clientes_autocompletada">
+                                <a (click)="elegirListaCliente(bean)">
+                                    {{ bean.nombres }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>-->
+                </div>
+
+                <!--<div *ngIf="idVentaSelected==null" class="col-md-2">
+                    <button id="buttonClienteRegistro" (click)="abrirModalCliente()" class="btn btn-primary btn-block">
+                        <i class="fa fa-search fa-fw ic-dfa"></i>Avanzada
+                    </button>
+                </div>-->
+
+
+                <div class="col-md-2" role="toolbar">
+                    <div class="btn-group">
+                        <button id="buttonClienteRegistro" (click)="abrirModalCliente()" class="btn btn-primary"
+                        data-toggle="tooltip" data-placement="top" title="Busqueda Avanzada Cliente">
+                            <i class="fa fa-search fa-fw ic-dfa"></i>
+                        </button>
+                        <button type="button" (click)="abrirModalRegistroPersona()" class="btn btn-primary"
+                            data-toggle="tooltip" data-placement="top" title="Registrar Cliente">
+                            <i class="fa fa-plus fa-fw ic-dfa"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </fieldset>
+
+
+
+        <fieldset>
+            <legend>Generar Comprobante
+                <input type="checkbox" [(ngModel)]="checkGenerarComprobante" name="chkGenerarComprobante"
+                    (click)='abrirPanelComprobante()' />
+            </legend>
+
+
+            <div *ngIf="checkGenerarComprobante" class="col-md-12 col-xd-2">
+
+                <div class="col-md-4 col-xd-2">
+                    <div class="form-group">
+                        <label>Tipo Comprobante: </label>
+                        <select class="form-control" required [(ngModel)]="tipoComprobanteSelected"
+                            name="cbTiposComprobante" (ngModelChange)="mostrarSeriesComprobante()">
+                            <option *ngFor="let ti of tiposComprobante; let i = index" [ngValue]="ti">{{ti.nombre}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xd-2">
+                    <div class="form-group">
+                        <label>Serie Comprobante: </label>
+                        <select class="form-control" required [(ngModel)]="serieComprobanteSelected"
+                            name="cbSeriesComprobante" (ngModelChange)="mostrarCorrelativoSerie()">
+                            <option *ngFor="let ti of seriesComprobante; let i = index" [ngValue]="ti">{{ti.numero}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xd-2">
+                    <div class="form-group">
+                        <label>Numero Correlativo: </label>
+                        <span class="form-control">
+                            <span class="numero-correlativo"
+                                *ngIf="numeroCorrelativoSiguiente!=null">{{numeroCorrelativoSiguiente}}</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xd-2">
+                    <div class="form-group">
+                        <label>Medio Pago: </label>
+                        <select class="form-control" required [(ngModel)]="medioPagoSelected" name="cbMediosPago">
+                            <option *ngFor="let ti of mediosPago; let i = index" [ngValue]="ti">{{ti.nombre}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div *ngIf="medioPagoSelected!=null" class="col-md-2 col-xd-2">
+                    <div *ngIf="medioPagoSelected.nombre=='CREDITO'" class="form-group">
+                        <label>Dias Credito: </label>
+                        <input class="form-control" required placeholder="30" type="number"
+                            [(ngModel)]="diasCreditoSelected" name="txtDiasCredito">
+                    </div>
+                </div>
+
+
+                <div class="col-md-6 col-xd-2">
+                    <div class="form-group">
+                        <label>Fecha: </label>
+                        <input class="form-control" required type="date" [(ngModel)]="fechaSelected" name="txtFecha">
+                    </div>
+                </div>
+            </div>
+
+
+
+        </fieldset>
+
+
+
+
+        <fieldset>
+            <legend>Generar Guia de Remision
+
+                <input type="checkbox" [(ngModel)]="checkGenerarGuia" name="chkGenerarGuia" />
+            </legend>
+
+            <div *ngIf="checkGenerarGuia" class="col-md-12 col-xd-2">
+
+                <div class="col-md-3 col-xd-2">
+                    <div class="form-group">
+                        <label>Serie Guia Remision: </label>
+                        <input class="form-control" type="text" [(ngModel)]="serieGuiaSelected" name="txtSerie">
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-xd-2">
+                    <div class="form-group">
+                        <label>Numero Guia Remision: </label>
+                        <input class="form-control" type="text" [(ngModel)]="numeroGuiaSelected" name="txtNumero">
+                    </div>
+                </div>
+
+
+                <div class="col-md-3 col-xd-2">
+                    <div class="form-group">
+                        <label>Fecha Emision: </label>
+                        <input class="form-control" type="date" [(ngModel)]="fechaEmisionSelected" name="txtNumero">
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-xd-2">
+                    <div class="form-group">
+                        <label>Fecha Inicio Traslado: </label>
+                        <input class="form-control" type="date" [(ngModel)]="fechaInicioTrasladoSelected"
+                            name="txtNumero">
+                    </div>
+                </div>
+
+            </div>
+
+
+        </fieldset>
+
+
+
+
+
+
+
+
+
+        <!--
+            <div class="col-md-2 col-xd-2">
+                <div class="form-group">
+                    <label>esta pagada ? : </label>
+                    <input  class="form-control" type="checkbox" [(ngModel)]="is_pagada" name="ispagadaTxt" >
+                </div>
+            </div>-->
+    </div>
+</div>
+
+
+<div class="login-panel panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Lista de Productos a Vender</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-4 col-xd-12">
+                <div class="input-group-dfa">
+                    <span class="input-group-addon-dfa">
+                        <i class="fa fa-money ic-dfa"></i>TOTAL:{{simboloMonedaSelected}} </span>
+                    <input class="form-control" [(ngModel)]="montoTotalSelected" />
+                </div>
+            </div>
+
+            <div class="col-md-4 col-xd-12">
+                <div class="input-group-dfa">
+                    <span class="input-group-addon-dfa">
+                        <i class="fa fa-money ic-dfa"></i>SUB TOTAL:{{simboloMonedaSelected}}
+                    </span>
+                    <span class="form-control">
+                        {{subTotalSelected}}
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-xd-12">
+                <div class="input-group-dfa">
+                    <span class="input-group-addon-dfa">
+                        <i class="fa fa-money ic-dfa"></i>IGV:{{simboloMonedaSelected}}
+                    </span>
+                    <span class="form-control">
+                        {{igvSelected}}
+                    </span>
+                </div>
+            </div>
+
+
+            <div class="col-md-3 col-xd-12">
+                <select class="form-control" [(ngModel)]="tipoMonedaSelected"
+                    (ngModelChange)="obtenerTipoMonedaGeneral(tipoMonedaSelected);">
+                    <option *ngFor="let tm of tiposMoneda; let i = index" [ngValue]="tm">{{tm.nombre}}
+                    </option>
+                </select>
+            </div>
+
+            <div class="col-md-3 col-xd-12">
+                <select class="form-control" [(ngModel)]="almacenUsuarioSelected">
+                    <option *ngFor="let al of almacenesUsuario; let i = index" [ngValue]="al">{{al.nombre}}
+                    </option>
+                </select>
+            </div>
+            <div class="col-md-4 col-xd-6">
+                <div class="form-group">
+                    <label>Inc. Igv</label>
+                    <input type="checkbox" [(ngModel)]="incluyeIgvSelected" (ngModelChange)="calcularIgv();">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <!--
+
+                    <div class="row bg-teal tabla-cabecera-botones">
+                        <div class="col-md-2">
+                            <label>EXISTEN :
+                                <span *ngIf="listaProductos!=null">{{listaProductos.length}}</span> EN
+                                TOTAL</label>
+                        </div>
+                        <div class="col-md-1">
+                            <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                <i class="fa fa-backward fa-fw ic-dfa"></i>
+                            </button>
+                        </div>
+                        <div class="col-md-2">
+                            <label>Del {{inicio}} al {{fin}}</label>
+                        </div>
+
+                        <div class="col-md-1">
+                            <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                <i class="fa fa-forward fa-fw ic-dfa"></i>
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="col-md-5">
+                                <label> Tamaño Pagina</label>
+                            </div>
+                            <div class="col-md-4">
+                                <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                    <option [ngValue]="10">10</option>
+                                    <option [ngValue]="15">15</option>
+                                    <option [ngValue]="20">20</option>
+                                    <option [ngValue]="30">30</option>
+                                    <option [ngValue]="100">100</option>
+                                    <option [ngValue]="500">500</option>
+                                    <option [ngValue]="1000">1000</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-2">
+                            <button (click)="abrirModalCatalogoVenta()" class="btn btn-primary btn-block">
+                                <i class="fa fa-plus fa-fw ic-dfa"></i>
+                                <i class="fa fa-shopping-cart fa-fw ic-dfa"></i>Agregar</button>
+                        </div>
+                    </div>-->
+
+
+                <div class="row bg-teal tabla-cabecera-botones">
+
+                    <div class="col-md-3 col-xd-3">
+                        <div class="form-group">
+                            <label>Cantidad Celdas: </label>
+                            <input class="form-control" required placeholder="23" type="text"
+                                [(ngModel)]="cantidadCeldas" name="txtCantidadCeldas">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>Accion: </label>
+                            <button (click)="agregarProductoMultiple(cantidadCeldas);"
+                                class="btn btn-primary btn-block">
+                                <i class="fa fa-plus fa-fw ic-dfa"></i>Agregar Filas
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>Accion: </label>
+                        <button (click)="abrirModalCatalogoVenta()" class="btn btn-primary btn-block">
+                            <i class="fa fa-plus fa-fw ic-dfa"></i>
+                            <i class="fa fa-shopping-cart fa-fw ic-dfa"></i>Busqueda Avanzada
+                        </button>
+                    </div>
+
+
+
+                </div>
+
+                <div class=" table-responsive tabla-dfa">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr class="bg-teal tam-cabecera">
+                                <th>N°</th>
+                                <th>NUEVO</th>
+                                <th>ACCION</th>
+                                <!--<th>ACCION</th>
+                                    <th>ACCION</th>-->
+                                <!--<th>ID CATALOGO VENTA</th>
+                                    <th>ID PRODUCTO</th>-->
+                                <th>CODIGO</th>
+                                <th>NOMBRE</th>
+                                <!--<th>DESCRIPCION</th>-->
+                                <th>MARCA</th>
+                                <th>CANTIDAD</th>
+                                <th>PRECIO VENTA</th>
+
+                                <th>SUB TOTAL</th>
+                                <th>PRECIO FINAL</th>
+                                <!--<th>PRECIO BASE</th>-->
+                                <th>PRECIO REFE.</th>
+                                <th>COSTO INCL</th>
+                                <th>10%</th>
+                                <th>15%</th>
+                                <th>20%</th>
+                                <th>30%</th>
+                                <!--<th>PRECIO ESPECIAL</th>-->
+                                <!--<th>TIPO MONEDA</th>-->
+                                <!--<th>PERMISO</th>-->
+                                <th>UNIDAD MEDIDA</th>
+                                <!--<th>DESC.</th>
+                                    <th>PORC. DESC.</th>-->
+                                <!-- <th>TIPO MONEDA</th>-->
+                                <th>TIPO PRODUCTO</th>
+                                <!--<th>UNIDAD MEDIDA</th>-->
+                                <!--<th>PROVEEDOR</th>
+                                    <th>APLICACION</th>
+                                    <th>ALMACEN</th>
+                                    <th>LOCAL</th>-->
+                                <!--<th>IMAGEN</th>-->
+                                <!--<th>MEDIDA A</th>
+                                    <th>MEDIDA B</th>
+                                    <th>MEDIDA C</th>
+                                    <th>MEDIDA D</th>-->
+                                <!--<th>DESCRIPCION</th>-->
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let pro of listaProductos;let j = index" class="bg-cyan tam-cuerpo">
+                                <td>{{inicio+j}}</td>
+                                <td><input class="form-control" [(ngModel)]="pro.nuevo" type="checkbox" /></td>
+
+                                <td>
+
+                                    <div class="btn-toolbar" role="toolbar">
+                                        <div class="btn-group">
+                                            <button type="button" (click)="eliminarCarrito(j)" class="btn btn-primary "
+                                                data-toggle="tooltip" data-placement="top" title="Eliminar Lista">
+                                                <i class="fa fa-trash fa-fw ic-dfa"></i>
+                                            </button>
+                                            <button type="button" (click)="verStock(pro)" class="btn btn-primary"
+                                                data-toggle="tooltip" data-placement="top" title="Ver Stock">
+                                                <i class="fa fa-eye fa-fw ic-dfa"></i>
+                                            </button>
+
+                                            <button type="button" (click)="verUltimasVentas(pro,j)"
+                                                class="btn btn-primary " data-toggle="tooltip" data-placement="top"
+                                                title="Ver Ultimas Ventas">
+                                                <i class="fa fa-list-ol fa-fw ic-dfa"></i>
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+
+
+                                </td>
+                                <!-- <td>
+                                        <button (click)="verStock(pro)" class="btn btn-primary btn-block">
+                                            <i class="fa fa-eye fa-fw ic-dfa"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button (click)="verUltimasVentas(pro,j)" class="btn btn-primary btn-block">
+                                            <i class="fa fa-eye fa-fw ic-dfa"></i>
+                                        </button>
+                                    </td>-->
+
+                                <!--
+                                    <td>
+                                        <span class="caja-nombre-producto" >{{pro.nombre}}</span>
+                                    </td>-->
+                                <td>
+                                    <div class="col-md-12 col-xd-12">
+                                        <div class="form-group">
+                                            <input class="caja-numero" id="{{'tbCompracelda'+j}}" required type="text"
+                                                [(ngModel)]="pro.codigo" (keyup)="buscarPorCodigoProducto($event,j)">
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <!--<div class="col-md-12 col-xd-12">
+                                        <div class="form-group">
+                                            <input class="caja-entera" id="{{'tbCompracelda'+j}}" required type="text"
+                                                [(ngModel)]="pro.nombre"
+                                                (keypress)="teclaKeyPressAutocomplete($event,j)"
+                                                (keyup)="teclaKeyUpAutocomplete($event,j)"
+                                                (keydown)="teclaKeyDownAutocomplete($event,j)">
+
+
+                                            <ul id="{{'tbListaPro'+j}}" class="lista-diego2"
+                                                *ngIf="pro.lista_autocompletado!=null">
+                                                <li *ngFor="let ob of pro.lista_autocompletado">
+                                                    <a (click)="elegirProducto(ob,j)">
+                                                        {{ ob.nombre }} - {{ob.nombre_marca}}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>-->
+
+                                    <div class="col-md-12 col-xd-12">
+                                        <div class="form-group">
+                                            <input class="caja-entera" type="text"
+                                                (keyup)="autocompletarProductoNombre($event,j)"
+                                                [(ngModel)]="pro.nombre" />
+                                            <!--<datalist id="dynmicUserIds">
+                                      <option *ngFor="let item of userList1" [value]="item.nombre">{{ item.nombre }} - {{item.nombre_marca}}</option>
+                                    </datalist>-->
+                                            <ul id="{{'tbListaPro'+j}}" class="lista-diego2"
+                                                *ngIf="pro.lista_autocompletado!=null">
+                                                <li *ngFor="let ob of pro.lista_autocompletado">
+                                                    <a (click)="elegirProducto(ob,j)">
+                                                        {{ ob.nombre }} - {{ob.nombre_marca}}
+                                                    </a>
+                                                </li>
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <!--
+                                    <td>
+                                        <div class="col-md-12 col-xd-12">
+                                            <div class="form-group">
+                                                <textarea class="caja-descripcion" [(ngModel)]="pro.descripcion">
+    
+                                                </textarea>
+                                               
+                                            </div>
+                                        </div>
+                                    </td>-->
+
+
+                                <td>{{pro.nombre_marca}}</td>
+
+                                <td>
+                                    <input class="caja-numero3" (change)="calcularIgv()" type="number"
+                                        [(ngModel)]="pro.cantidad" name="txtCantiTable">
+                                </td>
+                                <td>
+                                    <input class="caja-numero3" (keyup)="validarPrecio(pro,$event)"
+                                        (change)="calcularIgv()" type="number" [(ngModel)]="pro.precio_venta"
+                                        name="txtPrecioVenta">
+                                </td>
+
+
+                                <td class="color6">{{pro.tipo_moneda.simbolo}}{{pro.sub_total}}</td>
+                                <td class="color5">{{pro.tipo_moneda.simbolo}}{{pro.precio}}</td>
+                                <!--<td>{{pro.nombre_simbolo_moneda_pb}}{{pro.precio_base}}</td>-->
+                                <!--<td>{{pro.nombre_simbolo_moneda_pr}}{{pro.precio_referencia}}</td>-->
+                                <td><button (click)='elegirPrecio(j,pro.precio_referencia)'
+                                        class='btn btn-primary btn-block'>{{pro.nombre_simbolo_moneda_pr}}{{pro.precio_referencia}}</button>
+                                </td>
+
+                                <!--<td *ngIf="tipoMonedaSelected.nombre=='SOLES'" class="color7">{{tipoMonedaSelected.simbolo}}{{pro.costo_incluido}}</td>
+                                    <td *ngIf="tipoMonedaSelected.nombre=='SOLES'" class="color1">{{tipoMonedaSelected.simbolo}}{{pro.porc1}}</td>
+                                    <td *ngIf="tipoMonedaSelected.nombre=='SOLES'" class="color2">{{tipoMonedaSelected.simbolo}}{{pro.porc2}}</td>
+                                    <td *ngIf="tipoMonedaSelected.nombre=='SOLES'" class="color3">{{tipoMonedaSelected.simbolo}}{{pro.porc3}}</td>
+                                    <td *ngIf="tipoMonedaSelected.nombre=='SOLES'" class="color4">{{tipoMonedaSelected.simbolo}}{{pro.porc4}}</td>
+
+                                    <td *ngIf="tipoMonedaSelected.nombre=='DOLARES'" class="color7">{{tipoMonedaSelected.simbolo}}{{pro.costo_incluido_dolar}}</td>
+                                    <td *ngIf="tipoMonedaSelected.nombre=='DOLARES'" class="color1">{{tipoMonedaSelected.simbolo}}{{pro.porc1_dolar}}</td>
+                                    <td *ngIf="tipoMonedaSelected.nombre=='DOLARES'" class="color2">{{tipoMonedaSelected.simbolo}}{{pro.porc2_dolar}}</td>
+                                    <td *ngIf="tipoMonedaSelected.nombre=='DOLARES'" class="color3">{{tipoMonedaSelected.simbolo}}{{pro.porc3_dolar}}</td>
+                                    <td *ngIf="tipoMonedaSelected.nombre=='DOLARES'" class="color4">{{tipoMonedaSelected.simbolo}}{{pro.porc4_dolar}}</td>-->
+
+                                <td *ngIf="tipoMonedaSelected.nombre=='SOLES' && incluyeIgvSelected" class="color7">
+                                    <button (click)='elegirPrecio(j,pro.costo_incluido)'
+                                        class='btn btn-primary btn-block'>{{tipoMonedaSelected.simbolo}}{{pro.costo_incluido}}</button>
+                                </td>
+                                <td *ngIf="tipoMonedaSelected.nombre=='SOLES' && incluyeIgvSelected" class="color1">
+                                    <button (click)='elegirPrecio(j,pro.gana_porc1)'
+                                        class='btn btn-primary btn-block'>{{tipoMonedaSelected.simbolo}}{{pro.gana_porc1}}</button>
+                                </td>
+                                <td *ngIf="tipoMonedaSelected.nombre=='SOLES' && incluyeIgvSelected" class="color2">
+                                    <button (click)='elegirPrecio(j,pro.gana_porc2)'
+                                        class='btn btn-primary btn-block'>{{tipoMonedaSelected.simbolo}}{{pro.gana_porc2}}</button>
+                                </td>
+                                <td *ngIf="tipoMonedaSelected.nombre=='SOLES' && incluyeIgvSelected" class="color3">
+                                    <button (click)='elegirPrecio(j,pro.gana_porc3)'
+                                        class='btn btn-primary btn-block'>{{tipoMonedaSelected.simbolo}}{{pro.gana_porc3}}</button>
+                                </td>
+                                <td *ngIf="tipoMonedaSelected.nombre=='SOLES' && incluyeIgvSelected" class="color4">
+                                    <button (click)='elegirPrecio(j,pro.gana_porc4)'
+                                        class='btn btn-primary btn-block'>{{tipoMonedaSelected.simbolo}}{{pro.gana_porc4}}</button>
+                                </td>
+
+                                <td *ngIf="tipoMonedaSelected.nombre=='DOLARES' && incluyeIgvSelected" class="color7">
+                                    <button (click)='elegirPrecio(j,pro.costo_incluido_dolar)'
+                                        class='btn btn-primary btn-block'>{{tipoMonedaSelected.simbolo}}{{pro.costo_incluido_dolar}}</button>
+                                </td>
+                                <td *ngIf="tipoMonedaSelected.nombre=='DOLARES' && incluyeIgvSelected" class="color1">
+                                    <button (click)='elegirPrecio(j,pro.porc1_dolar)'
+                                        class='btn btn-primary btn-block'>{{tipoMonedaSelected.simbolo}}{{pro.porc1_dolar}}</button>
+                                </td>
+                                <td *ngIf="tipoMonedaSelected.nombre=='DOLARES' && incluyeIgvSelected" class="color2">
+                                    <button (click)='elegirPrecio(j,pro.porc2_dolar)'
+                                        class='btn btn-primary btn-block'>{{tipoMonedaSelected.simbolo}}{{pro.porc2_dolar}}</button>
+                                </td>
+                                <td *ngIf="tipoMonedaSelected.nombre=='DOLARES' && incluyeIgvSelected" class="color3">
+                                    <button (click)='elegirPrecio(j,pro.porc3_dolar)'
+                                        class='btn btn-primary btn-block'>{{tipoMonedaSelected.simbolo}}{{pro.porc3_dolar}}</button>
+                                </td>
+                                <td *ngIf="tipoMonedaSelected.nombre=='DOLARES' && incluyeIgvSelected" class="color4">
+                                    <button (click)='elegirPrecio(j,pro.porc4_dolar)'
+                                        class='btn btn-primary btn-block'>{{tipoMonedaSelected.simbolo}}{{pro.porc4_dolar}}</button>
+                                </td>
+
+                                <td *ngIf="tipoMonedaSelected.nombre=='SOLES' && !incluyeIgvSelected" class="color7">
+                                    <button (click)='elegirPrecio(j,pro.costo_incluido_sinigv)'
+                                        class='btn btn-primary btn-block'>{{tipoMonedaSelected.simbolo}}{{pro.costo_incluido_sinigv}}</button>
+                                </td>
+                                <td *ngIf="tipoMonedaSelected.nombre=='SOLES' && !incluyeIgvSelected" class="color1">
+                                    <button (click)='elegirPrecio(j,pro.porc1_sinigv)'
+                                        class='btn btn-primary btn-block'>{{tipoMonedaSelected.simbolo}}{{pro.porc1_sinigv}}</button>
+                                </td>
+                                <td *ngIf="tipoMonedaSelected.nombre=='SOLES' && !incluyeIgvSelected" class="color2">
+                                    <button (click)='elegirPrecio(j,pro.porc2_sinigv)'
+                                        class='btn btn-primary btn-block'>{{tipoMonedaSelected.simbolo}}{{pro.porc2_sinigv}}</button>
+                                </td>
+                                <td *ngIf="tipoMonedaSelected.nombre=='SOLES' && !incluyeIgvSelected" class="color3">
+                                    <button (click)='elegirPrecio(j,pro.porc3_sinigv)'
+                                        class='btn btn-primary btn-block'>{{tipoMonedaSelected.simbolo}}{{pro.porc3_sinigv}}</button>
+                                </td>
+                                <td *ngIf="tipoMonedaSelected.nombre=='SOLES' && !incluyeIgvSelected" class="color4">
+                                    <button (click)='elegirPrecio(j,pro.porc4_sinigv)'
+                                        class='btn btn-primary btn-block'>{{tipoMonedaSelected.simbolo}}{{pro.porc4_sinigv}}</button>
+                                </td>
+
+                                <td *ngIf="tipoMonedaSelected.nombre=='DOLARES' && !incluyeIgvSelected" class="color7">
+                                    <button (click)='elegirPrecio(j,pro.costo_incluido_dolar_sinigv)'
+                                        class='btn btn-primary btn-block'>{{tipoMonedaSelected.simbolo}}{{pro.costo_incluido_dolar_sinigv}}</button>
+                                </td>
+                                <td *ngIf="tipoMonedaSelected.nombre=='DOLARES' && !incluyeIgvSelected" class="color1">
+                                    <button (click)='elegirPrecio(j,pro.porc1_dolar_sinigv)'
+                                        class='btn btn-primary btn-block'>{{tipoMonedaSelected.simbolo}}{{pro.porc1_dolar_sinigv}}</button>
+                                </td>
+                                <td *ngIf="tipoMonedaSelected.nombre=='DOLARES' && !incluyeIgvSelected" class="color2">
+                                    <button (click)='elegirPrecio(j,pro.porc2_dolar_sinigv)'
+                                        class='btn btn-primary btn-block'>{{tipoMonedaSelected.simbolo}}{{pro.porc2_dolar_sinigv}}</button>
+                                </td>
+                                <td *ngIf="tipoMonedaSelected.nombre=='DOLARES' && !incluyeIgvSelected" class="color3">
+                                    <button (click)='elegirPrecio(j,pro.porc3_dolar_sinigv)'
+                                        class='btn btn-primary btn-block'>{{tipoMonedaSelected.simbolo}}{{pro.porc3_dolar_sinigv}}</button>
+                                </td>
+                                <td *ngIf="tipoMonedaSelected.nombre=='DOLARES' && !incluyeIgvSelected" class="color4">
+                                    <button (click)='elegirPrecio(j,pro.porc4_dolar_sinigv)'
+                                        class='btn btn-primary btn-block'>{{tipoMonedaSelected.simbolo}}{{pro.porc4_dolar_sinigv}}</button>
+                                </td>
+
+
+                                <!--
+                                    <td *ngIf="tipoMonedaSelected.nombre=='DOLARES'" class="color4">{{tipoMonedaSelected.simbolo}}{{pro.precio_especial}}</td>
+                                    <td *ngIf="tipoMonedaSelected.nombre=='SOLES'" class="color4">{{tipoMonedaSelected.simbolo}}{{pro.precio_especial_soles}}</td>
+                                    -->
+                                <!--
+                                    <td>
+                                        {{pro.tipo_moneda.nombre}}
+                                    </td>-->
+                                <!--<td>
+                                        <div class="input-group">
+                                            <button (click)="activarPermiso(j)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-key fa-fw ic-dfa"></i>
+                                            </button>
+                                            <input disabled type="checkbox" [(ngModel)]="pro.tiene_permiso_muestra"
+                                                name="txtTienePermisoExceder">
+
+                                        </div>
+                                    </td>-->
+
+                                <td>
+                                    <select [(ngModel)]="pro.id_unidad_medida">
+                                        <option *ngFor="let uni of unidades_medida; let i = index"
+                                            [value]="uni.id_unidad_medida">{{uni.nombre}} </option>
+                                    </select>
+                                </td>
+                                <!--
+                                    <td>
+                                        <input (change)="calcularConDesc(j)" type="number" [(ngModel)]="pro.desc" name="txtDesc">
+                                    </td>
+                                    <td>
+                                        <input (change)="calcularPorcDesc(j)" type="number" [(ngModel)]="pro.porc_desc" name="txtPorcDesc">
+                                    </td>-->
+                                <!--<td>{{pro.nombre_tipo_moneda}}</td>-->
+                                <td>{{pro.nombre_tipo_producto}}</td>
+                                <!-- <td>{{pro.nombre_unidad_medida}}</td>-->
+                                <!--<td>{{pro.nombre_proveedor}}</td>
+                                    <td>{{pro.nombre_aplicacion}}</td>
+                                    <td>{{pro.nombre_almacen}}</td>
+                                    <td>{{pro.nombre_local}}</td>-->
+                                <!--<td>
+                                    <a href="javascript:void(0);" (click)="mostrarImagen(pro)">
+                                        <img class="img-responsive logo-img-menu" src="{{pro.ruta_imagen}}" />
+                                    </a>
+                                </td>-->
+                                <!--
+                                    <td>{{pro.medida_a}}</td>
+                                    <td>{{pro.medida_b}}</td>
+                                    <td>{{pro.medida_c}}</td>
+                                    <td>{{pro.medida_d}}</td>-->
+                                <!--<td>{{pro.descripcion}}</td>-->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+
+
+<button id="modalClienteNewVenta" hidden="hidden" data-toggle="modal" data-target="#modalClienteNewVentaPnl"></button>
+<div class="modal fade" id="modalClienteNewVentaPnl">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS CLIENTE</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <form-find-cliente (clienteSeleccionado)="obtenerClienteDatosExternos($event)">
+                </form-find-cliente>
+
+            </div>
+            <div class="modal-footer">
+                <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                <!--(click)="activarBuscar($event)"-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<button id="modalCatalogoVenta" hidden="hidden" data-keyboard="true" data-toggle="modal"
+    data-target="#modalCatalogoVentaPnl"></button>
+<div class="modal" id="modalCatalogoVentaPnl" tabindex='-1'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS PRODUCTO</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <form-catalogo-venta [buttonSelectedActivated]="buttonSelectedActivatedPro"
+                    [buttonEliminarActivated]="buttonEliminarActivatedPro"
+                    [buttonEditarActivated]="buttonEditarActivatedPro"
+                    [panelListaBeanSelected]="panelListaCatalogoVenta"
+                    [panelListaVentaBeanSelected]="panelListaCatalogoVentaDerecha"
+                    [estiloTablaDerecha]="estiloTablaDerechaCatalogo" [estiloBusquedaCatalogo]="estiloBusquedaCatalogo"
+                    [colMd2]="colMd2Catalogo" [colMd4]="colMd4Catalogo" [col1Md2]="col1Md2Catalogo"
+                    [campoOculto]="campoOcultoVenta" (productoSeleccionado)="obtenerDatosExternos($event)">
+                </form-catalogo-venta>
+
+            </div>
+            <div class="modal-footer">
+                <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                <!--(click)="activarBuscar($event)"-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<button id="modalClavePermiso" hidden="hidden" data-toggle="modal" data-target="#modalClavePermisoPnl"></button>
+<div class="modal fade" id="modalClavePermisoPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button (click)="aceptarClave()" class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>CLAVE AUTORIZACION</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="col-md-12 col-xd-2">
+                    <div class="form-group">
+                        <label>Ingrese Clave de Autorizacion: </label>
+                        <input class="form-control" required placeholder="123" type="password"
+                            [(ngModel)]="clavePermiso" name="txtClavePermiso">
+                    </div>
+                </div>
+                <div class="col-md-4 col-xd-2">
+                    <button (click)="aceptarClave()" class="btn btn-primary btn-block">
+                        <i class="fa fa-save fa-fw ic-dfa"></i>Aceptar
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<button id="modalStockProductoVenta" hidden="hidden" data-toggle="modal"
+    data-target="#modalStockProductoVentaPnl"></button>
+<div class="modal fade" id="modalStockProductoVentaPnl">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true"
+                    (click)="cerrarModal('modalStockProductoVenta')">&times;</button>
+                <h4 class="modal-title">
+                    <label>Stock Producto</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lista de stock </h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="row">
+
+                            <div class="col-md-12">
+
+                                <div class=" table-responsive tabla-dfa">
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr class="bg-teal tam-cabecera">
+                                                <th>N°</th>
+                                                <th>ALMACEN</th>
+                                                <th>ID PRODUCTO</th>
+                                                <th>NOMBRE PRODUCTO</th>
+                                                <th>STOCK</th>
+                                                <th>PRECIO COMPRA</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr *ngFor="let pro of lista_stock;let j = index"
+                                                class="bg-cyan tam-cuerpo">
+                                                <td>{{inicio+j}}</td>
+                                                <td>{{pro.nombre_almacen}}</td>
+                                                <td>{{pro.id_producto}}</td>
+                                                <td>{{pro.nombre_producto}}</td>
+                                                <td>{{pro.stock}}</td>
+                                                <td>{{pro.precio_compra}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<button id="modalUltimasVentas" hidden="hidden" data-toggle="modal" data-target="#modalUltimasVentasPnl"></button>
+<div class="modal fade" id="modalUltimasVentasPnl">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" (click)="cerrarModal('modalUltimasVentas')">&times;</button>
+                <h4 class="modal-title">
+                    <label>Ultimas Ventas</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lista de Ultimas Ventas</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="row">
+
+                            <div class="col-md-12">
+
+                                <div class=" table-responsive tabla-dfa">
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr class="bg-teal tam-cabecera">
+                                                <th>N°</th>
+                                                <th>ACCION</th>
+                                                <th>ALMACEN</th>
+                                                <th>ID PRODUCTO</th>
+                                                <th>NOMBRE PRODUCTO</th>
+                                                <th>PRECIO</th>
+                                                <th>CANTIDAD</th>
+                                                <th>FECHA</th>
+                                                <th>ID VENTA</th>
+                                                <th>CLIENTE</th>
+                                                <th>NRO. DOCUMENTO</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr *ngFor="let pro of lista_ultimas_ventas;let j = index"
+                                                class="bg-cyan tam-cuerpo">
+                                                <td>{{inicio+j}}</td>
+                                                <td>
+                                                    <button (click)="seleccionarUltimaVenta(pro, j)"
+                                                        class="btn btn-primary btn-block">
+                                                        <i class="fa fa-hand-o-up fa-fw ic-dfa"></i>Select.
+                                                    </button>
+                                                </td>
+                                                <td>{{pro.nombre_almacen}}</td>
+                                                <td>{{pro.id_producto}}</td>
+                                                <td>{{pro.nombre_producto}}</td>
+                                                <td>{{pro.simbolo_tipo_moneda}}{{pro.precio}}</td>
+                                                <td>{{pro.cantidad}}</td>
+                                                <td>{{pro.fecha}}</td>
+                                                <td>{{pro.id_venta}}</td>
+                                                <td>{{pro.nombres_cliente}}</td>
+                                                <td>{{pro.numero_documento_cliente}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<button id="modalCotizacion" hidden="hidden" data-toggle="modal" data-target="#modalCotizacionPnl"></button>
+<div class="modal fade" id="modalCotizacionPnl">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" (click)="cerrarModal('modalCotizacion')">&times;</button>
+                <h4 class="modal-title">
+                    <label>Datos Cotizacion</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <form-cotizacion (cotizacionSeleccionada)="obtenerDatosCotizacion($event)"></form-cotizacion>
+
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<button id="modalRegistroCliente" hidden="hidden" data-toggle="modal" data-target="#modalRegistroClientePnl"></button>
+<div class="modal fade" id="modalRegistroClientePnl">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" (click)="cerrarModal('modalRegistroCliente')">&times;</button>
+                <h4 class="modal-title">
+                    <label>Registro Cliente</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+                <form-new-persona (personaRegistrada)="personaRegistrada($event)" ></form-new-persona>
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+

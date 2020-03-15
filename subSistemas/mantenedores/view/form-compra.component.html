@@ -1,0 +1,2141 @@
+<!--
+    <div class="row">
+        <div class="col-md-12" >    
+        -->
+<div *ngIf="completado">
+    <div class="loader">Cargando...</div>
+</div>
+
+
+<div *ngIf="tienePermisoView">
+
+
+    <div *ngIf="!panelPermisosSelected">
+
+
+
+        <ul *ngIf="!panelEditarSelected" class="nav nav-tabs">
+            <li class="active">
+                <a (click)="activarEditarMasivo(false)" data-toggle="tab" href="#buscarProducto">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</a>
+            </li>
+            <li>
+                <a (click)="activarEditarMasivo(false)" data-toggle="tab" href="#nuevoProducto">
+                    <i class="fa fa-plus fa-fw ic-dfa"></i>Nuevo</a>
+            </li>
+            <li>
+                <a (click)="iniciarProductosMultiples();" data-toggle="tab" href="#registroMultiple">
+                    <i class="fa fa-plus fa-fw ic-dfa"></i>Registro Multiple</a>
+            </li>
+
+            <li>
+                <a (click)="activarEditarMasivo(true)" data-toggle="tab" href="#editarMasivo">
+                    <i class="fa fa-edit fa-fw ic-dfa"></i>Editar Masivo</a>
+            </li>
+
+        </ul>
+        <div *ngIf="!panelEditarSelected" class="tab-content">
+            <div id="buscarProducto" class="tab-pane fade in active">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Busqueda de Productos</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="col-md-12 col-xd-2">
+
+                            <div class="col-md-12 col-xd-2">
+                                <div class="form-group">
+                                    <label>Buscar Por rangos: </label>
+                                    <input type="checkbox" [(ngModel)]="busquedaMarcadaChecked" name="chBusquedaRangos" (click)="limpiarBusquedaRangos()">
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Id Producto: </label>
+                                    <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="text" [(ngModel)]="idProductoSelected"
+                                        name="txtIdProducto">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Tipo Producto: </label>
+                                    <select class="form-control" required [(ngModel)]="tipoProSelected" name="cbTipoProducto">
+                                        <option *ngFor="let tipro of tipos_producto; let i = index" [ngValue]="tipro">{{tipro.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Unidad Medida: </label>
+                                    <select class="form-control" required [(ngModel)]="uniMediSelected" name="cbUniMedida">
+                                        <option *ngFor="let uni of unidades_medida; let i = index" [ngValue]="uni">{{uni.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Aplicacion: </label>
+                                    <select class="form-control" required [(ngModel)]="apliSelected" name="cbAplicaciones">
+                                        <option *ngFor="let a of aplicaciones; let i = index" [ngValue]="a">{{a.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Marca: </label>
+                                    <select class="form-control" required [(ngModel)]="marcaSelected" name="cbMarcas">
+                                        <option *ngFor="let mar of marcas; let i = index" [ngValue]="mar">{{mar.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-xd-6">
+                                <div class="form-group">
+                                    <label>Nombre:</label>
+                                    <input class="form-control" name="txtNombre" required [(ngModel)]="nombreSelected" (keypress)="teclaKeyPressAutocomplete($event)"
+                                        (keyup)="teclaKeyUpAutocomplete($event)" (keydown)="teclaKeyDownAutocomplete($event)"
+                                        placeholder="Buscar Producto" />
+                                    <ul class="lista-diego" *ngIf="lista_autocompletado!=null">
+                                        <li *ngFor="let pro of lista_autocompletado">
+                                            <a (click)="elegirProducto(pro)">
+                                                {{ pro.nombre }} - {{ pro.nombre_marca }}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Codigo: </label>
+                                    <input class="form-control" required placeholder="23233" type="text" [(ngModel)]="codigo" name="txtCodigo">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Codigo Barra: </label>
+                                    <input class="form-control" required placeholder="00000232323" type="text" [(ngModel)]="codigo_barra" name="txtCodigoBarra">
+                                </div>
+                            </div>
+
+
+
+               
+
+                            <div class="col-md-12 col-xd-2">
+                                <fieldset>
+                                    <legend>Ubicación</legend>
+                                    <div class="col-md-4 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Andamio </label>
+                                            <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="A" type="text" [(ngModel)]="andamioUbiSelected"
+                                                name="txtAndamio">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-4 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Fila </label>
+                                            <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="1" type="text" [(ngModel)]="filaUbiSelected"
+                                                name="txtFila">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Columna </label>
+                                            <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="2" type="text" [(ngModel)]="columnaUbiSelected"
+                                                name="txtColumna">
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-12 col-xd-2">
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="buscar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-search fa-fw ic-dfa"></i>Ejecutar</button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lista de Productos</h3>
+                    </div>
+                    <div class="panel-body-tabla">
+
+
+
+
+
+                        <div class="row">
+
+                            <div class="col-md-12">
+
+                                <div class="row bg-teal tabla-cabecera-botones">
+
+                                    <div class="col-md-2">
+                                        <label>EXISTEN :{{totalLista}} EN TOTAL</label>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Del {{inicio}} al {{fin}}</label>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-md-5">
+                                            <label> Tamaño Pagina</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                                <option [ngValue]="10">10</option>
+                                                <option [ngValue]="15">15</option>
+                                                <option [ngValue]="20">20</option>
+                                                <option [ngValue]="30">30</option>
+                                                <option [ngValue]="100">100</option>
+                                                <option [ngValue]="500">500</option>
+                                                <option [ngValue]="1000">1000</option>
+                                                <option [ngValue]="5000">5000</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class=" table-responsive tabla-dfa">
+
+                                    <table id="tabla-productos" class="table table-condensed">
+                                        <thead>
+                                            <tr class="bg-teal tam-cabecera">
+                                                <th>N°</th>
+                                                <th *ngIf="buttonSelected">ACCION</th>
+                                                <th *ngIf="!buttonSelected">ACCION</th>
+                                                <th *ngIf="!buttonSelected">ACCION</th>
+                                                <th>ACCION</th>
+                                                <th>ACCION</th>
+                                                <th>ACCION</th>
+                                                <th>ID PRODUCTO</th>
+                                                <th>NOMBRE</th>
+                                                <th>MARCA</th>
+                                                <th>CODIGO</th>
+                                                <th>CODIGO BARRA</th>
+                                                <!--<th><i (click)="orderBy('p.nombre desc')" class="fa fa-angle-double-down fa-fw ic-dfa" ></i>NOMBRE<i (click)="orderBy('p.nombre asc')" class="fa fa-angle-double-up fa-fw ic-dfa" ></i></th>
+                                                    -->
+                                                <th>TIPO PRODUCTO</th>
+                                                <th>UNIDAD MEDIDA</th>
+                                                <th>APLICACION</th>
+                                                <th>IMAGEN</th>
+                                                <th>d (mm)</th>
+                                                <th>D (mm)</th>
+                                                <th>B (mm)</th>
+                                                <th>C (mm)</th>
+                                                <th>T (mm)</th>
+                                                <th>Ew (mm)</th>
+                                                <th>DESCRIPCION</th>
+                                                <!--<th>ANDAMIO</th>
+                                                <th>FILA</th>
+                                                <th>COLUMNA</th>-->
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr *ngFor="let pro of listaProductos;let j = index" class="bg-cyan tam-cuerpo">
+                                                <td>{{inicio+j}}</td>
+                                                <td *ngIf="buttonSelected">
+                                                    <button (click)="seleccionar(pro)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-hand-o-up fa-fw ic-dfa"></i>Select.
+                                                    </button>
+                                                </td>
+                                                <td *ngIf="!buttonSelected">
+                                                    <button (click)="eliminar(pro)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                                    </button>
+                                                </td>
+                                                <td *ngIf="!buttonSelected">
+                                                    <button (click)="abrirPanelEditar(pro)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-plus-square fa-fw ic-dfa"></i>Editar
+                                                    </button>
+                                                </td>
+                                                <td >
+                                                    <button  (click)="verMovimientos(pro)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-eye fa-fw ic-dfa"></i>Movi. Diarios
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button  (click)="verStock(pro)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-eye fa-fw ic-dfa"></i>Stock
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button  (click)="verUbicacion(pro)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-eye fa-fw ic-dfa"></i>Ubicacion
+                                                    </button>
+                                                </td>
+                                                <td>{{pro.id_producto}}</td>
+                                                <td>{{pro.nombre}}</td>
+                                                <td>{{pro.nombre_marca}}</td>
+                                                <td>{{pro.codigo}}</td>
+                                                <td>{{pro.codigo_barra}}</td>
+                                                <td>{{pro.nombre_tipo_producto}}</td>
+                                                <td>{{pro.nombre_unidad_medida}}</td>
+                                                <td>{{pro.nombre_aplicacion}}</td>
+                                                <td>
+                                                    <a href="javascript:void(0);" (click)="mostrarImagen(pro)">
+                                                        <img class="img-responsive logo-img-tabla" src="{{pro.ruta_imagen}}" />
+                                                    </a>
+                                                </td>
+                                                <td>{{pro.medida_a}}</td>
+                                                <td>{{pro.medida_b}}</td>
+                                                <td>{{pro.medida_c}}</td>
+                                                <td>{{pro.medida_d}}</td>
+                                                <td>{{pro.medida_e}}</td>
+                                                <td>{{pro.medida_f}}</td>
+                                                <td>{{pro.descripcion}}</td>
+                                                <!--<td>{{pro.andamio}}</td>
+                                                <td>{{pro.fila}}</td>
+                                                <td>{{pro.columna}}</td>-->
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div id="nuevoProducto" class="tab-pane fade ">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Registro de Productos</h3>
+                    </div>
+                    <div class="panel-body">
+
+
+
+
+
+                        <div class="col-md-12 col-xd-2">
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Tipo Producto: </label>
+                                    <select class="form-control" required [(ngModel)]="tipoProSelected" name="cbTipoProducto">
+                                        <option *ngFor="let tipro of tipos_producto; let i = index" [ngValue]="tipro">{{tipro.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Unidad Medida: </label>
+                                    <select class="form-control" required [(ngModel)]="uniMediSelected" name="cbUniMedida">
+                                        <option *ngFor="let uni of unidades_medida; let i = index" [ngValue]="uni">{{uni.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Aplicacion: </label>
+                                    <select class="form-control" required [(ngModel)]="apliSelected" name="cbAplicaciones">
+                                        <option *ngFor="let a of aplicaciones; let i = index" [ngValue]="a">{{a.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Marca: </label>
+                                    <select class="form-control" required [(ngModel)]="marcaSelected" name="cbMarcas">
+                                        <option *ngFor="let mar of marcas; let i = index" [ngValue]="mar">{{mar.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-xd-2">
+                                <div class="form-group">
+                                    <label>Nombre: </label>
+                                    <input class="form-control" required placeholder="pernos 1/2" type="text" [(ngModel)]="nombreSelected" name="txtNombre">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Codigo: </label>
+                                    <input class="form-control" required placeholder="23233" type="text" [(ngModel)]="codigo" name="txtCodigo">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Codigo Barra: </label>
+                                    <input class="form-control" required placeholder="00000232323" type="text" [(ngModel)]="codigo_barra" name="txtCodigoBarra">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-xd-2">
+                                <div class="form-group">
+                                    <label>Adjuntar Archivo:</label>
+                                    <!--<input id="archivoFile" type={{tipoFile}} class="form-control" name="txtArchivo"  [(ngModel)]="archivo" >-->
+                                    <input id="archivoFile" type="file" class="form-control" name="txtArchivo" (change)="onChange($event)" multiple #myInput>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-8 col-xd-2">
+                                <div class="form-group">
+                                    <label>Descripcion: </label>
+                                    <textarea class="form-control" required placeholder="23" type="number" [(ngModel)]="descripcion" name="txtDescripcion"></textarea>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-12 col-xd-2">
+                                <fieldset>
+                                    <legend>Ubicación</legend>
+                                   
+                                <div class="row bg-teal tabla-cabecera-botones">
+
+                                    <div class="col-md-2 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Cantidad Celdas: </label>
+                                            <input class="form-control" required placeholder="23" type="text" [(ngModel)]="cantidadCeldas" name="txtCantidadCeldas">
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="col-md-2 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Accion: </label>
+                                            <button (click)="agregarProductoMultipleUbi(cantidadCeldas);" class="btn btn-primary btn-block">
+                                                <i class="fa fa-plus fa-fw ic-dfa"></i>Agregar Filas
+                                            </button>
+                                        </div>
+                                    </div> -->
+
+                                </div>
+
+
+                                <div class=" table-responsive tabla-dfa">
+
+                                    <table id="tabla-productos" class="table table-condensed">
+                                        <thead>
+                                            <tr class="bg-teal tam-cabecera">
+                                                <th>N°</th>
+                                                <th>ACCION</th>
+                                                <th>LOCAL</th>
+                                                <th>ALMACEN</th>
+                                                <th>ANDAMIO</th>
+                                                <th>FILA</th>
+                                                <th>COLUMNA</th>
+                                    
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr *ngFor="let pro of lista_ubicacion;let j = index" class="bg-cyan tam-cuerpo">
+                                                <td>{{inicio+j}}</td>
+                                                <td *ngIf="!buttonSelected">
+                                                    <button (click)="eliminarUbicacion(j)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-trash fa-fw ic-dfa"></i>
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control" required [(ngModel)]="pro.local" name="cbTipoLocalObj" (ngModelChange)="mostrarAlmacen(pro.local,j)" >
+                                                        <option *ngFor="let tipro of pro.locales; let i = index" [ngValue]="tipro">{{tipro.nombre}} </option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control" required [(ngModel)]="pro.almacen" name="cbAlmacenesObj">
+                                                        <option *ngFor="let al of pro.almacenes; let i = index" [ngValue]="al">{{al.nombre}} </option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" required type="text" [(ngModel)]="pro.andamio" name="txtAndamioTb">
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" required type="text" [(ngModel)]="pro.fila" name="txtFilaTb">
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" required type="text" [(ngModel)]="pro.columna" name="txtColumnaTb">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                </fieldset>
+                            </div>
+
+
+
+                        </div>
+
+                        <div class="col-md-12 col-xd-2">
+
+                            <div class="col-md-3">
+                                <label> Accion</label>
+                                <button (click)="registrar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-save fa-fw ic-dfa"></i>Guardar</button>
+                            </div>
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lista de Productos</h3>
+                    </div>
+                    <div class="panel-body-tabla">
+
+
+
+
+
+                        <div class="row">
+
+                            <div class="col-md-12">
+
+                                <div class="row bg-teal tabla-cabecera-botones">
+
+                                    <div class="col-md-2">
+                                        <label>EXISTEN :{{totalLista}} EN TOTAL</label>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Del {{inicio}} al {{fin}}</label>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-md-5">
+                                            <label> Tamaño Pagina</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                                <option [ngValue]="10">10</option>
+                                                <option [ngValue]="15">15</option>
+                                                <option [ngValue]="20">20</option>
+                                                <option [ngValue]="30">30</option>
+                                                <option [ngValue]="100">100</option>
+                                                <option [ngValue]="500">500</option>
+                                                <option [ngValue]="1000">1000</option>
+                                                <option [ngValue]="5000">5000</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class=" table-responsive tabla-dfa">
+
+                                    <table id="tabla-productos" class="table table-condensed">
+                                        <thead>
+                                            <tr class="bg-teal tam-cabecera">
+                                                <th>N°</th>
+                                                <th *ngIf="buttonSelected">ACCION</th>
+                                                <th *ngIf="!buttonSelected">ACCION</th>
+                                                <th *ngIf="!buttonSelected">ACCION</th>
+                                                <th>ACCION</th>
+                                                <th>ACCION</th>
+                                                <th>ACCION</th>
+                                                <th>ID PRODUCTO</th>
+                                                <th>NOMBRE</th>
+                                                <th>MARCA</th>
+                                                <!--<th><i (click)="orderBy('p.nombre desc')" class="fa fa-angle-double-down fa-fw ic-dfa" ></i>NOMBRE<i (click)="orderBy('p.nombre asc')" class="fa fa-angle-double-up fa-fw ic-dfa" ></i></th>
+                                                    -->
+                                                <th>TIPO PRODUCTO</th>
+                                                <th>UNIDAD MEDIDA</th>
+                                                <th>APLICACION</th>
+                                                <th>IMAGEN</th>
+                                                <th>d (mm)</th>
+                                                <th>D (mm)</th>
+                                                <th>B (mm)</th>
+                                                <th>C (mm)</th>
+                                                <th>T (mm)</th>
+                                                <th>Ew (mm)</th>
+                                                <th>DESCRIPCION</th>
+                                                <!--<th>ANDAMIO</th>
+                                                <th>FILA</th>
+                                                <th>COLUMNA</th>-->
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr *ngFor="let pro of listaProductos;let j = index" class="bg-cyan tam-cuerpo">
+                                                <td>{{inicio+j}}</td>
+                                                <td *ngIf="buttonSelected">
+                                                    <button (click)="seleccionar(pro)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-hand-o-up fa-fw ic-dfa"></i>Select.
+                                                    </button>
+                                                </td>
+                                                <td *ngIf="!buttonSelected">
+                                                    <button (click)="eliminar(pro)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                                    </button>
+                                                </td>
+                                                <td *ngIf="!buttonSelected">
+                                                    <button (click)="abrirPanelEditar(pro)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-plus-square fa-fw ic-dfa"></i>Editar
+                                                    </button>
+                                                </td>
+                                                <td >
+                                                    <button  (click)="verMovimientos(pro)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-eye fa-fw ic-dfa"></i>Movi. Diarios
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button  (click)="verStock(pro)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-eye fa-fw ic-dfa"></i>Stock
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button  (click)="verUbicacion(pro)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-eye fa-fw ic-dfa"></i>Ubicacion
+                                                    </button>
+                                                </td>
+                                                <td>{{pro.id_producto}}</td>
+                                                <td>{{pro.nombre}}</td>
+                                                <td>{{pro.nombre_marca}}</td>
+                                                <td>{{pro.nombre_tipo_producto}}</td>
+                                                <td>{{pro.nombre_unidad_medida}}</td>
+                                                <td>{{pro.nombre_aplicacion}}</td>
+                                                <td>
+                                                    <a href="javascript:void(0);" (click)="mostrarImagen(pro)">
+                                                        <img class="img-responsive logo-img-tabla" src="{{pro.ruta_imagen}}" />
+                                                    </a>
+                                                </td>
+                                                <td>{{pro.medida_a}}</td>
+                                                <td>{{pro.medida_b}}</td>
+                                                <td>{{pro.medida_c}}</td>
+                                                <td>{{pro.medida_d}}</td>
+                                                <td>{{pro.medida_e}}</td>
+                                                <td>{{pro.medida_f}}</td>
+                                                <td>{{pro.descripcion}}</td>
+                                                <!--<td>{{pro.andamio}}</td>
+                                                <td>{{pro.fila}}</td>
+                                                <td>{{pro.columna}}</td>-->
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div id="registroMultiple" class="tab-pane fade ">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Registro de Productos Multiples</h3>
+                    </div>
+                    <div class="panel-body">
+
+
+                        <!--<div class="col-md-12 col-xd-2">
+                                    <div class="col-md-4 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Adjuntar Archivo:</label>
+                                        
+                                            <input id="archivoFile" type="file" class="form-control" name="txtArchivo" (change)="onChange($event)" multiple #myInput>
+                                        </div>
+                                    </div>
+                                </div>-->
+
+
+
+                        <div class="login-panel panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Lista de Productos a Registrar</h3>
+                            </div>
+                            <div class="panel-body-tabla">
+
+
+
+
+
+                                <div class="row">
+
+                                    <div class="col-md-12">
+
+                                        <div class="row bg-teal tabla-cabecera-botones">
+
+                                            <div class="col-md-2 col-xd-2">
+                                                <div class="form-group">
+                                                    <label>Cantidad Celdas: </label>
+                                                    <input class="form-control" required placeholder="23" type="text" [(ngModel)]="cantidadCeldas" name="txtCantidadCeldas">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2 col-xd-2">
+                                                <div class="form-group">
+                                                    <label>Accion: </label>
+                                                    <button (click)="agregarProductoMultiple(cantidadCeldas);" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-plus fa-fw ic-dfa"></i>Agregar Filas
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-xd-2">
+                                                <div class="form-group">
+                                                    <label>Accion: </label>
+                                                    <button (click)="mostrarCampos();" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-eye fa-fw ic-dfa"></i>{{textoBotonOculto}}
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-xd-2">
+                                                <div class="form-group">
+                                                    <label>Accion: </label>
+                                                    <button (click)="limpiarTodosProductos();" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-brush fa-fw ic-dfa"></i>Limpiar Todos Productos
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2 col-xd-2">
+                                                <div class="form-group">
+                                                    <label>Accion: </label>
+                                                    <button (click)="registrarMultiple();" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-save fa-fw ic-dfa"></i>Guardar
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class=" table-responsive tabla-dfa">
+
+                                            <table id="tabla-productos" class="table table-condensed">
+                                                <thead>
+                                                    <tr class="bg-teal tam-cabecera">
+                                                        <th>N°</th>
+                                                        <th>ACCION</th>
+                                                        <th>TIPO PRODUCTO</th>
+                                                        <th>UNIDAD MEDIDA</th>
+                                                        <th>APLICACION</th>
+                                                        <th>MARCA</th>
+                                                        <th>NOMBRE</th>
+                                                        <th>DESCRIPCION</th>
+                                                        <th *ngIf="camposOcultos">ANDAMIO</th>
+                                                        <th *ngIf="camposOcultos">FILA</th>
+                                                        <th *ngIf="camposOcultos">COLUMNA</th>
+                                                        <th *ngIf="camposOcultos">d (mm)</th>
+                                                        <th *ngIf="camposOcultos">D (mm)</th>
+                                                        <th *ngIf="camposOcultos">B (mm)</th>
+                                                        <th *ngIf="camposOcultos">C (mm)</th>
+                                                        <th *ngIf="camposOcultos">T (mm)</th>
+                                                        <th *ngIf="camposOcultos">Ew (mm)</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    <tr *ngFor="let pro of listaProductosMultiple;let j = index" class="bg-cyan tam-cuerpo">
+                                                        <td>{{inicio+j}}</td>
+                                                        <td *ngIf="!buttonSelected">
+                                                            <button (click)="eliminarListaMultiple(j)" class="btn btn-primary btn-block">
+                                                                <i class="fa fa-trash fa-fw ic-dfa"></i>
+                                                            </button>
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-control" required [(ngModel)]="pro.tipoProSelected" name="cbTipoProducto">
+                                                                <option *ngFor="let tipro of tipos_producto; let i = index" [ngValue]="tipro">{{tipro.nombre}} </option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-control" required [(ngModel)]="pro.uniMediSelected" name="cbUniMedida">
+                                                                <option *ngFor="let uni of unidades_medida; let i = index" [ngValue]="uni">{{uni.nombre}} </option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-control" required [(ngModel)]="pro.apliSelected" name="cbAplicaciones">
+                                                                <option *ngFor="let a of aplicaciones; let i = index" [ngValue]="a">{{a.nombre}} </option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-control" required [(ngModel)]="pro.marcaSelected" name="cbMarcas">
+                                                                <option *ngFor="let mar of marcas; let i = index" [ngValue]="mar">{{mar.nombre}} </option>
+                                                            </select>
+                                                        </td>
+
+                                                        <td>
+                                                            <input class="form-control" required placeholder="pernos 1/2" type="text" [(ngModel)]="pro.nombreSelected" name="txtNombre">
+                                                        </td>
+
+                                                        <td>
+                                                            <textarea class="form-control" required placeholder="23" type="number" [(ngModel)]="pro.descripcion" name="txtDescripcion"></textarea>
+                                                        </td>
+                                                        <td *ngIf="camposOcultos">
+                                                            <input class="form-control" required placeholder="A" type="text" [(ngModel)]="pro.andamioUbiSelected" name="txtAndamio">
+                                                        </td>
+                                                        <td *ngIf="camposOcultos">
+                                                            <input class="form-control" required placeholder="1" type="text" [(ngModel)]="pro.filaUbiSelected" name="txtFila">
+                                                        </td>
+                                                        <td *ngIf="camposOcultos">
+                                                            <input class="form-control" required placeholder="2" type="text" [(ngModel)]="pro.columnaUbiSelected" name="txtColumna">
+                                                        </td>
+
+                                                        <td *ngIf="camposOcultos">
+                                                            <input class="form-control" required placeholder="23" type="number" [(ngModel)]="pro.medidaA" name="txtMedidaA">
+                                                        </td>
+
+                                                        <td *ngIf="camposOcultos">
+                                                            <input class="form-control" required placeholder="23" type="number" [(ngModel)]="pro.medidaB" name="txtMedidaB">
+                                                        </td>
+                                                        <td *ngIf="camposOcultos">
+                                                            <input class="form-control" required placeholder="23" type="number" [(ngModel)]="pro.medidaC" name="txtMedidaC">
+                                                        </td>
+                                                        <td *ngIf="camposOcultos">
+                                                            <input class="form-control" required placeholder="23" type="number" [(ngModel)]="pro.medidaD" name="txtMedidaD">
+                                                        </td>
+
+                                                        <td *ngIf="camposOcultos">
+                                                            <input class="form-control" required placeholder="23" type="number" [(ngModel)]="pro.medidaE" name="txtMedidaE">
+                                                        </td>
+                                                        <td *ngIf="camposOcultos">
+                                                            <input class="form-control" required placeholder="23" type="number" [(ngModel)]="pro.medidaF" name="txtMedidaF">
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lista de Productos</h3>
+                    </div>
+                    <div class="panel-body-tabla">
+
+
+
+
+
+                        <div class="row">
+
+                            <div class="col-md-12">
+
+                                <div class="row bg-teal tabla-cabecera-botones">
+
+                                    <div class="col-md-2">
+                                        <label>EXISTEN :{{totalLista}} EN TOTAL</label>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Del {{inicio}} al {{fin}}</label>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-md-5">
+                                            <label> Tamaño Pagina</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                                <option [ngValue]="10">10</option>
+                                                <option [ngValue]="15">15</option>
+                                                <option [ngValue]="20">20</option>
+                                                <option [ngValue]="30">30</option>
+                                                <option [ngValue]="100">100</option>
+                                                <option [ngValue]="500">500</option>
+                                                <option [ngValue]="1000">1000</option>
+                                                <option [ngValue]="5000">5000</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class=" table-responsive tabla-dfa">
+
+                                    <table id="tabla-productos" class="table table-condensed">
+                                        <thead>
+                                            <tr class="bg-teal tam-cabecera">
+                                                <th>N°</th>
+                                                <th *ngIf="buttonSelected">ACCION</th>
+                                                <th *ngIf="!buttonSelected">ACCION</th>
+                                                <th *ngIf="!buttonSelected">ACCION</th>
+                                                <th>ID PRODUCTO</th>
+                                                <th>NOMBRE</th>
+                                                <th>MARCA</th>
+                                                <!--<th><i (click)="orderBy('p.nombre desc')" class="fa fa-angle-double-down fa-fw ic-dfa" ></i>NOMBRE<i (click)="orderBy('p.nombre asc')" class="fa fa-angle-double-up fa-fw ic-dfa" ></i></th>
+                                                    -->
+                                                <th>TIPO PRODUCTO</th>
+                                                <th>UNIDAD MEDIDA</th>
+                                                <th>APLICACION</th>
+                                                <th>IMAGEN</th>
+                                                <th>d (mm)</th>
+                                                <th>D (mm)</th>
+                                                <th>B (mm)</th>
+                                                <th>C (mm)</th>
+                                                <th>T (mm)</th>
+                                                <th>Ew (mm)</th>
+                                                <th>DESCRIPCION</th>
+                                                <th>ANDAMIO</th>
+                                                <th>FILA</th>
+                                                <th>COLUMNA</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr *ngFor="let pro of listaProductos;let j = index" class="bg-cyan tam-cuerpo">
+                                                <td>{{inicio+j}}</td>
+                                                <td *ngIf="buttonSelected">
+                                                    <button (click)="seleccionar(pro)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-hand-o-up fa-fw ic-dfa"></i>Select.
+                                                    </button>
+                                                </td>
+                                                <td *ngIf="!buttonSelected">
+                                                    <button (click)="eliminar(pro)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                                    </button>
+                                                </td>
+                                                <td *ngIf="!buttonSelected">
+                                                    <button (click)="abrirPanelEditar(pro)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-plus-square fa-fw ic-dfa"></i>Editar
+                                                    </button>
+                                                </td>
+
+                                                <td>{{pro.id_producto}}</td>
+                                                <td>{{pro.nombre}}</td>
+                                                <td>{{pro.nombre_marca}}</td>
+                                                <td>{{pro.nombre_tipo_producto}}</td>
+                                                <td>{{pro.nombre_unidad_medida}}</td>
+                                                <td>{{pro.nombre_aplicacion}}</td>
+                                                <td>
+                                                    <a href="javascript:void(0);" (click)="mostrarImagen(pro)">
+                                                        <img class="img-responsive logo-img-tabla" src="{{pro.ruta_imagen}}" />
+                                                    </a>
+                                                </td>
+                                                <td>{{pro.medida_a}}</td>
+                                                <td>{{pro.medida_b}}</td>
+                                                <td>{{pro.medida_c}}</td>
+                                                <td>{{pro.medida_d}}</td>
+                                                <td>{{pro.medida_e}}</td>
+                                                <td>{{pro.medida_f}}</td>
+                                                <td>{{pro.descripcion}}</td>
+                                                <td>{{pro.andamio}}</td>
+                                                <td>{{pro.fila}}</td>
+                                                <td>{{pro.columna}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="editarMasivo" class="tab-pane fade">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Busqueda de Productos</h3>
+                    </div>
+                    <div class="panel-body">
+
+
+
+
+
+                        <div class="col-md-12 col-xd-2">
+
+                            <div class="col-md-12 col-xd-2">
+                                <div class="form-group">
+                                    <label>Buscar Por rangos: </label>
+                                    <input type="checkbox" [(ngModel)]="busquedaMarcadaChecked" name="chBusquedaRangos" (click)="limpiarBusquedaRangos()">
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Id Producto: </label>
+                                    <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="text" [(ngModel)]="idProductoSelected"
+                                        name="txtIdProducto">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Tipo Producto: </label>
+                                    <select class="form-control" required [(ngModel)]="tipoProSelected" name="cbTipoProducto">
+                                        <option *ngFor="let tipro of tipos_producto; let i = index" [ngValue]="tipro">{{tipro.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Unidad Medida: </label>
+                                    <select class="form-control" required [(ngModel)]="uniMediSelected" name="cbUniMedida">
+                                        <option *ngFor="let uni of unidades_medida; let i = index" [ngValue]="uni">{{uni.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Aplicacion: </label>
+                                    <select class="form-control" required [(ngModel)]="apliSelected" name="cbAplicaciones">
+                                        <option *ngFor="let a of aplicaciones; let i = index" [ngValue]="a">{{a.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Marca: </label>
+                                    <select class="form-control" required [(ngModel)]="marcaSelected" name="cbMarcas">
+                                        <option *ngFor="let mar of marcas; let i = index" [ngValue]="mar">{{mar.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-xd-6">
+                                <div class="form-group">
+                                    <label>Nombre:</label>
+                                    <input class="form-control" name="txtNombre" required [(ngModel)]="nombreSelected" (keypress)="teclaKeyPressAutocomplete($event)"
+                                        (keyup)="teclaKeyUpAutocomplete($event)" (keydown)="teclaKeyDownAutocomplete($event)"
+                                        placeholder="Buscar Producto" />
+                                    <ul class="lista-diego" *ngIf="lista_autocompletado!=null">
+                                        <li *ngFor="let pro of lista_autocompletado">
+                                            <a (click)="elegirProducto(pro)">
+                                                {{ pro.nombre }} - {{ pro.nombre_marca }}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+
+
+                            <div *ngIf="!busquedaMarcadaChecked" class="col-md-4 col-xd-2">
+                                <div class="form-group">
+                                    <label>d (mm): </label>
+                                    <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="number" [(ngModel)]="medidaA"
+                                        name="txtMedidaA">
+                                </div>
+                            </div>
+                            <div *ngIf="!busquedaMarcadaChecked" class="col-md-4 col-xd-2">
+                                <div class="form-group">
+                                    <label>D (mm): </label>
+                                    <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="number" [(ngModel)]="medidaB"
+                                        name="txtMedidaB">
+                                </div>
+                            </div>
+
+                            <div *ngIf="!busquedaMarcadaChecked" class="col-md-4 col-xd-2">
+                                <div class="form-group">
+                                    <label>B (mm): </label>
+                                    <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="number" [(ngModel)]="medidaC"
+                                        name="txtMedidaC">
+                                </div>
+                            </div>
+
+                            <div *ngIf="!busquedaMarcadaChecked" class="col-md-4 col-xd-2">
+                                <div class="form-group">
+                                    <label>C (mm): </label>
+                                    <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="number" [(ngModel)]="medidaD"
+                                        name="txtMedidaD">
+                                </div>
+                            </div>
+
+                            <div *ngIf="!busquedaMarcadaChecked" class="col-md-4 col-xd-2">
+                                <div class="form-group">
+                                    <label>T (mm): </label>
+                                    <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="number" [(ngModel)]="medidaE"
+                                        name="txtMedidaE">
+                                </div>
+                            </div>
+
+                            <div *ngIf="!busquedaMarcadaChecked" class="col-md-4 col-xd-2">
+                                <div class="form-group">
+                                    <label>Ew (mm): </label>
+                                    <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="number" [(ngModel)]="medidaF"
+                                        name="txtMedidaF">
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-xd-2">
+                                <fieldset>
+                                    <legend>Ubicación</legend>
+                                    <div class="col-md-4 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Andamio </label>
+                                            <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="A" type="text" [(ngModel)]="andamioUbiSelected"
+                                                name="txtAndamio">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-4 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Fila </label>
+                                            <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="1" type="text" [(ngModel)]="filaUbiSelected"
+                                                name="txtFila">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Columna </label>
+                                            <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="2" type="text" [(ngModel)]="columnaUbiSelected"
+                                                name="txtColumna">
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+
+                        </div>
+
+
+
+                        <div *ngIf="busquedaMarcadaChecked" class="col-md-12 col-xd-2">
+                            <div class="col-md-12 col-xd-2">
+                                <div class="col-md-2 col-xd-2">
+                                    <label>Medida</label>
+                                </div>
+
+                                <div class="col-md-2 col-xd-2">
+                                    <label>mayor o igual : </label>
+                                </div>
+
+                                <div class="col-md-2 col-xd-2">
+                                    <label>menor o igual : </label>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12 col-xd-2">
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <label>d (mm):</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="number" [(ngModel)]="medidaA_mayor"
+                                            name="txtMedidaAmayor">
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="number" [(ngModel)]="medidaA_menor"
+                                            name="txtMedidaAmenor">
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                        <div *ngIf="busquedaMarcadaChecked" class="col-md-12 col-xd-2">
+                            <div class="col-md-12 col-xd-2">
+                                <div class="col-md-2 col-xd-2">
+                                    <label>Medida</label>
+                                </div>
+
+                                <div class="col-md-2 col-xd-2">
+                                    <label>mayor o igual : </label>
+                                </div>
+
+                                <div class="col-md-2 col-xd-2">
+                                    <label>menor o igual : </label>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12 col-xd-2">
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <label>D (mm):</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="number" [(ngModel)]="medidaB_mayor"
+                                            name="txtMedidaBmayor">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="number" [(ngModel)]="medidaB_menor"
+                                            name="txtMedidaBmenor">
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                        <div *ngIf="busquedaMarcadaChecked" class="col-md-12 col-xd-2">
+                            <div class="col-md-12 col-xd-2">
+                                <div class="col-md-2 col-xd-2">
+                                    <label>Medida</label>
+                                </div>
+
+                                <div class="col-md-2 col-xd-2">
+                                    <label>mayor o igual : </label>
+                                </div>
+
+                                <div class="col-md-2 col-xd-2">
+                                    <label>menor o igual : </label>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12 col-xd-2">
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <label>B (mm):</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="number" [(ngModel)]="medidaC_mayor"
+                                            name="txtMedidaCmayor">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="number" [(ngModel)]="medidaC_menor"
+                                            name="txtMedidaCmenor">
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                        <div *ngIf="busquedaMarcadaChecked" class="col-md-12 col-xd-2">
+                            <div class="col-md-12 col-xd-2">
+                                <div class="col-md-2 col-xd-2">
+                                    <label>Medida</label>
+                                </div>
+
+                                <div class="col-md-2 col-xd-2">
+                                    <label>mayor o igual : </label>
+                                </div>
+
+                                <div class="col-md-2 col-xd-2">
+                                    <label>menor o igual : </label>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12 col-xd-2">
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <label>C (mm):</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="number" [(ngModel)]="medidaD_mayor"
+                                            name="txtMedidaDmayor">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="number" [(ngModel)]="medidaD_menor"
+                                            name="txtMedidaDmenor">
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+
+                        <div *ngIf="busquedaMarcadaChecked" class="col-md-12 col-xd-2">
+                            <div class="col-md-12 col-xd-2">
+                                <div class="col-md-2 col-xd-2">
+                                    <label>Medida</label>
+                                </div>
+
+                                <div class="col-md-2 col-xd-2">
+                                    <label>mayor o igual : </label>
+                                </div>
+
+                                <div class="col-md-2 col-xd-2">
+                                    <label>menor o igual : </label>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12 col-xd-2">
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <label>T (mm):</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="number" [(ngModel)]="medidaE_mayor"
+                                            name="txtMedidaEmayor">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="number" [(ngModel)]="medidaE_menor"
+                                            name="txtMedidaEmenor">
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                        <div *ngIf="busquedaMarcadaChecked" class="col-md-12 col-xd-2">
+                            <div class="col-md-12 col-xd-2">
+                                <div class="col-md-2 col-xd-2">
+                                    <label>Medida</label>
+                                </div>
+
+                                <div class="col-md-2 col-xd-2">
+                                    <label>mayor o igual : </label>
+                                </div>
+
+                                <div class="col-md-2 col-xd-2">
+                                    <label>menor o igual : </label>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12 col-xd-2">
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Ew (mm):</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="number" [(ngModel)]="medidaF_mayor"
+                                            name="txtMedidaEmayor">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="number" [(ngModel)]="medidaF_menor"
+                                            name="txtMedidaEmenor">
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-12 col-xd-2">
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="buscar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-search fa-fw ic-dfa"></i>Ejecutar</button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label> Accion</label>
+                                <button (click)="actualizarMasivo()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Actualizar Masivo</button>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+
+                <div *ngIf="panelListaBeanSelected" class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lista de Productos</h3>
+                    </div>
+                    <div class="panel-body-tabla">
+
+
+
+
+
+                        <div class="row">
+
+                            <div class="col-md-12">
+
+                                <div class="row bg-teal tabla-cabecera-botones">
+
+                                    <div class="col-md-2">
+                                        <label>EXISTEN :{{totalLista}} EN TOTAL</label>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Del {{inicio}} al {{fin}}</label>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-md-5">
+                                            <label> Tamaño Pagina</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                                <option [ngValue]="10">10</option>
+                                                <option [ngValue]="15">15</option>
+                                                <option [ngValue]="20">20</option>
+                                                <option [ngValue]="30">30</option>
+                                                <option [ngValue]="100">100</option>
+                                                <option [ngValue]="500">500</option>
+                                                <option [ngValue]="1000">1000</option>
+                                                <option [ngValue]="5000">5000</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row bg-teal tabla-cabecera-botones">
+
+                                    <div class="col-md-1">
+                                        <label>OCULTAR CAMPOS:</label>
+                                    </div>
+
+                                    <div class="col-md-1 col-xd-2">
+                                        <div class="form-group">
+                                            <label>nombre : </label>
+                                            <input class="form-control" type="checkbox" [(ngModel)]="activarNombre">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1 col-xd-2">
+                                        <div class="form-group">
+                                            <label>marca : </label>
+                                            <input class="form-control" type="checkbox" [(ngModel)]="activarMarca">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-xd-2">
+                                        <div class="form-group">
+                                            <label>tipo producto : </label>
+                                            <input class="form-control" type="checkbox" [(ngModel)]="activarTipoProducto">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-xd-2">
+                                        <div class="form-group">
+                                            <label>unidad medida : </label>
+                                            <input class="form-control" type="checkbox" [(ngModel)]="activarUnidadMedida">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-xd-2">
+                                        <div class="form-group">
+                                            <label>aplicacion : </label>
+                                            <input class="form-control" type="checkbox" [(ngModel)]="activarAplicacion">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-xd-2">
+                                        <div class="form-group">
+                                            <label>descripcion : </label>
+                                            <input class="form-control" type="checkbox" [(ngModel)]="activarDescripcion">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class=" table-responsive tabla-dfa">
+
+                                    <table id="tabla-productos" class="table table-condensed">
+                                        <thead>
+                                            <tr class="bg-teal tam-cabecera">
+                                                <th>N°</th>
+                                                <th>ID </th>
+                                                <th *ngIf="!activarNombre">NOMBRE</th>
+                                                <th *ngIf="!activarMarca">MARCA</th>
+                                                <th *ngIf="!activarTipoProducto">TIPO PRODUCTO</th>
+                                                <th *ngIf="!activarUnidadMedida">UNIDAD MEDIDA</th>
+                                                <th *ngIf="!activarAplicacion">APLICACION</th>
+                                                <th *ngIf="!activarDescripcion">DESCRIPCION</th>
+                                                <th>d (mm)</th>
+                                                <th>D (mm)</th>
+                                                <th>B (mm)</th>
+                                                <th>C (mm)</th>
+                                                <th>T (mm)</th>
+                                                <th>Ew (mm)</th>
+                                                <th>ANDAMIO</th>
+                                                <th>FILA</th>
+                                                <th>COLUMNA</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr *ngFor="let pro of listaProductos;let j = index" class="bg-cyan tam-cuerpo">
+                                                <td>{{inicio+j}}</td>
+                                                <td>{{pro.id_producto}}</td>
+
+                                                <td *ngIf="!activarNombre">
+                                                    <input class="form-control-diego3" type="text" [(ngModel)]="pro.nombre" name="txtNombre">
+                                                </td>
+                                                <td *ngIf="!activarMarca">
+                                                    <select class="form-control-diego2" required [(ngModel)]="pro.marcaSelected" name="cbMarcas">
+                                                        <option *ngFor="let mar of marcas; let i = index" [ngValue]="mar">{{mar.nombre}} </option>
+                                                    </select>
+                                                </td>
+                                                <td *ngIf="!activarTipoProducto">
+                                                    <select class="form-control-diego2" required [(ngModel)]="pro.tipoProSelected" name="cbTipoProducto">
+                                                        <option *ngFor="let tipro of tipos_producto; let i = index" [ngValue]="tipro">{{tipro.nombre}} </option>
+                                                    </select>
+                                                </td>
+                                                <td *ngIf="!activarUnidadMedida">
+                                                    <select class="form-control-diego2" required [(ngModel)]="pro.uniMediSelected" name="cbUniMedida">
+                                                        <option *ngFor="let uni of unidades_medida; let i = index" [ngValue]="uni">{{uni.nombre}} </option>
+                                                    </select>
+                                                </td>
+                                                <td *ngIf="!activarAplicacion">
+                                                    <select class="form-control-diego2" required [(ngModel)]="pro.apliSelected" name="cbAplicaciones">
+                                                        <option *ngFor="let a of aplicaciones; let i = index" [ngValue]="a">{{a.nombre}} </option>
+                                                    </select>
+                                                </td>
+                                                <td *ngIf="!activarDescripcion">
+                                                    <input class="form-control-diego2" type="text" [(ngModel)]="pro.descripcion">
+                                                </td>
+                                                <td>
+                                                    <input class="form-control-diego" type="number" [(ngModel)]="pro.medida_a">
+                                                </td>
+                                                <td>
+                                                    <input class="form-control-diego" type="number" [(ngModel)]="pro.medida_b">
+                                                </td>
+                                                <td>
+                                                    <input class="form-control-diego" type="number" [(ngModel)]="pro.medida_c">
+                                                </td>
+                                                <td>
+                                                    <input class="form-control-diego" type="number" [(ngModel)]="pro.medida_d">
+                                                </td>
+                                                <td>
+                                                    <input class="form-control-diego" type="number" [(ngModel)]="pro.medida_e">
+                                                </td>
+                                                <td>
+                                                    <input class="form-control-diego" type="number" [(ngModel)]="pro.medida_f">
+                                                </td>
+                                                <td>
+                                                    <input class="form-control-diego" type="text" [(ngModel)]="pro.andamio">
+                                                </td>
+                                                <td>
+                                                    <input class="form-control-diego" type="text" [(ngModel)]="pro.fila">
+                                                </td>
+                                                <td>
+                                                    <input class="form-control-diego" type="text" [(ngModel)]="pro.columna">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+
+        <div *ngIf="panelEditarSelected" class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Editar Producto</h3>
+
+            </div>
+            <div class="panel-body">
+
+
+
+                <div class="col-md-2">
+                    <button (click)="regresar()" class="btn btn-primary btn-block">
+                        <i class="fa fa-reply fa-fw ic-dfa"></i>Regresar
+                    </button>
+                </div>
+
+                <div class="col-md-12 col-xd-2 ">
+                    <div class="col-md-3 col-xd-2">
+                        <div class="form-group">
+                            <label>Tipo Producto: </label>
+                            <select class="form-control" required [(ngModel)]="tipoProSelected" name="cbTipoProducto">
+                                <option *ngFor="let tipro of tipos_producto; let i = index" [ngValue]="tipro">{{tipro.nombre}} </option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="col-md-3 col-xd-2">
+                        <div class="form-group">
+                            <label>Unidad Medida: </label>
+                            <select class="form-control" required [(ngModel)]="uniMediSelected" name="cbUniMedida">
+                                <option *ngFor="let uni of unidades_medida; let i = index" [ngValue]="uni">{{uni.nombre}} </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="col-md-3 col-xd-2">
+                        <div class="form-group">
+                            <label>Aplicacion: </label>
+                            <select class="form-control" required [(ngModel)]="apliSelected" name="cbAplicaciones">
+                                <option *ngFor="let a of aplicaciones; let i = index" [ngValue]="a">{{a.nombre}} </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="col-md-3 col-xd-2">
+                        <div class="form-group">
+                            <label>Marca: </label>
+                            <select class="form-control" required [(ngModel)]="marcaSelected" name="cbMarcas">
+                                <option *ngFor="let mar of marcas; let i = index" [ngValue]="mar">{{mar.nombre}} </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Nombre: </label>
+                            <input class="form-control" required placeholder="pernos 1/2" type="text" [(ngModel)]="nombreSelected" name="txtNombre">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="col-md-3 col-xd-2">
+                        <div class="form-group">
+                            <label>Codigo: </label>
+                            <input class="form-control" required placeholder="454545" type="text" [(ngModel)]="codigo" name="txtCodigo">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="col-md-3 col-xd-2">
+                        <div class="form-group">
+                            <label>Codigo Barra: </label>
+                            <input class="form-control" required placeholder="000000454" type="text" [(ngModel)]="codigo_barra" name="txtCodigoBarra">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="col-md-8 col-xd-2">
+                        <div class="form-group">
+                            <label>Descripcion: </label>
+                            <textarea class="form-control" required placeholder="23" type="number" [(ngModel)]="descripcion" name="txtDescripcion"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+
+                
+                <div class="col-md-12 col-xd-2">
+                    <fieldset>
+                        <legend>Ubicación</legend>
+                       
+                    <div class="row bg-teal tabla-cabecera-botones">
+
+                        <div class="col-md-2 col-xd-2">
+                            <div class="form-group">
+                                <label>Cantidad Celdas: </label>
+                                <input class="form-control" required placeholder="23" type="text" [(ngModel)]="cantidadCeldas" name="txtCantidadCeldas">
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 col-xd-2">
+                            <div class="form-group">
+                                <label>Accion: </label>
+                                <button (click)="agregarProductoMultipleUbi(cantidadCeldas);" class="btn btn-primary btn-block">
+                                    <i class="fa fa-plus fa-fw ic-dfa"></i>Agregar Filas
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class=" table-responsive tabla-dfa">
+
+                        <table id="tabla-productos" class="table table-condensed">
+                            <thead>
+                                <tr class="bg-teal tam-cabecera">
+                                    <th>N°</th>
+                                    <th>ACCION</th>
+                                    <th>LOCAL</th>
+                                    <th>ALMACEN</th>
+                                    <th>ANDAMIO</th>
+                                    <th>FILA</th>
+                                    <th>COLUMNA</th>
+                        
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr *ngFor="let pro of lista_ubicacion;let j = index" class="bg-cyan tam-cuerpo">
+                                    <td>{{inicio+j}}</td>
+                                    <td *ngIf="!buttonSelected">
+                                        <button (click)="eliminarUbicacion(j)" class="btn btn-primary btn-block">
+                                            <i class="fa fa-trash fa-fw ic-dfa"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <select class="form-control" required [(ngModel)]="pro.local" name="cbTipoLocalObj" (ngModelChange)="mostrarAlmacen(pro.local,j)" >
+                                            <option *ngFor="let tipro of pro.locales; let i = index" [ngValue]="tipro">{{tipro.nombre}} </option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control" required [(ngModel)]="pro.almacen" name="cbAlmacenesObj">
+                                            <option *ngFor="let al of pro.almacenes; let i = index" [ngValue]="al">{{al.nombre}} </option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input class="form-control" required type="text" [(ngModel)]="pro.andamio" name="txtAndamioTb">
+                                    </td>
+                                    <td>
+                                        <input class="form-control" required type="text" [(ngModel)]="pro.fila" name="txtFilaTb">
+                                    </td>
+                                    <td>
+                                        <input class="form-control" required type="text" [(ngModel)]="pro.columna" name="txtColumnaTb">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    </fieldset>
+                </div>
+
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="col-md-4 col-xd-2">
+                        <div class="form-group">
+                            <label>Imagen Actual:</label>
+                            <img *ngIf="beanSelected!=null" class="img-responsive" src="{{beanSelected.ruta_imagen}}" />
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="col-md-4 col-xd-2">
+                        <div class="form-group">
+                            <label>Adjuntar Nueva Imagen:</label>
+                            <!--<input id="archivoFile" type={{tipoFile}} class="form-control" name="txtArchivo"  [(ngModel)]="archivo" >-->
+                            <input id="archivoFile" type="file" class="form-control" name="txtArchivo" (change)="onChange($event)" multiple #myInput>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <label> Accion</label>
+                    <button (click)="editar()" class="btn btn-primary btn-block">
+                        <i class="fa fa-save fa-fw ic-dfa"></i>Editar</button>
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+
+</div>
+
+
+
+
+<button id="modalImagenProducto" hidden="hidden" data-toggle="modal" data-target="#modalImagenProductoPnl"></button>
+<div class="modal fade" id="modalImagenProductoPnl">
+    <div class="modal-dialog modal-dialog-center">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label *ngIf="beanSelected!=null">IMAGEN DEL PRODUCTO: {{beanSelected.nombre}}</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+                <img *ngIf="beanSelected!=null" class="img-grande" src="{{beanSelected.ruta_imagen}}" />
+            </div>
+
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<button id="modalUbicacionProductoPro" hidden="hidden" data-toggle="modal" data-target="#modalUbicacionProductoProPnl"></button>
+<div class="modal fade" id="modalUbicacionProductoProPnl">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" (click)="cerrarModal('modalUbicacionProductoPro')">&times;</button>
+                <h4 class="modal-title">
+                    <label>Ubicacion Producto</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lista de Ubicaciones </h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="row">
+
+                            <div class="col-md-12">
+
+                                <div class=" table-responsive tabla-dfa">
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr class="bg-teal tam-cabecera">
+                                                <th>N°</th>
+                                                <th>LOCAL</th>
+                                                <th>ALMACEN</th>
+                                                <th>ANDAMIO</th>
+                                                <th>FILA</th>
+                                                <th>COLUMNA</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr *ngFor="let pro of lista_ubicacion;let j = index" class="bg-cyan tam-cuerpo">
+                                                <td>{{inicio+j}}</td>
+                                                <td>{{pro.nombre_local}}</td>
+                                                <td>{{pro.nombre_almacen}}</td>
+                                                <td>{{pro.andamio}}</td>
+                                                <td>{{pro.fila}}</td>
+                                                <td>{{pro.columna}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<button id="modalStockProductoPro" hidden="hidden" data-toggle="modal" data-target="#modalStockProductoProPnl"></button>
+<div class="modal fade" id="modalStockProductoProPnl">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" (click)="cerrarModal('modalStockProductoPro')">&times;</button>
+                <h4 class="modal-title">
+                    <label>Stock Producto</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lista de stock </h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="row">
+
+                            <div class="col-md-12">
+
+                                <div class=" table-responsive tabla-dfa">
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr class="bg-teal tam-cabecera">
+                                                <th>N°</th>
+                                                <th>ALMACEN</th>
+                                                <th>ID PRODUCTO</th>
+                                                <th>NOMBRE PRODUCTO</th>
+                                                <th>STOCK</th>
+                                                <th>PRECIO COMPRA</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr *ngFor="let pro of lista_stock;let j = index" class="bg-cyan tam-cuerpo">
+                                                <td>{{inicio+j}}</td>
+                                                <td>{{pro.nombre_almacen}}</td>
+                                                <td>{{pro.id_producto}}</td>
+                                                <td>{{pro.nombre_producto}}</td>
+                                                <td>{{pro.stock}}</td>
+                                                <td>{{pro.precio_compra_simbolo}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<button id="modalStockMovimientoPro" hidden="hidden" data-toggle="modal" data-target="#modalStockMovimientoProPnl"></button>
+<div class="modal fade" id="modalStockMovimientoProPnl">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" (click)="cerrarModal('modalStockMovimientoPro')">&times;</button>
+                <h4 class="modal-title">
+                    <label>Movimientos de Stock del Producto</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lista de Movimientos de Stock</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-md-4 col-xd-6">
+                            <div class="form-group">
+                                <label>Fecha Inicio:</label>
+                                <input class="form-control" type="date" name="txtFechaInicio" required [(ngModel)]="fechaInicioSelected" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-xd-6">
+                            <div class="form-group">
+                                <label>Fecha Fin:</label>
+                                <input class="form-control" type="date" name="txtFechaFin" required [(ngModel)]="fechaFinSelected" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label> Accion</label>
+                            <button (click)="buscarMovimientos()" class="btn btn-primary btn-block">
+                                <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</button>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="row bg-teal tabla-cabecera-botones">
+                                    <div class="col-md-12">
+                                        <h5>EXISTEN :<span *ngIf="listaStockDetalle!=null">{{listaStockDetalle.length}}</span> EN TOTAL</h5>
+                                    </div>
+                                </div>
+
+                                <div class=" table-responsive tabla-dfa">
+
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr class="bg-teal tam-cabecera">
+                                                <th>N°</th>
+                                                <th>ID STOCK</th>
+                                                <th>ALMACEN </th>
+                                                <th>MARCA</th>
+                                                <th>PRODUCTO</th>
+                                                <th>CANTIDAD</th>
+                                                <th>FECHA </th>
+                                                <th>COMPRA/VENTA</th>
+                                                <th>ID COMPRA/VENTA</th>
+
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr *ngFor="let obj of listaStockDetalle;let j = index" class="bg-cyan tam-cuerpo">
+                                                <td>{{inicio+j}}</td>
+                                                <td>{{obj.id_stock}}</td>
+                                                <td>{{obj.nombre_almacen}}</td>
+                                                <td>{{obj.nombre_marca}}</td>
+                                                <td>{{obj.nombre_producto}}</td>
+                                                <td>{{obj.cantidad}}</td>
+                                                <td>{{obj.fecha}}</td>
+                                                <td>{{obj.tipo_compra_venta}}</td>
+                                                <td>{{obj.id_compra_venta}}</td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,119 @@
+<div class="login-panel panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{tituloPanel}}</h3>
+    </div>
+    <div class="panel-body">
+
+        <div class="col-md-12 col-xd-2">
+
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Nombre: </label>
+                    <input class="form-control" required placeholder="SKF" type="text" [(ngModel)]="nombreSelected"
+                        name="txtNombre">
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Ruc: </label>
+                    <input class="form-control" required placeholder="104548745412" type="text"
+                        [(ngModel)]="rucSelected" name="txtRuc">
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Direccion: </label>
+                    <input class="form-control" required placeholder="Jr Pizarro 234" type="text"
+                        [(ngModel)]="direccionSelected" name="txtDireccion">
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Telefono: </label>
+                    <input class="form-control" required placeholder="987451247" type="text"
+                        [(ngModel)]="telefonoSelected" name="txtTelefono">
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Correo: </label>
+                    <input class="form-control" required placeholder="informes@gmail.com" type="text"
+                        [(ngModel)]="correoSelected" name="txtCorreo">
+                </div>
+            </div>
+
+
+            <div class="col-md-5 col-xd-2">
+                <div class="form-group">
+                    <label>Representante: </label>
+                    <div class="input-group">
+                        <label class="form-control">{{nombreRepresentanteSelected}}</label>
+                        <span class="input-group-btn">
+                            <button (click)="abrirModalPersona()" class="btn btn-primary btn-block">
+                                <i class="fa fa-search fa-fw ic-dfa"></i>
+                                <i class="fa fa-users fa-fw ic-dfa"></i>
+                            </button>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div class="col-md-12">
+
+            <div class="col-md-2">
+                <label> Accion</label>
+                <button (click)="guardar()" class="btn btn-primary btn-block">
+                    <i class="fa fa-save fa-fw ic-dfa"></i>Guardar</button>
+            </div>
+            <div class="col-md-2">
+                <label> Accion</label>
+                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+
+
+
+
+<button id="modalPersonaNewPro" hidden="hidden" data-toggle="modal"
+    data-target="#modalPersonaNewProPnl"></button>
+<div class="modal fade" id="modalPersonaNewProPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS PERSONA</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+
+                <form-find-persona (dataExterna)="obtenerDatosExternos($event)">
+                </form-find-persona>
+
+            </div>
+            <div class="modal-footer">
+                <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                <!--(click)="activarBuscar($event)"-->
+            </div>
+        </div>
+    </div>
+</div>

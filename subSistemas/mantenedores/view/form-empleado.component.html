@@ -1,0 +1,549 @@
+<!--
+    <div class="row">
+        <div class="col-md-12" >    
+        -->
+<div *ngIf="transferido">
+    Transfiriendo..
+    <div class="loader">Loading...</div>
+</div>
+
+
+<div *ngIf="tienePermisoView">
+
+
+    <div *ngIf="!panelPermisosSelected">
+
+
+
+        <ul *ngIf="!panelEditarSelected" class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" href="#buscarEmpleado">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#nuevoEmpleado">
+                    <i class="fa fa-plus fa-fw ic-dfa"></i>Nuevo</a>
+            </li>
+
+        </ul>
+        <div *ngIf="!panelEditarSelected" class="tab-content">
+
+            <div id="buscarEmpleado" class="tab-pane fade in active">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Busqueda de Empleado</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="col-md-12 col-xd-2">
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Id Empleado: </label>
+                                    <input class="form-control" required placeholder="1" type="number" [(ngModel)]="idEmpleadoSelected" name="txtIdEmpleado">
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Persona: </label>
+                                    <div class="input-group">
+                                        <label class="form-control">
+                                            <span *ngIf="personaSelected!=null">{{personaSelected.nombres}} {{personaSelected.apellido_paterno}} {{personaSelected.apellido_materno}}
+                                            </span>
+                                        </label>
+                                        <span class="input-group-btn">
+                                            <button (click)="abrirModalPersona()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-search fa-fw ic-dfa"></i>
+                                                <i class="fa fa-user fa-fw ic-dfa"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Tipo Contrato: </label>
+                                    <div class="input-group">
+                                        <label class="form-control">
+                                            <span *ngIf="tipoContratoSelected!=null">{{tipoContratoSelected.nombre}}</span>
+                                        </label>
+                                        <span class="input-group-btn">
+                                            <button (click)="abrirModalTipoContrato()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-search fa-fw ic-dfa"></i>
+                                                <i class="fa fa-file fa-fw ic-dfa"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Plaza: </label>
+                                    <div class="input-group">
+                                        <label class="form-control">
+                                            <span *ngIf="plazaSelected!=null">{{plazaSelected.nombre}}</span>
+                                        </label>
+                                        <span class="input-group-btn">
+                                            <button (click)="abrirModalPlaza()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-search fa-fw ic-dfa"></i>
+                                                <i class="fa fa-list-alt fa-fw ic-dfa"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Local: </label>
+                                    <select class="form-control" required [(ngModel)]="localSelected" name="cbLocales">
+                                        <option *ngFor="let a of locales; let i = index" [ngValue]="a">{{a.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Fecha Asignacion: </label>
+                                    <input class="form-control" required  type="date" [(ngModel)]="fechaAsignacionSelected" name="txtFechaAsignacion">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-12">
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="buscar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-search fa-fw ic-dfa"></i>Ejecutar</button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+            <div id="nuevoEmpleado" class="tab-pane fade ">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Registro de Empleado</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-md-12">
+
+                            <div class="col-md-6 col-xd-2">
+                                <div class="form-group">
+                                    <label>Persona: </label>
+                                    <div class="input-group">
+                                        <label class="form-control">
+                                            <span *ngIf="personaSelected!=null">{{personaSelected.nombres}} {{personaSelected.apellido_paterno}} {{personaSelected.apellido_materno}}
+                                            </span>
+                                        </label>
+                                        <span class="input-group-btn">
+                                            <button (click)="abrirModalPersona()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-search fa-fw ic-dfa"></i>
+                                                <i class="fa fa-user fa-fw ic-dfa"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 col-xd-2">
+                                <div class="form-group">
+                                    <label>Tipo Contrato: </label>
+                                    <div class="input-group">
+                                        <label class="form-control">
+                                            <span *ngIf="tipoContratoSelected!=null">{{tipoContratoSelected.nombre}}</span>
+                                        </label>
+                                        <span class="input-group-btn">
+                                            <button (click)="abrirModalTipoContrato()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-search fa-fw ic-dfa"></i>
+                                                <i class="fa fa-file fa-fw ic-dfa"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Plaza: </label>
+                                    <div class="input-group">
+                                        <label class="form-control">
+                                            <span *ngIf="plazaSelected!=null">{{plazaSelected.nombre}}</span>
+                                        </label>
+                                        <span class="input-group-btn">
+                                            <button (click)="abrirModalPlaza()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-search fa-fw ic-dfa"></i>
+                                                <i class="fa fa-list-alt fa-fw ic-dfa"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Local: </label>
+                                    <select class="form-control" required [(ngModel)]="localSelected" name="cbLocales">
+                                        <option *ngFor="let a of locales; let i = index" [ngValue]="a">{{a.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Fecha Asignacion: </label>
+                                    <input class="form-control" required  type="date" [(ngModel)]="fechaAsignacionSelected" name="txtFechaAsignacion">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="registrar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-save fa-fw ic-dfa"></i>Guardar</button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <div *ngIf="panelEditarSelected" class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Editar Empleado</h3>
+
+            </div>
+            <div class="panel-body">
+
+                    <div class="col-md-12 tabla-cabecera-botones">
+                            <button (click)="regresar()" class="btn btn-primary btn-block">
+                                <i class="fa fa-reply fa-fw ic-dfa"></i>Regresar
+                            </button>
+                        </div>
+
+
+                    <div class="col-md-6 col-xd-2">
+                            <div class="form-group">
+                                <label>Persona: </label>
+                                <div class="input-group">
+                                    <label class="form-control">
+                                        <span *ngIf="personaSelected!=null">{{personaSelected.nombres}} {{personaSelected.apellido_paterno}} {{personaSelected.apellido_materno}}
+                                        </span>
+                                    </label>
+                                    <span class="input-group-btn">
+                                        <button (click)="abrirModalPersona()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-search fa-fw ic-dfa"></i>
+                                            <i class="fa fa-user fa-fw ic-dfa"></i>
+                                        </button>
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6 col-xd-2">
+                            <div class="form-group">
+                                <label>Tipo Contrato: </label>
+                                <div class="input-group">
+                                    <label class="form-control">
+                                        <span *ngIf="tipoContratoSelected!=null">{{tipoContratoSelected.nombre}}</span>
+                                    </label>
+                                    <span class="input-group-btn">
+                                        <button (click)="abrirModalTipoContrato()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-search fa-fw ic-dfa"></i>
+                                            <i class="fa fa-file fa-fw ic-dfa"></i>
+                                        </button>
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-5 col-xd-2">
+                            <div class="form-group">
+                                <label>Plaza: </label>
+                                <div class="input-group">
+                                    <label class="form-control">
+                                        <span *ngIf="plazaSelected!=null">{{plazaSelected.nombre}}</span>
+                                    </label>
+                                    <span class="input-group-btn">
+                                        <button (click)="abrirModalPlaza()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-search fa-fw ic-dfa"></i>
+                                            <i class="fa fa-list-alt fa-fw ic-dfa"></i>
+                                        </button>
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 col-xd-2">
+                            <div class="form-group">
+                                <label>Local: </label>
+                                <select class="form-control" required [(ngModel)]="localSelected" name="cbLocales">
+                                    <option *ngFor="let a of locales; let i = index" [ngValue]="a">{{a.nombre}} </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-xd-2">
+                            <div class="form-group">
+                                <label>Fecha Asignacion: </label>
+                                <input class="form-control" required type="date" [(ngModel)]="fechaAsignacionSelected" name="txtFechaAsignacion">
+                            </div>
+                        </div>
+            
+
+
+                <div class="col-md-2">
+                    <label> Accion</label>
+                    <button (click)="editar()" class="btn btn-primary btn-block">
+                        <i class="fa fa-save fa-fw ic-dfa"></i>Editar</button>
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+
+
+        <div *ngIf="panelListaBeanSelected" class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Lista de Empleados</h3>
+            </div>
+            <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="row bg-teal tabla-cabecera-botones">
+                            <div class="col-md-12">
+                                <h5>EXISTEN :{{totalLista}} EN TOTAL</h5>
+                            </div>
+                            <div class="col-md-2">
+                                <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-2">
+                                <label>Del {{inicio}} al {{fin}}</label>
+                            </div>
+
+                            <div class="col-md-2">
+                                <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-5">
+                                    <label> Tamaño Pagina</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                        <option [ngValue]="10">10</option>
+                                        <option [ngValue]="15">15</option>
+                                        <option [ngValue]="20">20</option>
+                                        <option [ngValue]="30">30</option>
+                                        <option [ngValue]="100">100</option>
+                                        <option [ngValue]="500">500</option>
+                                        <option [ngValue]="1000">1000</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class=" table-responsive tabla-dfa">
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr class="bg-teal tam-cabecera">
+                                        <th>N°</th>
+                                        <th *ngIf="buttonSelectedActivated">ACCION</th>
+                                        <th *ngIf="!buttonSelectedActivated">ACCION</th>
+                                        <th *ngIf="!buttonSelectedActivated">ACCION</th>
+                                        <th>ID EMPLEADO</th>
+                                        <th>NOMBRE</th>
+                                        <th>NRO DOCUMENTO</th>
+                                        <th>TIPO CONTRATO</th>
+                                        <th>NOMBRE PLAZA</th>
+                                        <th>NOMBRE LOCAL</th>
+                                        <th>GENERO</th>
+                                        <th>FECHA ASIGNACION</th>
+                                        <th>FECHA BAJA</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr *ngFor="let obj of listaEmpleados;let j = index" class="bg-cyan tam-cuerpo">
+                                        <td>{{inicio+j}}</td>
+                                        <td *ngIf="buttonSelectedActivated">
+                                            <button (click)="seleccionar(obj)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-hand-o-up fa-fw ic-dfa"></i>Select.
+                                            </button>
+                                        </td>
+                                        <td *ngIf="!buttonSelectedActivated">
+                                            <button (click)="eliminar(obj)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                            </button>
+                                        </td>
+                                        <td *ngIf="!buttonSelectedActivated">
+                                            <button (click)="abrirPanelEditar(obj)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-plus-square fa-fw ic-dfa"></i>Editar
+                                            </button>
+                                        </td>
+
+                                        <td>{{obj.id_empleado}}</td>
+                                        <td>{{obj.nombre_empleado}}</td>
+                                        <td>{{obj.numero_documento}}</td>
+                                        <td>{{obj.nombre_tipo_contrato}}</td>
+                                        <td>{{obj.nombre_plaza}}</td>
+                                        <td>{{obj.nombre_local}}</td>
+                                        <td>{{obj.genero}}</td>
+                                        <td>{{obj.fecha_asignacion}}</td>
+                                        <td>{{obj.fecha_baja}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<button id="modalPersona" hidden="hidden" data-toggle="modal" data-target="#modalPersonaPnl"></button>
+<div class="modal fade" id="modalPersonaPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>Datos Persona</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <!--
+                <form-persona [activatedSelected]="activatedSelectedPer" (dataExterna)="obtenerPersonaDatosExternos($event)">
+                </form-persona>-->
+                <form-find-persona  (dataExterna)="obtenerPersonaDatosExternos($event)">
+                </form-find-persona>
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<button id="modalPlaza" hidden="hidden" data-toggle="modal" data-target="#modalPlazaPnl"></button>
+<div class="modal fade" id="modalPlazaPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>Datos Plaza</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+
+                <form-plaza [buttonSelectedActivated]="activatedSelectedPlaza" (plazaSeleccionada)="obtenerPlazaDatosExternos($event)">
+
+                </form-plaza>
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<button id="modalTipoContrato" hidden="hidden" data-toggle="modal" data-target="#modalTipoContratoPnl"></button>
+<div class="modal fade" id="modalTipoContratoPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>Datos Tipo Contrato</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+
+                <form-tipo-contrato [buttonSelectedActivated]="activatedSelectedTipoContrato" (tipoContratoSeleccionado)="obtenerTipoContratoDatosExternos($event)">
+
+                </form-tipo-contrato>
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>

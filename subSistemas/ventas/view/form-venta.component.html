@@ -1,0 +1,131 @@
+<!--
+    <div class="row">
+        <div class="col-md-12" >    
+        -->
+<div *ngIf="transferido">
+    Transfiriendo..
+    <div class="loader">Loading...</div>
+</div>
+
+
+<div *ngIf="tienePermisoView">
+
+
+    <div *ngIf="!panelPermisosSelected">
+
+
+
+        <ul *ngIf="!panelEditarSelected" class="nav nav-tabs">
+            <li>
+                <a data-toggle="tab" href="#buscarVenta" (click)="refresar()">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</a>
+            </li>
+            <li class="active">
+                <a data-toggle="tab" href="#nuevoVenta">
+                    <i class="fa fa-plus fa-fw ic-dfa"></i>Nuevo</a>
+            </li>
+            <!-- <li id="tabCompobante">
+                <a data-toggle="tab" href="#comprobanteVenta">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Comprobante Venta</a>
+            </li> -->
+            <li id="tabGuiaRemision">
+                <a  data-toggle="tab" href="#guiaRemision">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Guia Remision Venta</a>
+            </li>
+        </ul>
+        <div *ngIf="!panelEditarSelected" class="tab-content">
+            <div id="buscarVenta" class="tab-pane fade ">
+                <form-find-venta (editarVentaAction)="editarVentaAction($event)"></form-find-venta>
+            </div>
+
+
+            <div id="nuevoVenta" class="tab-pane fade in active ">
+                    <form-new-venta></form-new-venta>
+            </div>
+
+            <div id="comprobanteVenta" class="tab-pane fade ">
+                <form-new-comprobante ></form-new-comprobante>
+            </div>
+
+            <div id="guiaRemision" class="tab-pane fade ">
+                <form-new-guia-remision ></form-new-guia-remision>
+            </div>
+        </div>
+
+
+
+
+
+
+        <div *ngIf="panelEditarSelected" class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Editar Estado Pago</h3>
+
+            </div>
+            <div class="panel-body">
+
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <button (click)="regresar()" class="btn btn-primary btn-block">
+                            <i class="fa fa-reply fa-fw ic-dfa"></i>Regresar
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="col-md-12 col-xd-2">
+                    <div *ngIf="beanSelected!=null" class="col-md-3 col-xd-2">
+                        <div class="form-group">
+                            <label>Id Venta: </label>
+                            <span class="form-control"> {{beanSelected.id_venta}}</span>
+
+                        </div>
+                    </div>
+
+                    <div *ngIf="beanSelected!=null" class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>esta pagada ? : </label>
+                            <input class="form-control" type="checkbox" [(ngModel)]="is_pagada" name="ispagadaTxt">
+                        </div>
+                    </div>
+
+
+
+                    <div *ngIf="beanSelected!=null" class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>Fecha Pago: </label>
+                            <input class="form-control" type="date" [(ngModel)]="fecha_pago" name="txtFechaPago">
+                        </div>
+                    </div>
+
+                    <div *ngIf="beanSelected!=null" class="col-md-5 col-xd-2">
+                        <div class="form-group">
+                            <label>Observacion: </label>
+                            <textarea class="form-control" type="text" [(ngModel)]="observacion" name="txtObservacion">
+
+                            </textarea>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label> Accion</label>
+                        <button (click)="editar()" class="btn btn-primary btn-block">
+                            <i class="fa fa-save fa-fw ic-dfa"></i>Editar</button>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+

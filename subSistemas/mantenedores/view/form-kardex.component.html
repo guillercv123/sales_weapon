@@ -1,0 +1,837 @@
+<!--
+    <div class="row">
+        <div class="col-md-12" >    
+        -->
+<div *ngIf="completado">
+    <div class="loader">Cargando...</div>
+</div>
+
+
+<div *ngIf="tienePermisoView">
+
+
+    <div *ngIf="!panelPermisosSelected">
+
+
+
+        <ul *ngIf="!panelEditarSelected" class="nav nav-tabs">
+            <li class="active">
+                <a (click)="obtenerConceptosMovimento()" data-toggle="tab" href="#buscarKardex">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</a>
+            </li>
+            <li>
+                <a (click)="obtenerConceptosMovimentoRegistro()" data-toggle="tab" href="#nuevoKardex">
+                    <i class="fa fa-plus fa-fw ic-dfa"></i>Nuevo</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#nuevoKardexMultiple">
+                    <i class="fa fa-plus fa-fw ic-dfa"></i>Registro Multiple Traslados</a>
+            </li>
+        </ul>
+        <div *ngIf="!panelEditarSelected" class="tab-content">
+
+            <div id="buscarKardex" class="tab-pane fade in active">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Busqueda de Kardex</h3>
+                    </div>
+                    <div class="panel-body">
+
+
+
+                        <div class="col-md-12 col-xd-2">
+
+                            <div class="col-md-3 col-xd-12">
+                                <div class="form-group">
+                                    <label>Tipo Movimiento: </label>
+                                    <select class="form-control" [(ngModel)]="tipoMovimientoSelected">
+                                        <option *ngFor="let obj of tiposMovimiento; let i = index" [ngValue]="obj">{{obj.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-12">
+                                <div class="form-group">
+                                    <label>Concepto Movimiento: </label>
+                                    <select class="form-control" [(ngModel)]="conceptoMovimientoSelected">
+                                        <option *ngFor="let obj of conceptosMovimiento; let i = index" [ngValue]="obj">{{obj.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-12">
+                                <div class="form-group">
+                                    <label>Estado: </label>
+                                    <select class="form-control" [(ngModel)]="estadoSelected">
+                                        <option  value="1">ACTIVO </option>
+                                        <option  value="0">ELIMINADO </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Fecha Inicio: </label>
+                                    <input class="form-control" required type="date" [(ngModel)]="fecha_inicio_selected" name="txtFechaInicio">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Fecha Fin: </label>
+                                    <input class="form-control" required type="date" [(ngModel)]="fecha_fin_selected" name="txtFechafin">
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="col-md-12 col-xd-2">
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="buscar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-search fa-fw ic-dfa"></i>Ejecutar</button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-trash fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+
+                <div *ngIf="panelListaBeanSelected" class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lista de Kardex</h3>
+                    </div>
+                    <div class="panel-body">
+
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="row bg-teal tabla-cabecera-botones">
+                                    <div class="col-md-12">
+                                        <h5>EXISTEN :{{totalLista}} EN TOTAL</h5>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Del {{inicio}} al {{fin}}</label>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-md-5">
+                                            <label> Tamaño Pagina</label>
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                                <option [ngValue]="10">10</option>
+                                                <option [ngValue]="15">15</option>
+                                                <option [ngValue]="20">20</option>
+                                                <option [ngValue]="30">30</option>
+                                                <option [ngValue]="100">100</option>
+                                                <option [ngValue]="500">500</option>
+                                                <option [ngValue]="1000">1000</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class=" table-responsive tabla-dfa">
+
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr class="bg-teal tam-cabecera">
+                                                <th>N°</th>
+                                                <th>ACCION</th>
+                                                <!--<th>ACCION</th>-->
+                                                <th>ID KARDEX</th>
+                                                <th>ESTADO</th>
+                                                <th>FECHA</th>
+                                                <th>TIPO MOVIMIENTO</th>
+                                                <th>CONCEPTO MOVIMIENTO</th>
+                                                <th>ID COMPRA/VENTA</th>
+                                                <th>ID PRODUCTO</th>
+                                                <th>NOMBRE PRODUCTO</th>
+                                                <th>CANTIDAD</th>
+                                                <th>PRECIO UNITARIO</th>
+                                                <th>PRECIO TOTAL</th>
+                                                <th>TIPO MONEDA</th>
+                                                <th>DESCRIPCION</th>
+                                                <th>ALMACEN ORIGEN</th>
+                                                <th>DIRECCION ALMACEN ORIGEN</th>
+                                                <th>NOMBRE LOCAL ORIGEN</th>
+                                                <th>DIRECCION LOCAL ORIGEN</th>
+
+                                                <th>ALMACEN DESTINO</th>
+                                                <th>DIRECCION ALMACEN DESTINO</th>
+                                                <th>NOMBRE LOCAL DESTINO</th>
+                                                <th>DIRECCION LOCAL DESTINO</th>
+                                                <th>EMPLEADO ELIMINADOR</th>
+
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr *ngFor="let obj of listaKardex;let j = index" class="bg-cyan tam-cuerpo">
+                                                <td class="{{obj.estilo}} {{obj.estado==1?'':'estado-eliminado'}}">{{inicio+j}}</td>
+                                                <td class="{{obj.estilo}}" *ngIf="obj.estado==1">
+                                                    <button (click)="eliminar(obj)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                                    </button>
+                                                </td>
+                                                <td class="{{obj.estilo}}" *ngIf="obj.estado==0">
+                                                    <button disabled (click)="eliminar(obj)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                                    </button>
+                                                </td>
+                                                <!--
+                                                    <td>
+                                                        <button (click)="abrirPanelEditar(obj)" class="btn btn-primary btn-block">
+                                                            <i class="fa fa-plus-square fa-fw ic-dfa"></i>Editar
+                                                        </button>
+                                                    </td>-->
+
+                                                <td class="{{obj.estilo}} {{obj.estado==1?'':'estado-eliminado'}}">{{obj.id_kardex}}</td>
+                                                <td class="{{obj.estilo}} {{obj.estado==1?'':'estado-eliminado'}}">{{obj.estado_descripcion}}</td>              
+                                                <td class="{{obj.estilo}} {{obj.estado==1?'':'estado-eliminado'}}">{{obj.fecha}}</td>
+                                                <td class="{{obj.estilo}} {{obj.estado==1?'':'estado-eliminado'}}">{{obj.tipo_movimiento}}</td>
+                                                <td class="{{obj.estilo}} {{obj.estado==1?'':'estado-eliminado'}}">{{obj.concepto_movimiento}}</td>
+                                                <td class="{{obj.estilo}} {{obj.estado==1?'':'estado-eliminado'}}">{{obj.id_compra_venta}}</td>
+                                                <td class="{{obj.estilo}} {{obj.estado==1?'':'estado-eliminado'}}">{{obj.id_producto}}</td>
+                                                <td class="{{obj.estilo}} {{obj.estado==1?'':'estado-eliminado'}}">{{obj.nombre_producto}}</td>
+                                                <td class="{{obj.estilo}} {{obj.estado==1?'':'estado-eliminado'}}">{{obj.cantidad}}</td>
+                                                <td class="{{obj.estilo}} {{obj.estado==1?'':'estado-eliminado'}}">{{obj.simbolo}}{{obj.precio_unitario}}</td>
+                                                <td class="{{obj.estilo}} {{obj.estado==1?'':'estado-eliminado'}}">{{obj.simbolo}}{{obj.precio_total}}</td>
+                                                <td class="{{obj.estilo}} {{obj.estado==1?'':'estado-eliminado'}}">{{obj.tipo_moneda}}</td>
+                                                <td class="{{obj.estilo}} {{obj.estado==1?'':'estado-eliminado'}}">{{obj.descripcion}}</td>
+                                                <td class="{{obj.estilo}} {{obj.estado==1?'':'estado-eliminado'}}">{{obj.nombre_almacen_origen}}</td>
+                                                <td class="{{obj.estilo}} {{obj.estado==1?'':'estado-eliminado'}}">{{obj.direccion_almacen_origen}}</td>
+                                                <td class="{{obj.estilo}} {{obj.estado==1?'':'estado-eliminado'}}">{{obj.nombre_local_origen}}</td>
+                                                <td class="{{obj.estilo}} {{obj.estado==1?'':'estado-eliminado'}}">{{obj.direccion_local_origen}}</td>
+
+                                                <td class="{{obj.estilo}} {{obj.estado==1?'':'estado-eliminado'}}">{{obj.nombre_almacen_destino}}</td>
+                                                <td class="{{obj.estilo}} {{obj.estado==1?'':'estado-eliminado'}}">{{obj.direccion_almacen_destino}}</td>
+                                                <td class="{{obj.estilo}} {{obj.estado==1?'':'estado-eliminado'}}">{{obj.nombre_local_destino}}</td>
+                                                <td class="{{obj.estilo}} {{obj.estado==1?'':'estado-eliminado'}}">{{obj.direccion_local_destino}}</td>
+                                                <td class="{{obj.estilo}} {{obj.estado==1?'':'estado-eliminado'}}">{{obj.nombre_empleado_eliminado}}</td>
+   
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="nuevoKardex" class="tab-pane fade ">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Registro de Kardex</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="col-md-12 col-xd-2">
+
+                            <div class="col-md-3 col-xd-12">
+                                <div class="form-group">
+                                    <label>Tipo Movimiento: </label>
+                                    <select class="form-control" [(ngModel)]="tipoMovimientoSelected">
+                                        <option *ngFor="let obj of tiposMovimiento; let i = index" [ngValue]="obj">{{obj.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-12">
+                                <div class="form-group">
+                                    <label>Concepto Movimiento: </label>
+                                    <select class="form-control" [(ngModel)]="conceptoMovimientoSelected">
+                                        <option *ngFor="let obj of conceptosMovimiento; let i = index" [ngValue]="obj">{{obj.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Local Origen: </label>
+                                    <select class="form-control" required [(ngModel)]="localOrigenSelected" name="cbLocales" (ngModelChange)="mostrarAlmacenOrigen(localOrigenSelected)">
+                                        <option *ngFor="let lo of locales; let i = index" [ngValue]="lo">{{lo.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Almacen Origen: </label>
+                                    <select class="form-control" required [(ngModel)]="almacenOrigenSelected" name="cbAlmacenes">
+                                        <option *ngFor="let al of almacenesOrigen; let i = index" [ngValue]="al">{{al.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Local Destino: </label>
+                                    <select class="form-control" required [(ngModel)]="localDestinoSelected" name="cbLocales" (ngModelChange)="mostrarAlmacenDestino(localDestinoSelected)">
+                                        <option *ngFor="let lo of locales; let i = index" [ngValue]="lo">{{lo.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Almacen Destino: </label>
+                                    <select class="form-control" required [(ngModel)]="almacenDestinoSelected" name="cbAlmacenes">
+                                        <option *ngFor="let al of almacenesDestino; let i = index" [ngValue]="al">{{al.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label> Accion</label>
+                                <button (click)="registrar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-save fa-fw ic-dfa"></i>Guardar</button>
+                            </div>
+
+
+                            <div class="col-md-3">
+                                <label> Accion</label>
+                                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-trash fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label> Accion</label>
+                                <button (click)="establecer_transaldo()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-eye fa-fw ic-dfa"></i>Establecer Traslado</button>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lista de Productos a Registrar en Kardex</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3 col-xd-12">
+                                <div class="input-group-dfa">
+                                    <span class="input-group-addon-dfa">
+                                        <i class="fa fa-money ic-dfa"></i>TOTAL: </span>
+                                    <span class="form-control">
+                                        <span>{{simboloMonedaSelected}}{{montoTotalSelected}}</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-xd-12">
+                                <select class="form-control" [(ngModel)]="tipoMonedaSelected" (ngModelChange)="obtenerTipoMonedaGeneral(tipoMonedaSelected);">
+                                    <option *ngFor="let tm of tiposMoneda; let i = index" [ngValue]="tm">{{tm.nombre}} </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-12">
+
+
+                                <div class="row bg-teal tabla-cabecera-botones">
+                                    <div class="col-md-2">
+                                        <label>EXISTEN :
+                                            <span *ngIf="listaProductos!=null">{{listaProductos.length}}</span> EN TOTAL</label>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Del {{inicio}} al {{fin}}</label>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-md-5">
+                                            <label> Tamaño Pagina</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                                <option [ngValue]="10">10</option>
+                                                <option [ngValue]="15">15</option>
+                                                <option [ngValue]="20">20</option>
+                                                <option [ngValue]="30">30</option>
+                                                <option [ngValue]="100">100</option>
+                                                <option [ngValue]="500">500</option>
+                                                <option [ngValue]="1000">1000</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <button (click)="abrirModalCatalogoVenta()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-plus fa-fw ic-dfa"></i>
+                                            <i class="fa fa-shopping-cart fa-fw ic-dfa"></i>Agregar</button>
+                                    </div>
+                                </div>
+
+
+                                <div class=" table-responsive tabla-dfa">
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr class="bg-teal tam-cabecera">
+                                                <th>N°</th>
+                                                <th>ACCION</th>
+                                                <!--<th>ID CATALOGO VENTA</th>
+                                                    <th>ID PRODUCTO</th>-->
+                                                <th>NOMBRE</th>
+                                                <th>SUB TOTAL</th>
+                                                <th>PRECIO FINAL</th>
+                                                <th>PRECIO BASE</th>
+                                                <th>PRECIO REFE.</th>
+                                                <th>COSTO INCL</th>
+                                                <th>10%</th>
+                                                <th>15%</th>
+                                                <th>20%</th>
+                                                <th>30%</th>
+                                                <th>PRECIO VENTA</th>
+                                                <th>TIPO MONEDA</th>
+                                                <th>PERMISO</th>
+                                                <th>CANTIDAD</th>
+                                                <th>UNIDAD MEDIDA</th>
+                                                <!--<th>DESC.</th>
+                                                    <th>PORC. DESC.</th>-->
+                                                <!-- <th>TIPO MONEDA</th>-->
+                                                <th>TIPO PRODUCTO</th>
+                                                <th>UNIDAD MEDIDA</th>
+                                                <th>PROVEEDOR</th>
+                                                <th>APLICACION</th>
+                                                <th>ALMACEN</th>
+                                                <th>LOCAL</th>
+                                                <th>IMAGEN</th>
+                                                <th>MEDIDA A</th>
+                                                <th>MEDIDA B</th>
+                                                <th>MEDIDA C</th>
+                                                <th>MEDIDA D</th>
+                                                <th>DESCRIPCION</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr *ngFor="let pro of listaProductos;let j = index" class="bg-cyan tam-cuerpo">
+                                                <td>{{inicio+j}}</td>
+                                                <td>
+                                                    <button (click)="eliminarCarrito(j)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                                    </button>
+                                                </td>
+                                                <!--<td>{{pro.id_catalogo_venta}}</td>
+                                                    <td>{{pro.id_producto}}</td>-->
+                                                <td>{{pro.nombre}}</td>
+                                                <td class="color6">{{pro.tipo_moneda.simbolo}}{{pro.sub_total}}</td>
+                                                <td class="color5">{{pro.tipo_moneda.simbolo}}{{pro.precio}}</td>
+                                                <td>{{pro.nombre_simbolo_moneda_pb}}{{pro.precio_base}}</td>
+                                                <td>{{pro.nombre_simbolo_moneda_pr}}{{pro.precio_referencia}}</td>
+                                                <td class="color7">{{pro.nombre_simbolo_moneda}}{{pro.costo_incluido}}</td>
+                                                <td class="color1">{{pro.nombre_simbolo_moneda}}{{pro.porc1}}</td>
+                                                <td class="color2">{{pro.nombre_simbolo_moneda}}{{pro.porc2}}</td>
+                                                <td class="color3">{{pro.nombre_simbolo_moneda}}{{pro.porc3}}</td>
+                                                <td class="color4">{{pro.nombre_simbolo_moneda}}{{pro.porc4}}</td>
+                                                <td>
+                                                    <input (keyup)="validarPrecio(pro,$event)" (change)="sumarTotalProductos()" type="number" [(ngModel)]="pro.precio_venta"
+                                                        name="txtPrecioVenta">
+                                                </td>
+                                                <td>
+                                                    {{pro.tipo_moneda.nombre}}
+                                                    <!--
+                                                        <select disabled    [(ngModel)]="pro.tipo_moneda" (ngModelChange)="obtenerTipoMonedaGeneral(pro);" >
+                                                            <option *ngFor="let tm of tiposMoneda; let i = index" [ngValue]="tm">{{tm.nombre}} </option>
+                                                        </select>-->
+                                                </td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <button (click)="activarPermiso(j)" class="btn btn-primary btn-block">
+                                                            <i class="fa fa-key fa-fw ic-dfa"></i>
+                                                        </button>
+                                                        <input disabled type="checkbox" [(ngModel)]="pro.tiene_permiso_muestra" name="txtTienePermisoExceder">
+
+                                                    </div>
+                                                    <!--
+                                                        <button (click)="activarPermiso(j)" class="btn btn-primary btn-block">
+                                                            <i class="fa fa-key fa-fw ic-dfa"></i>
+                                                        </button>
+                                                        <input disabled type="checkbox" [(ngModel)]="pro.tiene_permiso_exceder" name="txtTienePermisoExceder">-->
+                                                </td>
+                                                <td>
+                                                    <input (change)="sumarTotalProductos()" type="number" [(ngModel)]="pro.cantidad" name="txtCantiTable">
+                                                </td>
+                                                <td>
+                                                    <select [(ngModel)]="pro.id_unidad_medida">
+                                                        <option *ngFor="let uni of unidades_medida; let i = index" [value]="uni.id_unidad_medida">{{uni.nombre}} </option>
+                                                    </select>
+                                                </td>
+                                                <!--
+                                                    <td>
+                                                        <input (change)="calcularConDesc(j)" type="number" [(ngModel)]="pro.desc" name="txtDesc">
+                                                    </td>
+                                                    <td>
+                                                        <input (change)="calcularPorcDesc(j)" type="number" [(ngModel)]="pro.porc_desc" name="txtPorcDesc">
+                                                    </td>-->
+                                                <!--<td>{{pro.nombre_tipo_moneda}}</td>-->
+                                                <td>{{pro.nombre_tipo_producto}}</td>
+                                                <td>{{pro.nombre_unidad_medida}}</td>
+                                                <td>{{pro.nombre_proveedor}}</td>
+                                                <td>{{pro.nombre_aplicacion}}</td>
+                                                <td>{{pro.nombre_almacen}}</td>
+                                                <td>{{pro.nombre_local}}</td>
+                                                <td>
+                                                    <a href="javascript:void(0);" (click)="mostrarImagen(pro)">
+                                                        <img class="img-responsive logo-img-menu" src="{{pro.ruta_imagen}}" />
+                                                    </a>
+                                                </td>
+                                                <td>{{pro.medida_a}}</td>
+                                                <td>{{pro.medida_b}}</td>
+                                                <td>{{pro.medida_c}}</td>
+                                                <td>{{pro.medida_d}}</td>
+                                                <td>{{pro.descripcion}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+            </div>
+            <div id="nuevoKardexMultiple" class="tab-pane fade ">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Registro de Traslados Multiple</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="col-md-12 col-xd-2">
+
+                            <!--
+                            <div class="col-md-3 col-xd-12">
+                                <div class="form-group">
+                                    <label>Tipo Movimiento: </label>
+                                    <select class="form-control" [(ngModel)]="tipoMovimientoSelected">
+                                        <option *ngFor="let obj of tiposMovimiento; let i = index" [ngValue]="obj">{{obj.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-12">
+                                <div class="form-group">
+                                    <label>Concepto Movimiento: </label>
+                                    <select class="form-control" [(ngModel)]="conceptoMovimientoSelected">
+                                        <option *ngFor="let obj of conceptosMovimiento; let i = index" [ngValue]="obj">{{obj.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>-->
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Local Origen: </label>
+                                    <select class="form-control" required [(ngModel)]="localOrigenSelected" name="cbLocales" (ngModelChange)="mostrarAlmacenOrigen(localOrigenSelected)">
+                                        <option *ngFor="let lo of locales; let i = index" [ngValue]="lo">{{lo.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Almacen Origen: </label>
+                                    <select class="form-control" required [(ngModel)]="almacenOrigenSelected" name="cbAlmacenes">
+                                        <option *ngFor="let al of almacenesOrigen; let i = index" [ngValue]="al">{{al.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Local Destino: </label>
+                                    <select class="form-control" required [(ngModel)]="localDestinoSelected" name="cbLocales" (ngModelChange)="mostrarAlmacenDestino(localDestinoSelected)">
+                                        <option *ngFor="let lo of locales; let i = index" [ngValue]="lo">{{lo.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Almacen Destino: </label>
+                                    <select class="form-control" required [(ngModel)]="almacenDestinoSelected" name="cbAlmacenes">
+                                        <option *ngFor="let al of almacenesDestino; let i = index" [ngValue]="al">{{al.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-xd-2">
+                                <div class="form-group">
+                                    <label>Adjuntar Archivo:</label>
+                                    <!--<input id="archivoFile" type={{tipoFile}} class="form-control" name="txtArchivo"  [(ngModel)]="archivo" >-->
+                                    <input type="file" class="form-control" name="txtArchivo" (change)="onChange($event)" multiple>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label> Formato Subida Kardex</label>
+                                <button (click)="dowloadFormatoKardex()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-save fa-fw ic-dfa"></i>Descargar Formato</button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+
+                            <div class="col-md-3">
+                                <label> Accion</label>
+                                <button (click)="registrarMultipleObtener()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-save fa-fw ic-dfa"></i>Subir Fichero</button>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label> Accion</label>
+                                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-trash fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+
+
+                <div *ngIf="panelListaBeanSelected" class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lista de Traslados a Registrar</h3>
+                    </div>
+                    <div class="panel-body">
+
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="row bg-teal tabla-cabecera-botones">
+                                    <div class="col-md-12">
+                                        <h5>EXISTEN :<span *ngIf="listaKardexSubir!=null" >{{listaKardexSubir.length}}</span> EN TOTAL</h5>
+                                    </div>
+                                   
+                                    <div class="col-md-3">
+                                        <button (click)="registrarTrasladosConfirmados()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-forward fa-fw ic-dfa"></i>Confirmar Traslados
+                                        </button>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <button (click)="eliminarPreSubida()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar Lista PRE SUBIDA
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class=" table-responsive tabla-dfa">
+
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr class="bg-teal tam-cabecera">
+                                                <th>N°</th>
+                                                <th>ID PRODUCTO</th>
+                                                <th>MARCA</th>
+                                                <th>PRODUCTO</th>
+                                                <th>CANTIDAD</th>
+                                                <th>PRECIO</th>
+                                                <th>PRECIO TOTAL</th>
+                                                <th>MONEDA</th>
+                                                <th>DESCRIPCION</th>    
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr *ngFor="let obj of listaKardexSubir;let j = index" class="bg-cyan tam-cuerpo">
+                                                <td>{{inicio+j}}</td>
+                                                <td>{{obj.id_producto}}</td>
+                                                <td>{{obj.marca}}</td>
+                                                <td>{{obj.producto}}</td>
+                                                <td>{{obj.cantidad}}</td>
+                                                <td>{{obj. precio}}</td>
+                                                <td>{{obj.precio_total}}</td>
+                                                <td>{{obj.moneda}}</td>
+                                                <td>{{obj.descripcion}}</td>
+                                                
+                                
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <div *ngIf="panelEditarSelected" class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Editar Kardex</h3>
+
+            </div>
+            <div class="panel-body">
+
+
+
+                <div class="col-md-2 tabla-cabecera-botones">
+                    <button (click)="regresar()" class="btn btn-primary btn-block">
+                        <i class="fa fa-reply fa-fw ic-dfa"></i>Regresar
+                    </button>
+                </div>
+
+                <!--
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Id Proveedor: </label>
+                            <input class="form-control" required placeholder="1" type="text" [(ngModel)]="idProveedorSelected" name="txtIdProvee">
+                        </div>
+                    </div>-->
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="form-group">
+                        <label>Nombre: </label>
+                        <input class="form-control" required placeholder="SKF" type="text" [(ngModel)]="nombreSelected" name="txtNombre">
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="form-group">
+                        <label>Simbolo: </label>
+                        <input class="form-control" required placeholder="cm" type="text" [(ngModel)]="simboloSelected" name="txtsimbolo">
+                    </div>
+                </div>
+
+                <div class="col-md-2 col-xd-2">
+                    <div class="form-group">
+                        <label>Orden Presentacion: </label>
+                        <input class="form-control" required placeholder="1" type="number" [(ngModel)]="ordenPresentacionSelected" name="txtOrdenPresentacion">
+                    </div>
+                </div>
+
+                <div class="col-md-5 col-xd-2">
+                    <div class="form-group">
+                        <label>Observacion: </label>
+                        <textarea class="form-control" required placeholder="" type="text" [(ngModel)]="observacionSelected" name="txtObservacion"></textarea>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <label> Accion</label>
+                    <button (click)="editar()" class="btn btn-primary btn-block">
+                        <i class="fa fa-save fa-fw ic-dfa"></i>Editar</button>
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+
+
+<button id="modalCatalogoVenta" hidden="hidden" data-toggle="modal" data-target="#modalCatalogoVentaPnl"></button>
+<div class="modal fade" id="modalCatalogoVentaPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS PRODUCTO</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <form-catalogo-venta [buttonSelectedActivated]="buttonSelectedActivatedPro" [buttonEliminarActivated]="buttonEliminarActivatedPro"
+                    [buttonEditarActivated]="buttonEditarActivatedPro" [panelListaBeanSelected]="panelListaCatalogoVenta" [panelListaVentaBeanSelected]="panelListaCatalogoVentaDerecha"
+                    [estiloTablaDerecha]="estiloTablaDerechaCatalogo" [estiloBusquedaCatalogo]="estiloBusquedaCatalogo" [colMd2]="colMd2Catalogo"
+                    [colMd4]="colMd4Catalogo" [col1Md2]="col1Md2Catalogo" [campoOculto]="campoOcultoVenta" (productoSeleccionado)="obtenerDatosCatalogoVenta($event)">
+                </form-catalogo-venta>
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>

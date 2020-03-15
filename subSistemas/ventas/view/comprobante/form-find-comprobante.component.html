@@ -1,0 +1,311 @@
+      
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Busqueda de Comprobantes</h3>
+                </div>
+                <div class="panel-body">
+
+
+
+                    <div class="col-md-12 col-xd-2">
+
+
+                        <div class="col-md-2 col-xd-2">
+                            <div class="form-group">
+                                <label>Id Compra/Venta: </label>
+                                <input class="form-control" type="number" [(ngModel)]="idCompraVentaBusqueda" name="txtIdCompraVenta">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-xd-2">
+                            <div class="form-group">
+                                <label>Categoria Comprobante: </label>
+                                <select class="form-control" required [(ngModel)]="categoriaComprobanteSelected" name="cbCategoriasComprobante" (ngModelChange)="mostrarTiposComprobante()">
+                                    <option *ngFor="let ti of categoriasComprobante; let i = index" [ngValue]="ti">{{ti.nombre}} </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-xd-2">
+                            <div class="form-group">
+                                <label>Tipo Comprobante: </label>
+                                <select class="form-control" required [(ngModel)]="tipoComprobanteSelected" name="cbTiposComprobante">
+                                    <option *ngFor="let ti of tiposComprobante; let i = index" [ngValue]="ti">{{ti.nombre}} </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-xd-2">
+                            <div class="form-group">
+                                <label>Serie Comprobante: </label>
+                                <input class="form-control" type="text" [(ngModel)]="serieSelected" name="txtSerie">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-xd-2">
+                            <div class="form-group">
+                                <label>Numero Comprobante: </label>
+                                <input class="form-control" type="text" [(ngModel)]="numeroSelected" name="txtNumero">
+                            </div>
+                        </div>
+<!-- 
+                        <div class="col-md-3 col-xd-2">
+                            <div class="form-group">
+                                <label>Medio Pago: </label>
+                                <select class="form-control" required [(ngModel)]="medioPagoSelected" name="cbMediosPago">
+                                    <option *ngFor="let ti of mediosPago; let i = index" [ngValue]="ti">{{ti.nombre}} </option>
+                                </select>
+                            </div>
+                        </div> -->
+
+
+                        <div class="col-md-4 col-xd-2">
+                            <div class="form-group">
+                                <label>Fecha: </label>
+                                <input class="form-control" required type="date" [(ngModel)]="fechaSelected" name="txtFecha">
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6 col-xd-2">
+                            <div class="form-group">
+                                <label>Cliente: </label>
+                                <div class="input-group">
+                                    <label class="form-control">
+                                        <span *ngIf="clienteSelected!=null">{{clienteSelected.nombres}}</span>
+                                    </label>
+                                    <span class="input-group-btn">
+                                        <button (click)="abrirModalCliente()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-search fa-fw ic-dfa"></i>
+                                            <i class="fa fa-user fa-fw ic-dfa"></i>
+                                        </button>
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="col-md-12 col-xd-2">
+
+                        <div class="col-md-2">
+                            <label> Accion</label>
+                            <button (click)="buscar()" class="btn btn-primary btn-block">
+                                <i class="fa fa-search fa-fw ic-dfa"></i>Ejecutar</button>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label> Accion</label>
+                            <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+
+
+
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Lista Comprobantes </h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="row bg-teal tabla-cabecera-botones">
+                                <div class="col-md-12">
+                                    <h5>EXISTEN :{{totalLista}} EN TOTAL</h5>
+                                </div>
+                                <div class="col-md-2">
+                                    <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                        <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                    </button>
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Del {{inicio}} al {{fin}}</label>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                        <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="col-md-5">
+                                        <label> Tamaño Pagina</label>
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                            <option [ngValue]="10">10</option>
+                                            <option [ngValue]="15">15</option>
+                                            <option [ngValue]="20">20</option>
+                                            <option [ngValue]="30">30</option>
+                                            <option [ngValue]="100">100</option>
+                                            <option [ngValue]="500">500</option>
+                                            <option [ngValue]="1000">1000</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class=" table-responsive tabla-dfa">
+
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr class="bg-teal tam-cabecera">
+                                            <th>N°</th>
+                                             <th>IMPRIMIR</th>
+                                            <th>IMPRIMIR</th>
+                                            <th>IMPRIMIR</th>
+                                            <th>IMPRIMIR</th>
+                                            <th>IMPRIMIR</th>
+                                            <th>ACCION</th>
+                                            <th>CATEGORIA COMPROBANTE</th>
+                                            <th>TIPO COMPROBANTE </th>
+                                            <th>SERIE</th>
+                                            <th>NUMERO</th>
+                                            <th>FECHA</th>
+                                            <th>MEDIO PAGO</th>
+                                            <th>MONTO TOTAL</th>
+                                            <th>SUB TOTAL</th>
+                                            <th>IGV</th>
+                                            <th>PORC IGV</th>
+                                            <th>CLIENTE</th>
+                                            <th>RUC CLIENTE</th>
+                                            <th>RUC EMISOR</th>
+                                            <th>DIRECCION</th>
+                                            <th>TIPO MONEDA</th>    
+                                            <th>EMPLEADO</th>
+                                            <th>ID COMPRA VENTA</th>
+                                            <th>ID COMPROBANTE</th>
+                                            <th>NRO ORDEN</th>
+                                            <th>NRO GUIA</th>
+                                            <th>FECHA EMISION</th>
+                                            <th>TELEFONO</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr *ngFor="let obj of listaComprobantes;let j = index" class="bg-cyan tam-cuerpo">
+                                            <td>{{inicio+j}}</td>
+                                             <td>
+                                                <button (click)="imprimirBlanco(obj.id_comprobante)" class="btn btn-primary btn-block">
+                                                    <i class="fa fa-print fa-fw ic-dfa"></i>Blanco
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button (click)="imprimirTicketera(obj.id_comprobante)" class="btn btn-primary btn-block">
+                                                    <i class="fa fa-print fa-fw ic-dfa"></i>Ticketera
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button (click)="imprimir_invertido(obj.id_comprobante)" class="btn btn-primary btn-block">
+                                                    <i class="fa fa-print fa-fw ic-dfa"></i>2 partes
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button (click)="imprimir(obj.id_comprobante)" class="btn btn-primary btn-block">
+                                                    <i class="fa fa-print fa-fw ic-dfa"></i>A4 Horizon.
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button (click)="imprimirA4(obj.id_comprobante)" class="btn btn-primary btn-block">
+                                                    <i class="fa fa-print fa-fw ic-dfa"></i>A4 Verti.
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button (click)="eliminar(obj)" class="btn btn-primary btn-block">
+                                                    <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                                </button>
+                                            </td> 
+                                            <!--
+                                            <td>
+                                                <button (click)="abrirPanelEditar(obj)" class="btn btn-primary btn-block">
+                                                    <i class="fa fa-plus-square fa-fw ic-dfa"></i>Editar
+                                                </button>
+                                            </td>-->
+
+
+                                            <td>{{obj.nombre_categoria_comprobante}}</td>
+                                            <td>{{obj.nombre_tipo_comprobante}}</td>
+                                            <td>{{obj.serie}}</td>
+                                            <td>{{obj.numero}}</td>
+                                            <td>{{obj.fecha}}</td>
+                                            <td><span class="caja-medio-pago" > {{obj.nombre_medio_pago}}</span>  </td>
+                                            <td> <span class="caja-numero" >{{obj.simbolo_tipo_moneda}} {{completar_ceros_derecha(round2(obj.monto_total),2)}}</span></td>
+                                            <td> <span class="caja-numero" >{{obj.simbolo_tipo_moneda}} {{completar_ceros_derecha(round2(obj.sub_total),2)}}</span></td>
+                                            <td> <span class="caja-numero" >{{obj.simbolo_tipo_moneda}} {{completar_ceros_derecha(round2(obj.igv),2)}}</span></td>
+                                            <td>{{obj.porc_igv}}</td>
+                                            <td> <span class="caja-nombre-cliente" > {{obj.cliente}}</span></td>
+                                            <td>{{obj.ruc_receptor}}</td>
+                                            <td>{{obj.ruc_emisor}}</td>
+                                            <td> <span class="caja-direccion-cliente" > {{obj.direccion}}</span></td>
+                                            <td>{{obj.nombre_tipo_moneda}}</td>
+                                            <td>{{obj.nombre_empleado}}</td>
+                                            <td>{{obj.id_compra_venta}}</td>
+                                            <td>{{obj.id_comprobante}}</td>
+                                            <td>{{obj.nro_orden}}</td>
+                                            <td>{{obj.nro_guia_remision}}</td>
+                                            <td>{{obj.fecha_emision}}</td>
+                                            <td>{{obj.telefono}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+
+
+            
+            
+
+            
+            
+            
+            <button id="modalClienteCom" hidden="hidden" data-toggle="modal" data-target="#modalClienteComPnl"></button>
+            <div class="modal fade" id="modalClienteComPnl">
+                <div class="modal-dialog ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">
+                                <label>DATOS CLIENTE</label>
+                            </h4>
+                        </div>
+            
+                        <div class="modal-body">
+                            <!--
+                            <form-cliente [buttonSelectedActivated]="buttonSelectedActivatedCli" [buttonEliminarActivated]="buttonEliminarActivatedCli"
+                                [buttonEditarActivated]="buttonEditarActivatedCli" (clienteSeleccionado)="obtenerClienteDatosExternos($event)">
+                            </form-cliente>-->
+            
+                            <form-find-cliente   (clienteSeleccionado)="obtenerClienteDatosExternos($event)"></form-find-cliente>
+                        </div>
+                        <div class="modal-footer">
+                            <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                            <!--(click)="activarBuscar($event)"-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+     

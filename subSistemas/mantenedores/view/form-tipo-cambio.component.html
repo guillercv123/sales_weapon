@@ -1,0 +1,137 @@
+
+<div *ngIf="transferido">
+    Transfiriendo..
+    <div class="loader">Loading...</div>
+</div>
+
+
+<div *ngIf="tienePermisoView">
+
+
+    <div *ngIf="!panelPermisosSelected">
+
+        <div *ngIf="panelEditarSelected" class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Editar Tipo de Cambio</h3>
+
+            </div>
+            <div class="panel-body">
+
+                <div class="col-md-2 tabla-cabecera-botones">
+                    <button (click)="regresar()" class="btn btn-primary btn-block">
+                        <i class="fa fa-reply fa-fw ic-dfa"></i>Regresar
+                    </button>
+                </div>
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="col-md-6 col-xd-2">
+                        <div class="form-group">
+                            <label>Fecha: </label>
+                            <input class="form-control"  type="date" [(ngModel)]="fecha" name="txtFecha">
+                        </div>
+                    </div>
+                </div>
+               
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="col-md-6 col-xd-2">
+                        <div class="form-group">
+                            <label>Precio Compra: </label>
+                            <input class="form-control"  type="number" [(ngModel)]="precio_compra" name="txtPrecioCompra">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="col-md-6 col-xd-2">
+                        <div class="form-group">
+                            <label>Precio Venta: </label>
+                            <input class="form-control"  type="number" [(ngModel)]="precio_venta" name="txtNPrecioVenta">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-2">
+                    <label> Accion</label>
+                    <button (click)="editar()" class="btn btn-primary btn-block">
+                        <i class="fa fa-save fa-fw ic-dfa"></i>Editar</button>
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+
+
+        <div *ngIf="panelListaBeanSelected" class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Lista de Tipo de Cambio</h3>
+            </div>
+            <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="row bg-teal tabla-cabecera-botones">
+                            
+                           
+                            <div class="col-md-2">
+                                <label>Del {{inicio}} al {{fin}}</label>
+                            </div>
+
+                            
+                          
+                        </div>
+
+                        <div class=" table-responsive tabla-dfa">
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr class="bg-teal tam-cabecera">
+                                        <th>N°</th>
+                                        <th *ngIf="buttonSelectedActivated">ACCION</th>
+                                        <th *ngIf="!buttonSelectedActivated">ACCION</th>
+                                        <th>ID TIPO CAMBIO</th>
+                                    
+                                        <th>PRECIO COMPRA</th>
+                                        <th>PRECIO VENTA</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr *ngFor="let obj of listaTipoCambio;let j = index" class="bg-cyan tam-cuerpo">
+                                        <td>{{inicio+j}}</td>
+                                        <td *ngIf="buttonSelectedActivated">
+                                            <button (click)="seleccionar(obj)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-hand-o-up fa-fw ic-dfa"></i>Select.
+                                            </button>
+                                        </td>
+                                      
+                                        <td *ngIf="!buttonSelectedActivated">
+                                            <button (click)="abrirPanelEditar(obj)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-plus-square fa-fw ic-dfa"></i>Editar
+                                            </button>
+                                        </td>
+
+                                        <td>{{obj.id_tipo_cambio}}</td>
+                                     
+                                        <td>{{obj.precio_compra}}</td>
+                                        <td>{{obj.precio_venta}}</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+

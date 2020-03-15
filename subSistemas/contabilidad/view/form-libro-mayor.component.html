@@ -1,0 +1,460 @@
+<!--
+    <div class="row">
+        <div class="col-md-12" >    
+        -->
+        <div *ngIf="transferido">
+            Transfiriendo..
+            <div class="loader">Loading...</div>
+        </div>
+        
+        <div *ngIf="tienePermisoView">
+        
+        
+            <div *ngIf="!panelPermisosSelected">
+        
+        
+        
+                <ul *ngIf="!panelEditarSelected" class="nav nav-tabs">
+                    <li class="active">
+                        <a data-toggle="tab" href="#buscarLibroMayor">
+                            <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#nuevoLibroMayor">
+                            <i class="fa fa-plus fa-fw ic-dfa"></i>Nuevo</a>
+                    </li>
+        
+                </ul>
+                <div *ngIf="!panelEditarSelected" class="tab-content">
+        
+                    <div id="buscarLibroMayor" class="tab-pane fade in active">
+        
+                        <div class="login-panel panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Busqueda en Libro Mayor</h3>
+                            </div>
+                            <div class="panel-body">
+
+                                <div class="col-md-12 col-xd-12">
+        
+                                    <div class="col-md-5 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Titulo: </label>
+                                            <input class="form-control" required placeholder="" type="text" [(ngModel)]="libroMayorSelected.titulo"
+                                                name="txtTitulo">
+                                        </div>
+                                    </div>
+        
+                                    <div class="col-md-5 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Periodo: </label>
+                                            <input class="form-control" required placeholder="" type="text" [(ngModel)]="libroMayorSelected.periodo"
+                                                name="txtPeriodo">
+                                        </div>
+                                    </div>
+        
+                                    <div class="col-md-5 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Periodo Fecha: </label>
+                                            <input class="form-control" required placeholder="" type="date" [(ngModel)]="libroMayorSelected.periodo_fecha"
+                                                name="txtPeriodoFecha">
+                                        </div>
+                                    </div>
+        
+                                    <div class="col-md-5 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Ruc: </label>
+                                            <input class="form-control" required placeholder="" type="text" [(ngModel)]="libroMayorSelected.ruc"
+                                                name="txtRuc">
+        
+                                        </div>
+                                    </div>
+        
+                                    <div class="col-md-5 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Razon Social: </label>
+                                            <input class="form-control" required placeholder="" type="text" [(ngModel)]="libroMayorSelected.razon_social"
+                                                name="txtRazonSocial">
+        
+                                        </div>
+                                    </div>
+                                </div>
+        
+        
+                                <div class="col-md-12 col-xd-12">
+        
+                                    <div class="col-md-2">
+                                        <label> Accion</label>
+                                        <button (click)="buscar()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-search fa-fw ic-dfa"></i>Ejecutar</button>
+                                    </div>
+        
+                                    <div class="col-md-2">
+                                        <label> Accion</label>
+                                        <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                                    </div>
+                                </div>
+        
+        
+                            </div>
+                        </div>
+        
+                    </div>
+        
+                    <div id="nuevoLibroMayor" class="tab-pane fade ">
+        
+                        <div class="login-panel panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Registro de Libro Mayor</h3>
+                            </div>
+                            <div class="panel-body">
+        
+                                <div class="col-md-12 col-xd-12">
+        
+                                    <div class="col-md-5 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Titulo: </label>
+                                            <input class="form-control" required placeholder="" type="text" [(ngModel)]="libroMayorSelected.titulo"
+                                                name="txtTitulo">
+                                        </div>
+                                    </div>
+        
+                                    <div class="col-md-5 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Periodo: </label>
+                                            <input class="form-control" required placeholder="" type="text" [(ngModel)]="libroMayorSelected.periodo"
+                                                name="txtPeriodo">
+                                        </div>
+                                    </div>
+        
+                                    <div class="col-md-5 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Periodo Fecha: </label>
+                                            <input class="form-control" required placeholder="" type="date" [(ngModel)]="libroMayorSelected.periodo_fecha"
+                                                name="txtPeriodoFecha">
+                                        </div>
+                                    </div>
+        
+                                    <div class="col-md-5 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Ruc: </label>
+                                            <input class="form-control" maxlength="12" required placeholder="" type="text" [(ngModel)]="libroMayorSelected.ruc"
+                                                name="txtRuc">
+        
+                                        </div>
+                                    </div>
+        
+                                    <div class="col-md-5 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Razon Social: </label>
+                                            <input class="form-control" required placeholder="" type="text" [(ngModel)]="libroMayorSelected.razon_social"
+                                                name="txtRazonSocial">
+        
+                                        </div>
+                                    </div>
+                                </div>
+        
+        
+        
+        
+                                <div class="col-md-12 col-xd-12">
+                                    <div class="col-md-2">
+                                        <label> Accion</label>
+                                        <button (click)="registrar()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-save fa-fw ic-dfa"></i>Guardar</button>
+                                    </div>
+        
+                                    <div class="col-md-2">
+                                        <label> Accion</label>
+                                        <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                                    </div>
+        
+                                </div>
+        
+        
+        
+                            </div>
+                        </div>
+        
+                    </div>
+                </div>
+        
+    
+        
+                <div *ngIf="panelEditarSelected" class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Editar Libro Mayor</h3>
+        
+                    </div>
+
+
+                    <div class="panel-body">
+        
+                        <div class="col-md-12 col-xd-12">
+        
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="regresar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-reply fa-fw ic-dfa"></i>Regresar
+                                </button>
+                            </div>
+        
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="editar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-save fa-fw ic-dfa"></i>Editar</button>
+                            </div>
+                        </div>
+        
+        
+                        <div *ngIf="libroMayorSelected!=null" class="col-md-12 col-xd-12">
+        
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Titulo: </label>
+                                    <input class="form-control" required placeholder="" type="text" [(ngModel)]="libroMayorSelected.titulo"
+                                        name="txtTitulo">
+                                </div>
+                            </div>
+        
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Periodo: </label>
+                                    <input class="form-control" required placeholder="" type="text" [(ngModel)]="libroMayorSelected.periodo"
+                                        name="txtPeriodo">
+                                </div>
+                            </div>
+        
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Periodo Fecha: </label>
+                                    <input class="form-control" required placeholder="" type="date" [(ngModel)]="libroMayorSelected.periodo_fecha"
+                                        name="txtPeriodoFecha">
+                                </div>
+                            </div>
+        
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Ruc: </label>
+                                    <input class="form-control" required placeholder="" type="text" [(ngModel)]="libroMayorSelected.ruc"
+                                        name="txtRuc">
+        
+                                </div>
+                            </div>
+        
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Razon Social: </label>
+                                    <input class="form-control" required placeholder="" type="text" [(ngModel)]="libroMayorSelected.razon_social"
+                                        name="txtRazonSocial">
+        
+                                </div>
+                            </div>
+                        </div>
+        
+                    </div>
+        
+        
+                    <div class="login-panel panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Detalle Libro Caja Banco </h3>
+                        </div>
+                        <div class="panel-body">
+        
+                            <div class="row bg-teal tabla-cabecera-botones">
+        
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Cantidad Celdas: </label>
+                                        <input class="form-control" required placeholder="23" type="text" [(ngModel)]="cantidadCeldas"
+                                            name="txtCantidadCeldas">
+                                    </div>
+                                </div>
+        
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Accion: </label>
+                                        <button (click)="agregarFilaLibroDiario(cantidadCeldas);" class="btn btn-primary btn-block">
+                                            <i class="fa fa-plus fa-fw ic-dfa"></i>Agregar Filas
+                                        </button>
+                                    </div>
+                                </div>
+        
+                            </div>
+        
+        
+                            <div class=" table-responsive tabla-dfa">
+        
+                                <table id="tabla-productos" class="table table-condensed tabla-libros-contable">
+                                    <thead>
+                                        <tr class="bg-teal tam-cabecera">
+                                            <th rowspan="3">ACCION</th>
+                                            <th rowspan="3">NÚMERO CORRELATIVO DEL REGISTRO O CÓDIGO ÚNICO DE LA OPERACIÓN</th>
+                                            <th rowspan="3">FECHA DE LA OPERACIÓN</th>
+                                            <th rowspan="3">DESCRIPCIÓN DE LA OPERACIÓN</th> 
+                                            <!-- <th colspan="2">CUENTA CONTABLE ASOCIADA A LA OPERACIÓN</th>
+                                            <th colspan="2">SALDOS Y MOVIMIENTOS</th> -->
+                                        </tr>
+                                        <tr class="bg-teal tam-cabecera">
+        
+                                            <!-- <th rowspan="2">CÓDIGO</th>
+                                            <th rowspan="2">DENOMINACIÓN</th> -->
+                                            <th rowspan="2">DEUDOR</th>
+                                            <th rowspan="2">ACREEDOR</th>
+                                        </tr>
+        
+                                    </thead>
+        
+                                    <tbody>
+                                        <tr *ngFor="let de of lista_detalle_libro;let j = index" class="bg-cyan tam-cuerpo">
+                                            <td>
+                                                <button (click)="eliminarItem(j)" class="btn btn-primary btn-block">
+                                                    <i class="fa fa-trash fa-fw ic-dfa"></i>
+                                                </button>
+                                            </td>
+        
+                                            <td>
+                                                <input class="" required type="text" [(ngModel)]="de.correlativo">
+                                            </td>
+                                            <td>
+                                                <input class="" required type="date" [(ngModel)]="de.fecha_operacion">
+                                            </td>
+                                            <td>
+                                                <input class="" required type="text" [(ngModel)]="de.descripcion_operacion">
+                                            </td>
+
+                                     
+                                            <!--<td>
+                                                <input class="" required type="text" [(ngModel)]="de.codigo_cuenta_contable">
+                                            </td>
+                                            <td>
+                                                <input class="" required type="text" [(ngModel)]="de.denominacion_cuenta_contable">
+                                            </td> -->
+                                            <td>
+                                                <input class="" required type="text" [(ngModel)]="de.deudor">
+                                            </td>
+                                            <td>
+                                                <input class="" required type="text" [(ngModel)]="de.acreedor">
+                                            </td>
+        
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+        
+                        </div>
+        
+                    </div>
+        
+        
+        
+                </div>
+        
+        
+        
+        
+                <div *ngIf="panelListaBeanSelected" class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lista de Libros Mayor</h3>
+                    </div>
+                    <div class="panel-body">
+        
+                        <div class="row">
+                            <div class="col-md-12">
+        
+                                <div class="row bg-teal tabla-cabecera-botones">
+                                    <div class="col-md-12">
+                                        <h5>EXISTEN :{{totalLista}} EN TOTAL</h5>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Del {{inicio}} al {{fin}}</label>
+                                    </div>
+        
+                                    <div class="col-md-2">
+                                        <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-md-5">
+                                            <label> Tamaño Pagina</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                                <option [ngValue]="10">10</option>
+                                                <option [ngValue]="15">15</option>
+                                                <option [ngValue]="20">20</option>
+                                                <option [ngValue]="30">30</option>
+                                                <option [ngValue]="100">100</option>
+                                                <option [ngValue]="500">500</option>
+                                                <option [ngValue]="1000">1000</option>
+                                            </select>
+                                        </div>
+        
+                                    </div>
+                                </div>
+        
+                                <div class=" table-responsive tabla-dfa">
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr class="bg-teal tam-cabecera">
+                                                <th>N°</th>
+                                                <th>ACCION</th>
+                                                <th>ACCION</th>
+                                                <th>ACCION</th>
+                                                <th>ID LIBRO DIARIO</th>
+                                                <th>TITULO</th>
+                                                <th>PERIODO</th>
+                                                <th>PERIODO FECHA</th>
+                                                <th>RUC</th>
+                                                <th>RAZON SOCIAL</th>
+                                                <!--<th>ID EMPRESA</th>-->
+                                            </tr>
+                                        </thead>
+        
+                                        <tbody>
+                                            <tr *ngFor="let obj of libros_mayor;let j = index" class="bg-cyan tam-cuerpo">
+                                                <td>{{inicio+j}}</td>
+                                                <td>
+                                                    <button (click)="eliminar(obj)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button (click)="abrirPanelEditar(obj)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-plus-square fa-fw ic-dfa"></i>Editar
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button (click)="generarReporteLibro(obj)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-file-excel-o fa-fw ic-dfa"></i>Reporte
+                                                    </button>
+                                                </td>
+        
+        
+        
+                                                <td>{{obj.id_conta_libro_mayor}}</td>
+                                                <td>{{obj.titulo}}</td>
+                                                <td>{{obj.periodo}}</td>
+                                                <td>{{obj.periodo_fecha}}</td>
+                                                <td>{{obj.ruc}}</td>
+                                                <td>{{obj.razon_social}}</td>
+                                                <!--<td>{{obj.id_empresa}}</td>-->
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        </div>

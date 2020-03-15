@@ -1,0 +1,674 @@
+<div class="login-panel panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{tituloPanel}}</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+
+
+            <div *ngIf="idVentaSelected==null || registro_actualizacion==true" class="col-md-3">
+                <button  (click)="abrirModalCotizacion()" class="btn btn-primary btn-block">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Buscar Proforma </button>
+            </div>
+      
+
+        </div>
+
+
+        <fieldset>
+            <legend>Datos Cliente</legend>
+
+            <div class="col-md-12 col-xd-2">
+
+               
+
+                <div class="col-md-4 col-xd-2">
+                    <div class="input-group">
+                        <span class="input-group-addon">Nro Doc: </span>
+                        <input class="form-control" type="text" (keyup)="autocompletarClienteNroDoc($event)"
+                            [(ngModel)]="clienteSelected.numero_documento" />
+                        <ul class="lista-diego-autocompletado" *ngIf="lista_clientes_nro_doc_autocompletada!=null">
+                            <li *ngFor="let bean of lista_clientes_nro_doc_autocompletada">
+                                <a (click)="elegirListaCliente(bean)">
+                                    {{ bean.numero_documento }}-{{ bean.nombres }}
+                                </a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xd-2">
+                    <div class="input-group">
+                        <span class="input-group-addon">Nombres: </span>
+                        <input class="form-control" type="text" (keyup)="autocompletarClienteNombre($event)"
+                            [(ngModel)]="clienteSelected.nombres" />
+                        <ul class="lista-diego-autocompletado" *ngIf="lista_clientes_nombres_autocompletada!=null">
+                            <li *ngFor="let bean of lista_clientes_nombres_autocompletada">
+                                <a (click)="elegirListaCliente(bean)">
+                                    {{ bean.nombres }}
+                                </a>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                   
+                </div>
+
+           
+
+
+                <div class="col-md-2" role="toolbar">
+                    <div class="btn-group">
+                         <button id="buttonClienteRegistro" (click)="abrirModalCliente()" class="btn btn-primary"
+                        data-toggle="tooltip" data-placement="top" title="Busqueda Avanzada Cliente">
+                            <i class="fa fa-search fa-fw ic-dfa"></i>
+                        </button> 
+                        <button type="button" (click)="abrirModalRegistroPersona()" class="btn btn-primary"
+                            data-toggle="tooltip" data-placement="top" title="Registrar Cliente">
+                            <i class="fa fa-plus fa-fw ic-dfa"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+               
+
+
+                  </div>
+          
+        </fieldset>
+        
+        <div class="col-md-12 col-xd-2" style="margin-top:15px;">
+
+                <div class="col-md-2" *ngIf="!PorcentajeIncorrecto">
+                        <button (click)="guardar()" class="btn btn-primary btn-block">
+                            <i class="fa fa-save fa-fw ic-dfa"></i>Guardar</button>
+                    </div>
+                    <div class="col-md-2" *ngIf="PorcentajeIncorrecto">
+                        <button disabled (click)="guardar()" class="btn btn-primary btn-block">
+                            <i class="fa fa-save fa-fw ic-dfa"></i>Guardar</button>
+                    </div>
+
+                    
+          <div class="col-md-2">
+                            <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+           </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<div class="login-panel panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Lista de Productos a Vender</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-4 col-xd-12">
+                <div class="input-group-dfa" style="margin: 5px;">
+                    <span class="input-group-addon-dfa">
+                        <i class="fa fa-money ic-dfa m-2"></i>TOTAL:{{simboloMonedaSelected}} </span>
+                    <span *ngIf="estadoModificacion == 2">
+                         <input class="form-control" disabled [(ngModel)]="montoTotalSelected" />
+                    </span>
+                     <span *ngIf="estadoModificacion == 1">
+                           <input class="form-control" [(ngModel)]="montoTotalSelected" />
+                     </span> 
+                
+                  
+
+                </div>
+            </div>
+
+            <div class="col-md-4 col-xd-12">
+                <div class="input-group-dfa" style="margin: 5px;">
+                    <span class="input-group-addon-dfa">
+                        <i class="fa fa-money ic-dfa"></i>SUB TOTAL:{{simboloMonedaSelected}}
+                    </span>
+                    <span class="form-control">
+                        {{subTotalSelected}}
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-xd-12">
+                <div class="input-group-dfa" style="margin: 5px;">
+                    <span class="input-group-addon-dfa">
+                        <i class="fa fa-money ic-dfa"></i>IGV:{{simboloMonedaSelected}}
+                    </span>
+                    <span class="form-control">
+                        {{igvSelected}}
+                    </span>
+                </div>
+            </div>
+          
+            <div class="col-md-3 col-xd-12" *ngIf="!ActiveMoneda">
+                <select class="form-control" [(ngModel)]="tipoMonedaSelected" 
+                    (ngModelChange)="obtenerTipoMonedaGeneral(tipoMonedaSelected);" style="margin: 5px;">
+                    <option *ngFor="let tm of tiposMoneda; let i = index" [ngValue]="tm">{{tm.nombre}}
+                    </option>
+                </select>
+            </div>
+            <div class="col-md-3 col-xd-12" *ngIf="ActiveMoneda">
+                <select  class="form-control" [(ngModel)]="tipoMonedaSelected" 
+                    (ngModelChange)="obtenerTipoMonedaGeneral(tipoMonedaSelected);" style="margin: 5px;">
+                    <option  *ngFor="let tm of tiposMoneda; let i = index" [ngValue]="tm">{{tm.nombre}}
+                    </option>
+                </select>
+            </div>
+
+            <div class="col-md-3 col-xd-12">
+                <select class="form-control" [(ngModel)]="almacenUsuarioSelected" style="margin: 5px;">
+                    <option *ngFor="let al of almacenesUsuario; let i = index" [ngValue]="al">{{al.nombre}}
+                    </option>
+                </select>
+            </div>
+            
+            <div class="col-md-4 col-xd-6">
+                <div class="form-group" style="margin: 5px;">
+                    <label>Inc. Igv</label>
+                    <input type="checkbox" [(ngModel)]="incluyeIgvSelected" (ngModelChange)="calcularIgv();">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-12">
+              
+
+                <div class="row bg-teal tabla-cabecera-botones">
+
+                    <div class="col-md-3 col-xd-3">
+                        <div class="form-group">
+                            <label>Cantidad Celdas: </label>
+                            <input class="form-control" required placeholder="23" type="text"
+                                [(ngModel)]="cantidadCeldas" name="txtCantidadCeldas">
+                        </div>
+                    </div>
+                    
+                        <div class="col-md-2 col-xd-2" *ngIf="valid">
+                            <div class="form-group">
+                                <label>Accion: </label>
+                                <span *ngIf="estadoModificacion == 1">
+                                  <button (click)="agregarProductoMultiple(cantidadCeldas);"
+                                    class="btn btn-primary btn-block">
+                                    <i class="fa fa-plus fa-fw ic-dfa"></i>Agregar Filas
+                                </button>   
+                                </span>
+                                <span *ngIf="estadoModificacion == 2">
+                                        <button disabled (click)="agregarProductoMultiple(cantidadCeldas);"
+                                          class="btn btn-primary btn-block">
+                                          <i class="fa fa-plus fa-fw ic-dfa"></i>Agregar Filas
+                                      </button>   
+                                      </span>
+                               
+                            </div>
+                        </div>
+
+                  
+                   
+                    <div class="col-md-2 col-xd-2" *ngIf="!valid">
+                        <div class="form-group">
+                            <label>Accion: </label>
+                          
+                             <button disabled (click)="agregarProductoMultiple(cantidadCeldas);"
+                                class="btn btn-primary btn-block">
+                                <i class="fa fa-plus fa-fw ic-dfa"></i>Agregar Filas
+                            </button>     
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class=" table-responsive tabla-dfa">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr class="bg-teal tam-cabecera">
+                                <th>N°</th>         
+                                <th>ACCION</th>            
+                                <th>NOMBRE</th>
+                                <th>CANTIDAD</th>
+                                <th>PRECIO VENTA</th>
+                                <th>TOTAL</th>               
+                                <th>SUB GRUPO</th>
+                                
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let pro of listaProductos;let j = index" class="bg-cyan tam-cuerpo">
+                                <td>{{inicio+j}}</td>
+                               
+                                <td>
+                                    <div class="btn-toolbar" style="margin-left: 9px; width:100px;"  role="toolbar">
+                                        <div class="btn-group">
+                                            <span *ngIf="estadoModificacion == 2">
+                                                 <button type="button" disabled (click)="eliminarCarrito(j)" class="btn btn-primary"
+                                                data-toggle="tooltip" data-placement="top" title="Eliminar Lista">
+                                                <i class="fa fa-trash fa-fw ic-dfa"></i>
+                                            </button>
+                                            </span>
+
+                                            <span *ngIf="estadoModificacion == 1">
+                                                <button type="button" (click)="eliminarCarrito(j)" class="btn btn-primary"
+                                                   data-toggle="tooltip" data-placement="top" title="Eliminar Lista">
+                                                   <i class="fa fa-trash fa-fw ic-dfa"></i>
+                                               </button>
+                                            </span>
+                                           <span *ngIf="estadoModificacion == 1">
+                                              <button type="button" (click)="verStock(pro)" class="btn btn-primary"
+                                                data-toggle="tooltip" data-placement="top" title="Ver Stock">
+                                                <i class="fa fa-eye fa-fw ic-dfa"></i>
+                                            </button>  
+                                           </span>
+
+                                           <span *ngIf="estadoModificacion == 2">
+                                                <button disabled type="button" (click)="verStock(pro)" class="btn btn-primary"
+                                                  data-toggle="tooltip" data-placement="top" title="Ver Stock">
+                                                  <i class="fa fa-eye fa-fw ic-dfa"></i>
+                                              </button>  
+                                             </span>
+
+                                           <!-- <button type="button" (click)="verUltimasVentas(pro,j)"
+                                                class="btn btn-primary" data-toggle="tooltip" data-placement="top"
+                                                title="Ver Ultimas Ventas">
+                                                <i class="fa fa-list-ol fa-fw ic-dfa"></i>
+                                            </button>  -->
+                                        </div>
+
+                                    </div>
+
+
+
+                                </td>
+                              
+
+                                <td style="width:500px;">
+                                    
+                                     <div class="col-md-5 col-xd-5">
+                                        <div class="form-group">
+
+                                            <span *ngIf="estadoModificacion == 1">
+                                                <input class="caja-entera"  style="width: 500px;" id="{{'tbCompracelda'+j}}" required type="text"
+                                                [(ngModel)]="pro.nombre"
+                                                (keypress)="teclaKeyPressAutocomplete($event,j)"
+                                                (keyup)="teclaKeyUpAutocomplete($event,j)"
+                                                (keydown)="teclaKeyDownAutocomplete($event,j)">                                 
+                                            </span>
+                                            <span *ngIf="estadoModificacion == 2">
+                                                    <input disabled class="caja-entera" style="width: 480px; font-size: 15px" id="{{'tbCompracelda'+j}}" required type="text"
+                                                                                [(ngModel)]="pro.nombre"
+                                                                                (keypress)="teclaKeyPressAutocomplete($event,j)"
+                                                                                (keyup)="teclaKeyUpAutocomplete($event,j)"
+                                                                                (keydown)="teclaKeyDownAutocomplete($event,j)">                                 
+                                            </span>
+
+                                       
+
+
+                                            <ul style="width: 500px; font-size: 15px" id="{{'tbListaPro'+j}}" class="lista-diego2"
+                                                *ngIf="pro.lista_autocompletado!=null">
+                                                <li *ngFor="let ob of pro.lista_autocompletado">
+                                                    <a (click)="elegirProducto(ob,j)">
+                                                        {{ ob.nombre }} - {{ob.nombre_marca}} - <span style="color: red">S./{{ob.porc4}}</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                         
+                                        </div>
+                                    </div>   
+                                   
+
+                                    
+
+                                
+                                </td>
+
+
+                                <td>
+                                    <span *ngIf ="estadoModificacion == 1">
+                                        <input class="caja-numero3" style="width: 60px;"  (change)="calcularIgv()" type="number"
+                                        [(ngModel)]="pro.cantidad" name="txtCantiTable"> 
+                                    </span>
+                                    <span *ngIf ="estadoModificacion == 2">
+                                            <input style="width: 60px;" class="caja-numero3" disabled (change)="calcularIgv()" type="number"
+                                            [(ngModel)]="pro.cantidad" name="txtCantiTable"> 
+                                        </span>
+                                   
+                                </td>
+                                <td>
+                                    <span *ngIf = "estadoModificacion == 1">
+                                         <input class="caja-numero3" (change)="validarPrecio(pro)"
+                                     type="number" [(ngModel)]="pro.precio_venta"
+                                        name="txtPrecioVenta">  
+                                    </span>
+
+                                 
+                                    <span *ngIf = "estadoModificacion == 2">
+                                            <input class="caja-numero3"  disabled (change)="validarPrecio(pro)"
+                                        type="number" [(ngModel)]="pro.precio_venta"
+                                           name="txtPrecioVenta">  
+                                       </span>
+                                 
+                                </td>
+
+
+                                <td   class="color6">{{pro.tipo_moneda.simbolo}}{{pro.sub_total}}</td>       
+                                <td>{{pro.nombre_tipo_producto}}</td>
+                           </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+
+
+<button id="modalClienteNewVenta" hidden="hidden" data-toggle="modal" data-target="#modalClienteNewVentaPnl"></button>
+<div class="modal fade" id="modalClienteNewVentaPnl">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS CLIENTE</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <form-find-cliente (clienteSeleccionado)="obtenerClienteDatosExternos($event)">
+                </form-find-cliente>
+
+            </div>
+            <div class="modal-footer">
+                <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                <!--(click)="activarBuscar($event)"-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<button id="modalCatalogoVenta" hidden="hidden" data-keyboard="true" data-toggle="modal"
+    data-target="#modalCatalogoVentaPnl"></button>
+<div class="modal" id="modalCatalogoVentaPnl" tabindex='-1'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS PRODUCTO</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <form-catalogo-venta [buttonSelectedActivated]="buttonSelectedActivatedPro"
+                    [buttonEliminarActivated]="buttonEliminarActivatedPro"
+                    [buttonEditarActivated]="buttonEditarActivatedPro"
+                    [panelListaBeanSelected]="panelListaCatalogoVenta"
+                    [panelListaVentaBeanSelected]="panelListaCatalogoVentaDerecha"
+                    [estiloTablaDerecha]="estiloTablaDerechaCatalogo" [estiloBusquedaCatalogo]="estiloBusquedaCatalogo"
+                    [colMd2]="colMd2Catalogo" [colMd4]="colMd4Catalogo" [col1Md2]="col1Md2Catalogo"
+                    [campoOculto]="campoOcultoVenta" (productoSeleccionado)="obtenerDatosExternos($event)">
+                </form-catalogo-venta>
+
+            </div>
+            <div class="modal-footer">
+                <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                <!--(click)="activarBuscar($event)"-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<button id="modalClavePermiso" hidden="hidden" data-toggle="modal" data-target="#modalClavePermisoPnl"></button>
+<div class="modal fade" id="modalClavePermisoPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button (click)="aceptarClave()" class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>CLAVE AUTORIZACION</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="col-md-12 col-xd-2">
+                    <div class="form-group">
+                        <label>Ingrese Clave de Autorizacion: </label>
+                        <input class="form-control" required placeholder="123" type="password"
+                            [(ngModel)]="clavePermiso" name="txtClavePermiso">
+                    </div>
+                </div>
+                <div class="col-md-4 col-xd-2">
+                    <button (click)="aceptarClave()" class="btn btn-primary btn-block">
+                        <i class="fa fa-save fa-fw ic-dfa"></i>Aceptar
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<button id="modalStockProductoVenta" hidden="hidden" data-toggle="modal"
+    data-target="#modalStockProductoVentaPnl"></button>
+<div class="modal fade" id="modalStockProductoVentaPnl">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true"
+                    (click)="cerrarModal('modalStockProductoVenta')">&times;</button>
+                <h4 class="modal-title">
+                    <label>Stock Producto</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lista de stock </h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="row">
+
+                            <div class="col-md-12">
+
+                                <div class=" table-responsive tabla-dfa">
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr class="bg-teal tam-cabecera">
+                                              
+                                                <th>ALMACEN</th>
+                                               
+                                                <th>NOMBRE PRODUCTO</th>
+                                                <th>STOCK</th>
+                                                
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr *ngFor="let pro of lista_stock"
+                                                class="bg-cyan tam-cuerpo">
+                                                
+                                                <td>{{pro.nombre_almacen}}</td>
+                                               
+                                                <td>{{pro.nombre_producto}}</td>
+                                                <td>{{pro.stock}}</td>
+                                              
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<button id="modalUltimasVentas" hidden="hidden" data-toggle="modal" data-target="#modalUltimasVentasPnl"></button>
+<div class="modal fade" id="modalUltimasVentasPnl">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" (click)="cerrarModal('modalUltimasVentas')">&times;</button>
+                <h4 class="modal-title">
+                    <label>Ultimas Ventas</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lista de Ultimas Ventas</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="row">
+
+                            <div class="col-md-12">
+
+                                <div class=" table-responsive tabla-dfa">
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr class="bg-teal tam-cabecera">
+                                                <th>N°</th>
+                                                <th>ACCION</th>
+                                                <th>ALMACEN</th>
+                                                <th>ID PRODUCTO</th>
+                                                <th>NOMBRE PRODUCTO</th>
+                                                <th>PRECIO</th>
+                                                <th>CANTIDAD</th>
+                                                <th>FECHA</th>
+                                                <th>ID VENTA</th>
+                                                <th>CLIENTE</th>
+                                                <th>NRO. DOCUMENTO</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr *ngFor="let pro of lista_ultimas_ventas;let j = index"
+                                                class="bg-cyan tam-cuerpo">
+                                                <td>{{inicio+j}}</td>
+                                                <td>
+                                                    <button (click)="seleccionarUltimaVenta(pro, j)"
+                                                        class="btn btn-primary btn-block">
+                                                        <i class="fa fa-hand-o-up fa-fw ic-dfa"></i>Select.
+                                                    </button>
+                                                </td>
+                                                <td>{{pro.nombre_almacen}}</td>
+                                                <td>{{pro.id_producto}}</td>
+                                                <td>{{pro.nombre_producto}}</td>
+                                                <td>{{pro.simbolo_tipo_moneda}}{{pro.precio}}</td>
+                                                <td>{{pro.cantidad}}</td>
+                                                <td>{{pro.fecha}}</td>
+                                                <td>{{pro.id_venta}}</td>
+                                                <td>{{pro.nombres_cliente}}</td>
+                                                <td>{{pro.numero_documento_cliente}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<button id="modalCotizacion" hidden="hidden" data-toggle="modal" data-target="#modalCotizacionPnl"></button>
+<div class="modal fade" id="modalCotizacionPnl">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" (click)="cerrarModal('modalCotizacion')">&times;</button>
+                <h4 class="modal-title">
+                    <label>Datos Cotizacion</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <form-cotizacion (cotizacionSeleccionada)="obtenerDatosCotizacion($event)"></form-cotizacion>
+
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<button id="modalRegistroCliente" hidden="hidden" data-toggle="modal" data-target="#modalRegistroClientePnl"></button>
+<div class="modal fade" id="modalRegistroClientePnl">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" (click)="cerrarModal('modalRegistroCliente')">&times;</button>
+                <h4 class="modal-title">
+                    <label>Registro Cliente</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+                <form-new-persona (personaRegistrada)="personaRegistrada($event)" ></form-new-persona>
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+

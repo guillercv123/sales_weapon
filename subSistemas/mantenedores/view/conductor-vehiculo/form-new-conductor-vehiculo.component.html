@@ -1,0 +1,106 @@
+<div class="login-panel panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{tituloPanel}}</h3>
+    </div>
+    <div class="panel-body">
+
+
+        <div class="col-md-12 col-xd-2">
+
+
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Marca Vehiculo: </label>
+                    <input class="form-control" required placeholder="Toyota" type="text" [(ngModel)]="marcaSelected"
+                        name="txtMarca">
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Nro Licencia Conducir: </label>
+                    <input class="form-control" required placeholder="234" type="text" [(ngModel)]="nroLicenciaConducir"
+                        name="txtNroLicenciaConducir">
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Nro Placa: </label>
+                    <input class="form-control" required placeholder="A34" type="text" [(ngModel)]="nroPlacaSelected"
+                        name="txtNroPlaca">
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Nro Constancia: </label>
+                    <input class="form-control" required placeholder="234" type="text"
+                        [(ngModel)]="nroConstanciaInscripcion" name="txtNroConstancia">
+                </div>
+            </div>
+
+            <div class="col-md-5 col-xd-2">
+                <div class="form-group">
+                    <label>Persona: </label>
+
+                    <div class="input-group">
+                        <label class="form-control">{{nombrePersonaSelected}}</label>
+                        <span class="input-group-btn">
+                            <button (click)="abrirModalPersona()" class="btn btn-primary btn-block">
+                                <i class="fa fa-search fa-fw ic-dfa"></i>
+                                <i class="fa fa-users fa-fw ic-dfa"></i>
+                            </button>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <label> Accion</label>
+                <button (click)="guardar()" class="btn btn-primary btn-block">
+                    <i class="fa fa-save fa-fw ic-dfa"></i>Guardar</button>
+            </div>
+            <div class="col-md-2">
+                <label> Accion</label>
+                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+<button id="modalPersonaNew" hidden="hidden" data-toggle="modal" data-target="#modalPersonaNewPnl"></button>
+<div class="modal fade" id="modalPersonaNewPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS PERSONA</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+
+                <form-find-persona (dataExterna)="obtenerDatosPersonaExterna($event)">
+                </form-find-persona>
+
+            </div>
+            <div class="modal-footer">
+                <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                <!--(click)="activarBuscar($event)"-->
+            </div>
+        </div>
+    </div>
+</div>

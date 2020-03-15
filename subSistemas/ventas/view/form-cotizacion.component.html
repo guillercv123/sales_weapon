@@ -1,0 +1,1707 @@
+<!--
+    <div class="row">
+        <div class="col-md-12" >    
+        -->
+<div *ngIf="transferido">
+    Transfiriendo..
+    <div class="loader">Loading...</div>
+</div>
+
+
+<div *ngIf="tienePermisoView">
+
+
+    <div *ngIf="!panelPermisosSelected">
+
+
+
+        <ul *ngIf="tabsActivated" class="nav nav-tabs">
+            <li id="tabBuscarCotizacion">
+                <a data-toggle="tab" href="#buscarCotizacion">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</a>
+            </li>
+            <li id="tabNuevoCotizacion" class="active">
+                <a data-toggle="tab" href="#nuevoCotizacion">
+                    <i class="fa fa-plus fa-fw ic-dfa"></i>Nuevo</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="buscarCotizacion" class="tab-pane fade ">
+
+                <div *ngIf="!panelEditarSelected">
+                    <div class="login-panel panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Busqueda de Proforma</h3>
+                        </div>
+                        <div class="panel-body">
+
+
+                            <div class="col-md-12 col-xd-2">
+
+                                <!-- <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <label>N° Proforma: </label>
+                                        <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="number" [(ngModel)]="idCotizacionBusqueda"
+                                            name="txtIdcotizacion">
+                                    </div>
+                                </div> -->
+
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <label>N° Proforma: </label>
+                                        <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="number" [(ngModel)]="numeroSelected"
+                                            name="txtNumero">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Cliente: </label>
+                                        <div class="input-group">
+                                            <label class="form-control">
+                                                <span *ngIf="clienteSelected!=null">{{clienteSelected.nombres}} &nbsp;{{clienteSelected.apellido_paterno}} &nbsp;
+                                                    {{clienteSelected.apellido_materno}}
+                                                </span>
+                                            </label>
+                                            <span class="input-group-btn">
+                                                <button (click)="abrirModalCliente()" class="btn btn-primary btn-block">
+                                                    <i class="fa fa-search fa-fw ic-dfa"></i>
+                                                    <i class="fa fa-user fa-fw ic-dfa"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Fecha: </label>
+                                        <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="date" [(ngModel)]="fechaSelected"
+                                            name="txtFecha">
+                                    </div>
+                                </div>
+
+                                <!-- <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Monto Total: </label>
+                                        <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="number" [(ngModel)]="montoTotalSelected"
+                                            name="txtMontoTotal">
+                                    </div>
+                                </div> -->
+
+                                <!-- <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Sub Total: </label>
+                                        <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="number" [(ngModel)]="subTotalSelected"
+                                            name="txtSubTotal">
+                                    </div>
+                                </div> -->
+
+                                <!-- <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Igv.: </label>
+                                        <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="number" [(ngModel)]="igvSelected"
+                                            name="txtIgv">
+                                    </div>
+                                </div> -->
+
+                                <!-- <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Porc. Igv.: </label>
+                                        <input (keypress)="teclaEnter($event)" class="form-control" required placeholder="23" type="number" [(ngModel)]="porcIgvSelected"
+                                            name="txtPorcIgv">
+                                    </div>
+                                </div> -->
+
+
+                            </div>
+
+                            <div class="col-md-12 col-xd-2">
+
+                                <div class="col-md-2">
+                                    <label> Accion</label>
+                                    <button (click)="buscar()" class="btn btn-primary btn-block">
+                                        <i class="fa fa-search fa-fw ic-dfa"></i>Ejecutar</button>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label> Accion</label>
+                                    <button (click)="limpiarBusqueda()" class="btn btn-primary btn-block">
+                                        <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="login-panel panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Lista de Proformas</h3>
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="row">
+
+                                <div class="col-md-12">
+
+
+                                    <div class="row bg-teal tabla-cabecera-botones">
+                                        <div class="col-md-3">
+                                            <label>EXISTEN :{{totalLista}} EN TOTAL</label>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                            </button>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Del {{inicio}} al {{fin}}</label>
+                                        </div>
+
+                                        <div class="col-md-1">
+                                            <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                            </button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="col-md-5">
+                                                <label> Tamaño Pagina</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                                    <option [ngValue]="10">10</option>
+                                                    <option [ngValue]="15">15</option>
+                                                    <option [ngValue]="20">20</option>
+                                                    <option [ngValue]="30">30</option>
+                                                    <option [ngValue]="100">100</option>
+                                                    <option [ngValue]="500">500</option>
+                                                    <option [ngValue]="1000">1000</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class=" table-responsive tabla-dfa">
+                                        <table class="table table-condensed">
+                                            <thead>
+                                                <tr class="bg-teal tam-cabecera">
+                                                    <th>N°</th>
+                                                    <th *ngIf="buttonSelectedActivated">ACCION</th>
+                                                    <th *ngIf="!buttonSelectedActivated">ACCION</th>
+                                                    <th *ngIf="!buttonSelectedActivated">ACCION</th>
+                                                    <th *ngIf="!buttonSelectedActivated">ACCION</th>
+                                                    <th>ID COTIZACION</th>
+                                                    <th>NUMERO</th>
+                                                    <th>FECHA</th>
+                                                    <th>MONTO TOTAL</th>
+                                                    <th>SUB TOTAL</th>
+                                                    <th>IGV</th>
+                                                    <th>PORC IGV</th>
+                                                    <th>TIPO PERSONA CLI</th>
+                                                    <th>ID CLIENTE</th>
+                                                    <th>CLIENTE</th>
+                                                    <th>TIPO DE DOC CLI</th>
+                                                    <th>NRO DOC CLI</th>
+                                                    <th>DIRECCION CLI</th>
+                                                    <th>TELEFONO CLI</th>
+                                                    <th>CORREO CLI</th>
+                                                    <th>ID EMPLEADO</th>
+                                                    <th>EMPLEADO</th>
+                                                    <th>DIAS</th>
+                                                    <!--<th>TIPO MONEDA</th>
+                                                    <th>ID TIPO MONEDA</th>-->
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <tr *ngFor="let obj of cotizaciones;let j = index" class="bg-cyan tam-cuerpo">
+                                                    <td>{{inicio+j}}</td>
+                                                    <td *ngIf="buttonSelectedActivated">
+                                                        <button (click)="seleccionar(obj)" class="btn btn-primary btn-block">
+                                                            <i class="fa fa-hand-o-up fa-fw ic-dfa"></i>Select.
+                                                        </button>
+                                                    </td>
+                                                    <td *ngIf="!buttonSelectedActivated">
+                                                        <button (click)="eliminarCarrito(obj)" class="btn btn-primary btn-block">
+                                                            <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                                        </button>
+                                                    </td>
+                                                    <td *ngIf="!buttonSelectedActivated">
+                                                        <button (click)="imprimirCotizacion(obj.id_cotizacion)" class="btn btn-primary btn-block">
+                                                            <i class="fa fa-search fa-fw ic-dfa"></i>Imprimir
+                                                        </button>
+                                                    </td>
+                                                    <td *ngIf="!buttonSelectedActivated">
+                                                        <button (click)="abrirPanelEditar(obj)" class="btn btn-primary btn-block">
+                                                            <i class="fa fa-edit fa-fw ic-dfa"></i>Editar
+                                                        </button>
+                                                    </td>
+
+                                                    <td>{{obj.id_cotizacion}}</td>
+                                                    <td>{{obj.numero}}</td>
+                                                    <td>{{obj.fecha}}</td>
+                                                    <td>{{obj.simbolo_tipo_moneda}}{{obj.monto_total}}</td>
+                                                    <td>{{obj.simbolo_tipo_moneda}}{{obj.sub_total}}</td>
+                                                    <td>{{obj.simbolo_tipo_moneda}}{{obj.igv}}</td>
+                                                    <td>{{obj.porc_igv}}%</td>
+                                                    <td>{{obj.nombre_tipo_persona_cliente}}</td>
+                                                    <td>{{obj.id_cliente}}</td>
+                                                    <td>{{obj.nombres_cliente}} &nbsp; {{obj.apellido_paterno_cliente}}&nbsp;
+                                                        {{obj.apellido_materno_cliente}}
+                                                    </td>
+                                                    <td>{{obj.nombre_tipo_documento_cliente }}</td>
+                                                    <td>{{obj.numero_documento_cliente}}</td>
+                                                    <td>{{obj.direccion_cliente}}</td>
+                                                    <td>{{obj.telefono_cliente}}</td>
+                                                    <td>{{obj.correo_cliente}}</td>
+                                                    <td>{{obj.id_empleado }}</td>
+                                                    <td>{{obj.nombres_empleado}} &nbsp; {{obj.apellido_paterno_empleado}} &nbsp;
+                                                        {{obj.apellido_materno_empleado}}
+                                                    </td>
+                                                    <td>{{obj.referencia }}</td>
+                                                    <!--<td>{{obj.nombre_tipo_moneda}}</td>
+                                                    <td>{{obj.id_tipo_moneda}}</td>-->
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div *ngIf="panelEditarSelected">
+                    <!--<div class="col-md-12 tabla-cabecera-botones">
+                        <div class="col-md-4 tabla-cabecera-botones">
+                            <button (click)="regresar()" class="btn btn-primary btn-block">
+                                <i class="fa fa-reply fa-fw ic-dfa"></i>Regresar
+                            </button>
+                        </div>
+
+                    </div>-->
+
+                    <div class="col-md-12 tabla-cabecera-botones">
+                        <div class="col-md-4 ">
+                            <button (click)="regresar()" class="btn btn-primary btn-block">
+                                <i class="fa fa-reply fa-fw ic-dfa"></i>Regresar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="login-panel panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Editar Proforma</h3>
+
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <button (click)="abrirModalCliente()" class="btn btn-primary btn-block">
+                                        <i class="fa fa-search fa-fw ic-dfa"></i>Buscar Cliente </button>
+                                </div>
+
+                                <div *ngIf="idCotizacionSelected==null" class="col-md-2">
+                                    <button (click)="editar()" class="btn btn-primary btn-block">
+                                        <i class="fa fa-save fa-fw ic-dfa"></i>Guardar</button>
+                                </div>
+
+
+                                <div *ngIf="idCotizacionSelected!=null" class="col-md-3">
+                                    <button (click)="imprimirCotizacion(idCotizacionSelected)" class="btn btn-primary btn-block">
+                                        <i class="fa fa-search fa-fw ic-dfa"></i>Imprimir Cotizacion</button>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <button (click)="limpiarCamposBusqueda()" class="btn btn-primary btn-block">
+                                        <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                                </div>
+
+                            </div>
+
+                            <fieldset>
+                                <legend>Datos Cliente</legend>
+
+                                <div class="col-md-12 col-xd-2">
+                                    <!-- <div class="col-md-4 col-xd-2">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Id Cliente:</span>
+                                            <span class="form-control">
+                                                <span *ngIf="clienteSelected!=null">{{clienteSelected.id_cliente}}</span>
+                                            </span>
+                                        </div>
+                                    </div> -->
+
+                                    <!-- <div class="col-md-4 col-xd-2">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Tipo Per.</span>
+                                            <span class="form-control">
+                                                <span *ngIf="clienteSelected!=null">{{clienteSelected.nombre_tipo_persona}}</span>
+                                            </span>
+                                        </div>
+                                    </div> -->
+
+                                    <!-- <div class="col-md-4 col-xd-2">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Nombres: </span>
+                                            <span class="form-control">
+                                                <span *ngIf="clienteSelected!=null">{{clienteSelected.nombres}}</span>
+                                            </span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-xd-2">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Apellido Paterno: </span>
+                                            <span class="form-control">
+                                                <span *ngIf="clienteSelected!=null">{{clienteSelected.apellido_paterno}}</span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-xd-2">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Apellido Materno: </span>
+                                            <span class="form-control">
+                                                <span *ngIf="clienteSelected!=null">{{clienteSelected.apellido_materno}}</span>
+                                            </span>
+                                        </div>
+                                    </div> -->
+
+                                    <div class="col-lg-12">
+                                            <div class="input-group">
+                                              <span class="input-group-btn">
+                                                <span class="btn btn-default" style="font-size:14px;"  type="button">Nombres:</span>
+                                              </span>
+                                              <span  class="form-control"> 
+                                                    <span *ngIf="clienteSelected!=null" style="font-size:14px; ">{{clienteSelected.nombres}}  {{clienteSelected.apellido_paterno}} {{clienteSelected.apellido_materno}}</span>
+                                           
+                                              </span>
+                                            </div>
+                                    </div>
+    
+                                    <div class="col-lg-12">
+                                            <div class="input-group">
+                                              <span class="input-group-btn">
+                                                <span class="btn btn-default" style="font-size:14px;" type="button">Direccion:</span>
+                                              </span>
+                                              <span  class="form-control"> 
+                                                    <span *ngIf="clienteSelected!=null" style="font-size:14px;">{{clienteSelected.direccion}}</span>
+                                              </span>
+                                            </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-xd-2">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Tipo Doc: </span>
+                                            <span class="form-control">
+                                                <span *ngIf="clienteSelected!=null">{{clienteSelected.nombre_tipo_documento}}</span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-xd-2">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Nro Doc: </span>
+                                            <span class="form-control">
+                                                <span *ngIf="clienteSelected!=null">{{clienteSelected.numero_documento}}</span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="col-md-8 col-xd-2">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Direccion: </span>
+                                            <span class="form-control">
+                                                <span *ngIf="clienteSelected!=null">{{clienteSelected.direccion}}</span>
+                                            </span>
+                                        </div>
+                                    </div> -->
+
+                                    <div class="col-md-4 col-xd-2">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Telefono: </span>
+                                            <span class="form-control">
+                                                <span *ngIf="clienteSelected!=null">{{clienteSelected.telefono}}</span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-xd-2">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Correo: </span>
+                                            <span class="form-control">
+                                                <span *ngIf="clienteSelected!=null">{{clienteSelected.correo}}</span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="col-md-4 col-xd-2">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Observacion: </span>
+                                            <span class="form-control">
+                                                <span *ngIf="clienteSelected!=null">{{clienteSelected.observacion}}</span>
+                                            </span>
+                                        </div>
+                                    </div> -->
+
+
+                                </div>
+
+                            </fieldset>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Atencion: </label>
+                                    <input class="form-control" type="text" [(ngModel)]="atencionSelected" name="txtAtencion">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Dias: </label>
+                                    <input class="form-control" type="text" [(ngModel)]="referenciaSelected" name="txtReferencia">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                    <div class="form-group">
+                                        <label>N° Cuenta: </label>
+                                        <input class="form-control" type="number" [(ngModel)]="numcuentaSelected" name="txtnumcuenta">
+                                    </div>
+                            </div>
+                            <div class="col-md-3 col-xd-2">
+                                        <div class="form-group">
+                                            <label>CII:</label>
+                                            <input class="form-control" type="number" [(ngModel)]="ciiSelected" name="txtcii">
+                                        </div>
+                            </div>
+                            
+                            <div class="col-md-4 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Condicion Pago: </label>
+                                        <input class="form-control" type="text" [(ngModel)]="condicionPagoSelected" name="txtCondicionPago">
+                                    </div>
+                            </div>
+
+                            <div class="col-md-4 col-xd-2">
+                                <div class="form-group">
+                                    <label>fecha Validez: </label>
+                                    <input class="form-control" required type="date" [(ngModel)]="FechaValidezSelected" name="txtFechaValidez">
+                                </div>
+                            </div>
+    
+                            <div class="col-md-4 col-xd-2">
+                                <div class="form-group">
+                                    <label>Fecha de entrega: </label>
+                                    <input class="form-control" type="date" [(ngModel)]="FechaEntregaSelected" name="txtFechaEntrega">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+                    <!-- <div class="login-panel panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Lista de Productos a Cotizar</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+
+
+                                <div class="col-md-4 col-xd-12">
+                                    <div class="input-group-dfa">
+                                        <span class="input-group-addon-dfa">
+                                            <i class="fa fa-money ic-dfa"></i>TOTAL:{{simboloMonedaSelected}} </span>
+                                        <input class="form-control" [(ngModel)]="montoTotalSelected" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-xd-12">
+                                    <div class="input-group-dfa">
+                                        <span class="input-group-addon-dfa">
+                                            <i class="fa fa-money ic-dfa"></i>SUB TOTAL:{{simboloMonedaSelected}} 
+                                        </span>
+                                        <span class="form-control">
+                                           {{subTotalCotiSelected}}
+                                        </span>
+                                    </div>
+                                </div>
+    
+                                <div class="col-md-4 col-xd-12">
+                                    <div class="input-group-dfa">
+                                        <span class="input-group-addon-dfa">
+                                            <i class="fa fa-money ic-dfa"></i>IGV:{{simboloMonedaSelected}} 
+                                        </span>
+                                        <span class="form-control">
+                                            {{igvCotiSelected}}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-xd-12">
+                                    <select class="form-control" [(ngModel)]="tipoMonedaSelected" (ngModelChange)="obtenerTipoMonedaGeneral(tipoMonedaSelected);">
+                                        <option *ngFor="let tm of tiposMoneda; let i = index" [ngValue]="tm">{{tm.nombre}} </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 col-xd-6">
+                                    <div class="form-group">
+                                        <label>Inc. Igv</label>
+                                        <input type="checkbox" [(ngModel)]="incluyeIgvSelected" (ngModelChange)="calcularIgv();">
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="row">
+
+                                <div class="col-md-12">
+
+
+                                    <div class="row bg-teal tabla-cabecera-botones">
+                                        <div class="col-md-2">
+                                            <label>EXISTEN :
+                                                <span *ngIf="venta_listaProductos!=null">{{venta_listaProductos.length}}</span> EN TOTAL</label>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                            </button>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Del {{inicio}} al {{fin}}</label>
+                                        </div>
+
+                                        <div class="col-md-1">
+                                            <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                            </button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="col-md-5">
+                                                <label> Tamaño Pagina</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                                    <option [ngValue]="10">10</option>
+                                                    <option [ngValue]="15">15</option>
+                                                    <option [ngValue]="20">20</option>
+                                                    <option [ngValue]="30">30</option>
+                                                    <option [ngValue]="100">100</option>
+                                                    <option [ngValue]="500">500</option>
+                                                    <option [ngValue]="1000">1000</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="col-md-2">
+                                            <button (click)="abrirModalCatalogoVenta()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-plus fa-fw ic-dfa"></i>
+                                                <i class="fa fa-shopping-cart fa-fw ic-dfa"></i>Agregar</button>
+                                        </div>
+                                    </div>
+
+
+                                    <div class=" table-responsive tabla-dfa">
+                                        <table class="table table-condensed">
+                                            <thead>
+                                                <tr class="bg-teal tam-cabecera">
+                                                    <th>N°</th>
+                                                    <th>ACCION</th>
+                                                    <th>ACCION</th>
+                                                    <th>NOMBRE</th>
+                                            
+                                                    <th>PRECIO VENTA</th>
+                                                     <th>CANTIDAD</th>
+                                                    <th>UNIDAD MEDIDA</th>
+                                                      <th>SUB GRUPO</th>
+                                                   <th>PROVEEDOR</th>
+                                                    <th>GRUPO</th>
+                                                    <th>MODULO</th>
+                                                    <th>ALMACEN</th>
+                                                
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <tr *ngFor="let pro of listaProductos;let j = index" class="bg-cyan tam-cuerpo">
+                                                    <td>{{inicio+j}}</td>
+                                                    <td>
+                                                        <button (click)="eliminarCarrito(j)" class="btn btn-primary btn-block">
+                                                            <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                                        </button>
+                                                    </td>
+                                                    <td>
+                                                        <button (click)="verStock(pro)" class="btn btn-primary btn-block">
+                                                                <i class="fa fa-eye fa-fw ic-dfa"></i>Stock
+                                                            </button>
+                                                    </td>
+                                                    <td>{{pro.nombre}}</td>
+                                                  
+                                                    <td>
+                                                        <input (keyup)="validarPrecio(pro,$event)" (change)="calcularIgv()" type="number" [(ngModel)]="pro.precio_venta"
+                                                            name="txtPrecioVenta">
+                                                    </td>
+                                                    <td>
+                                                        <input (change)="calcularIgv()" type="number" [(ngModel)]="pro.cantidad" name="txtCantiTable">
+                                                    </td>
+                                                    <td>
+                                                        <select [(ngModel)]="pro.id_unidad_medida">
+                                                            <option *ngFor="let uni of unidades_medida; let i = index" [value]="uni.id_unidad_medida">{{uni.nombre}} </option>
+                                                        </select>
+                                                    </td>
+
+
+                                                    <td>{{pro.nombre_tipo_producto}}</td>
+                                                    <td>{{pro.nombre_proveedor}}</td>
+                                                    <td>{{pro.nombre_aplicacion}}</td>
+                                                    <td>{{pro.nombre_almacen}}</td>
+                                                    <td>{{pro.nombre_local}}</td>
+                                      
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div> -->
+                    <div class="login-panel panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Lista de Productos </h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-4 col-xd-12">
+                                        <div class="input-group-dfa" style="margin: 5px;">
+                                            <span class="input-group-addon-dfa">
+                                                <i class="fa fa-money ic-dfa m-2"></i>TOTAL:{{simboloMonedaSelected}} </span>
+                                                
+                                                   <input class="form-control" [(ngModel)]="montoTotalSelected" />
+                                         
+                                          
+                        
+                                        </div>
+                                    </div>
+                        
+                                    <div class="col-md-4 col-xd-12">
+                                        <div class="input-group-dfa" style="margin: 5px;">
+                                            <span class="input-group-addon-dfa">
+                                                <i class="fa fa-money ic-dfa"></i>SUB TOTAL:{{simboloMonedaSelected}}
+                                            </span>
+                                            <span class="form-control">
+                                                {{subTotalCotiSelected}}
+                                            </span>
+                                        </div>
+                                    </div>
+                        
+                                    <div class="col-md-4 col-xd-12">
+                                        <div class="input-group-dfa" style="margin: 5px;">
+                                            <span class="input-group-addon-dfa">
+                                                <i class="fa fa-money ic-dfa"></i>IGV:{{simboloMonedaSelected}}
+                                            </span>
+                                            <span class="form-control">
+                                                {{igvCotiSelected}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                  
+                                    <div class="col-md-3 col-xd-12" *ngIf="!ActiveMoneda">
+                                        <select class="form-control" [(ngModel)]="tipoMonedaSelected" 
+                                            (ngModelChange)="obtenerTipoMonedaGeneral(tipoMonedaSelected);" style="margin: 5px;">
+                                            <option *ngFor="let tm of tiposMoneda; let i = index" [ngValue]="tm">{{tm.nombre}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                  
+                        
+                                  
+                                    
+                                    <div class="col-md-4 col-xd-6">
+                                        <div class="form-group" style="margin: 5px;">
+                                            <label>Inc. Igv</label>
+                                            <input type="checkbox" [(ngModel)]="incluyeIgvSelected" (ngModelChange)="calcularIgv();">
+                                        </div>
+                                    </div>
+                                </div>
+                        
+                                <div class="row">
+                        
+                                    <div class="col-md-12">
+                                      
+                        
+                                        <div class="row bg-teal tabla-cabecera-botones">
+                        
+                                            <div class="col-md-3 col-xd-3">
+                                                <div class="form-group">
+                                                    <label>Cantidad Celdas: </label>
+                                                    <input class="form-control" required placeholder="23" type="text"
+                                                        [(ngModel)]="cantidadCeldas" name="txtCantidadCeldas">
+                                                </div>
+                                            </div>
+                                            
+                                                <div class="col-md-2 col-xd-2">
+                                                    <div class="form-group">
+                                                        <label>Accion: </label>
+                                                          <button (click)="agregarProductoMultiple(cantidadCeldas);"
+                                                            class="btn btn-primary btn-block">
+                                                            <i class="fa fa-plus fa-fw ic-dfa"></i>Agregar Filas
+                                                        </button>   
+                                                        
+                                                       
+                                                    </div>
+                                                </div>
+                        
+                                          
+                                           
+                                          
+                        
+                        
+                                        </div>
+                        
+                                        <div class=" table-responsive tabla-dfa">
+                                            <table class="table table-condensed">
+                                                <thead>
+                                                    <tr class="bg-teal tam-cabecera">
+                                                        <th>N°</th>         
+                                                        <th>ACCION</th>            
+                                                        <th>NOMBRE</th>
+                                                        <th>CANTIDAD</th>
+                                                        <th>PRECIO VENTA</th>
+                                                        <th>TOTAL</th>               
+                                                        <th>SUB GRUPO</th>
+                                                        
+                                                    </tr>
+                                                </thead>
+                        
+                                                <tbody>
+                                                    <tr *ngFor="let pro of listaProductos;let j = index" class="bg-cyan tam-cuerpo">
+                                                        <td>{{inicio+j}}</td>
+                                                       
+                                                        <td>
+                                                            <div class="btn-toolbar" style="margin-left: 9px; width:100px;"  role="toolbar">
+                                                                <div class="btn-group">
+                                                                   
+                        
+                                                                        <button type="button" (click)="eliminarCarrito(j)" class="btn btn-primary"
+                                                                           data-toggle="tooltip" data-placement="top" title="Eliminar Lista">
+                                                                           <i class="fa fa-trash fa-fw ic-dfa"></i>
+                                                                       </button>
+                                                                    
+                                                               
+                                                                      <button type="button" (click)="verStock(pro)" class="btn btn-primary"
+                                                                        data-toggle="tooltip" data-placement="top" title="Ver Stock">
+                                                                        <i class="fa fa-eye fa-fw ic-dfa"></i>
+                                                                    </button>  
+                                                                 
+                        
+                        
+                                                                   <!-- <button type="button" (click)="verUltimasVentas(pro,j)"
+                                                                        class="btn btn-primary" data-toggle="tooltip" data-placement="top"
+                                                                        title="Ver Ultimas Ventas">
+                                                                        <i class="fa fa-list-ol fa-fw ic-dfa"></i>
+                                                                    </button>  -->
+                                                                </div>
+                        
+                                                            </div>
+                        
+                        
+                        
+                                                        </td>
+                                                      
+                        
+                                                        <td style="width:500px;">
+                                                            
+                                                             <div class="col-md-5 col-xd-5">
+                                                                <div class="form-group">
+                        
+                                                                  
+                                                                        <input class="caja-entera"  style="width: 480px;" id="{{'tbCompracelda'+j}}" required type="text"
+                                                                        [(ngModel)]="pro.nombre"
+                                                                        (keypress)="teclaKeyPressAutocomplete($event,j)"
+                                                                        (keyup)="teclaKeyUpAutocomplete($event,j)"
+                                                                        (keydown)="teclaKeyDownAutocomplete($event,j)">                                 
+                                                                    <ul style="width: 480px; font-size: 15px" id="{{'tbListaPro'+j}}" class="lista-diego2"
+                                                                        *ngIf="pro.lista_autocompletado!=null">
+                                                                        <li *ngFor="let ob of pro.lista_autocompletado">
+                                                                            <a (click)="elegirProducto(ob,j)">
+                                                                                {{ ob.nombre }} - {{ob.nombre_marca}} - <span style="color: red">S./{{ob.porc4}}</span>
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+                                                                 
+                                                                </div>
+                                                            </div>   
+                                                           
+                        
+                                                            
+                        
+                                                        
+                                                        </td>
+                        
+                        
+                                                        <td>
+                                                        
+                                                                <input class="caja-numero3" style="width: 60px; font-size: 15px"  (change)="calcularIgv()" type="number"
+                                                                [(ngModel)]="pro.cantidad" name="txtCantiTable"> 
+                                                            
+                                                        
+                                                           
+                                                        </td>
+                                                        <td>
+                                                                 <input class="caja-numero3" style="font-size: 15px;" (change)="validarPrecio(pro)"
+                                                             type="number" [(ngModel)]="pro.precio_venta"
+                                                                name="txtPrecioVenta">  
+                                                            
+                                                          
+                                                         
+                                                        </td>
+                        
+                        
+                                                        <td class="color6">{{pro.tipo_moneda.simbolo}}{{pro.sub_total}}</td>         
+                                                        <td>{{pro.nombre_tipo_producto}}</td>
+                                                   </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                        
+                        
+                                    </div>
+                                </div>
+                        
+                        
+                        
+                            </div>
+                        </div>
+
+
+                </div>
+            </div>
+
+
+            <div id="nuevoCotizacion" class="tab-pane fade in active ">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Registro de Proforma</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <button (click)="abrirModalCliente()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-search fa-fw ic-dfa"></i>Buscar Cliente </button>
+                            </div>
+
+                            <div *ngIf="idCotizacionSelected==null" class="col-md-2">
+                                <button (click)="registrar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-save fa-fw ic-dfa"></i>Guardar</button>
+                            </div>
+
+
+                            <div *ngIf="idCotizacionSelected!=null" class="col-md-3">
+                                <button (click)="imprimirCotizacion(idCotizacionSelected)" class="btn btn-primary btn-block">
+                                    <i class="fa fa-search fa-fw ic-dfa"></i>Imprimir Cotizacion</button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <button (click)="limpiarCamposBusqueda()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+
+                        </div>
+
+                        <fieldset>
+                            <legend>Datos Cliente</legend>
+
+                            <div class="col-md-12 col-xd-2">
+                                
+
+                                <!-- <div class="col-md-4 col-xd-2">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Tipo Per.</span>
+                                        <span class="form-control">
+                                            <span *ngIf="clienteSelected!=null">{{clienteSelected.nombre_tipo_persona}}</span>
+                                        </span>
+                                    </div>
+                                </div> -->
+                                <div class="col-lg-12">
+                                        <div class="input-group">
+                                          <span class="input-group-btn">
+                                            <span class="btn btn-default" style="font-size:14px;"  type="button">Nombres:</span>
+                                          </span>
+                                          <span  class="form-control"> 
+                                                <span *ngIf="clienteSelected!=null" style="font-size:14px; ">{{clienteSelected.nombres}}  {{clienteSelected.apellido_paterno}} {{clienteSelected.apellido_materno}}</span>
+                                       
+                                          </span>
+                                        </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                        <div class="input-group">
+                                          <span class="input-group-btn">
+                                            <span class="btn btn-default" style="font-size:14px;" type="button">Direccion:</span>
+                                          </span>
+                                          <span  class="form-control"> 
+                                                <span *ngIf="clienteSelected!=null" style="font-size:14px;">{{clienteSelected.direccion}}</span>
+                                          </span>
+                                        </div>
+                                </div>
+                   
+
+                                <div class="col-md-4 col-xd-2">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Tipo Doc: </span>
+                                        <span class="form-control">
+                                            <span *ngIf="clienteSelected!=null">{{clienteSelected.nombre_tipo_documento}}</span>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-xd-2">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Nro Doc: </span>
+                                        <span class="form-control">
+                                            <span *ngIf="clienteSelected!=null">{{clienteSelected.numero_documento}}</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-xd-2">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Telefono: </span>
+                                        <span class="form-control">
+                                            <span *ngIf="clienteSelected!=null">{{clienteSelected.telefono}}</span>
+                                        </span>
+                                    </div>
+                                </div>
+                               
+                               
+
+                                <div class="col-md-4 col-xd-2">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Correo: </span>
+                                        <span class="form-control">
+                                            <span *ngIf="clienteSelected!=null">{{clienteSelected.correo}}</span>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="col-md-4 col-xd-2">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Observacion: </span>
+                                        <span class="form-control">
+                                            <span *ngIf="clienteSelected!=null">{{clienteSelected.observacion}}</span>
+                                        </span>
+                                    </div>
+                                </div> -->
+
+
+                            </div>
+
+                        </fieldset>
+
+                        <div class="col-md-3 col-xd-2">
+                            <div class="form-group">
+                                <label>Atencion: </label>
+                                <input class="form-control" type="text" [(ngModel)]="atencionSelected" name="txtAtencion">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-xd-2">
+                            <div class="form-group">
+                                <label>Dias: </label>
+                                <input class="form-control" type="text" [(ngModel)]="referenciaSelected" name="txtReferencia">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>N° Cuenta: </label>
+                                    <input class="form-control" type="number" [(ngModel)]="numcuentaSelected" name="txtnumcuenta">
+                                </div>
+                        </div>
+                        <div class="col-md-3 col-xd-2">
+                                    <div class="form-group">
+                                        <label>CII:</label>
+                                        <input class="form-control" type="number" [(ngModel)]="ciiSelected" name="txtcii">
+                                    </div>
+                        </div>
+
+                        <div class="col-md-4 col-xd-2">
+                            <div class="form-group">
+                                <label>Condicion Pago: </label>
+                                <input class="form-control" type="text" [(ngModel)]="condicionPagoSelected" name="txtCondicionPago">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-xd-2">
+                            <div class="form-group">
+                                <label>fecha Validez: </label>
+                                <input class="form-control" required type="date" [(ngModel)]="FechaValidezSelected" name="txtFechaValidez">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-xd-2">
+                            <div class="form-group">
+                                <label>Fecha de entrega: </label>
+                                <input class="form-control" type="date" [(ngModel)]="FechaEntregaSelected" name="txtFechaEntrega">
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <!-- <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lista de Productos</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                         
+
+                            <div class="col-md-4 col-xd-12">
+                                <div class="input-group-dfa">
+                                    <span class="input-group-addon-dfa">
+                                        <i class="fa fa-money ic-dfa"></i>TOTAL:{{simboloMonedaSelected}} </span>
+                                    <input class="form-control" [(ngModel)]="montoTotalSelected" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-xd-12">
+                                <div class="input-group-dfa">
+                                    <span class="input-group-addon-dfa">
+                                        <i class="fa fa-money ic-dfa"></i>SUB TOTAL:{{simboloMonedaSelected}} 
+                                    </span>
+                                    <span class="form-control">
+                                       {{subTotalCotiSelected}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-xd-12">
+                                <div class="input-group-dfa">
+                                    <span class="input-group-addon-dfa">
+                                        <i class="fa fa-money ic-dfa"></i>IGV:{{simboloMonedaSelected}} 
+                                    </span>
+                                    <span class="form-control">
+                                        {{igvCotiSelected}}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-12">
+                                <select class="form-control" [(ngModel)]="tipoMonedaSelected" (ngModelChange)="obtenerTipoMonedaGeneral(tipoMonedaSelected);">
+                                    <option *ngFor="let tm of tiposMoneda; let i = index" [ngValue]="tm">{{tm.nombre}} </option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 col-xd-6">
+                                <div class="form-group">
+                                    <label>Inc. Igv</label>
+                                    <input type="checkbox" [(ngModel)]="incluyeIgvSelected" (ngModelChange)="calcularIgv();">
+                                </div>
+                            </div>
+
+                            
+
+                        </div>
+                    
+
+
+                        <div class="row">
+
+                            <div class="col-md-12">
+
+
+                                <div class="row bg-teal tabla-cabecera-botones">
+                                        
+                                    <div class="col-md-3 col-xd-3">
+                                                <div class="form-group">
+                                                    <label>Cantidad Celdas: </label>
+                                                    <input class="form-control" required placeholder="23" type="text"
+                                                        [(ngModel)]="cantidadCeldas" name="txtCantidadCeldas">
+                                                </div>
+                                            </div>
+                                            
+                                                <div class="col-md-2 col-xd-2" >
+                                                    <div class="form-group">
+                                                        <label>Accion: </label>
+                                                          <button (click)="agregarProductoMultiple(cantidadCeldas);"
+                                                            class="btn btn-primary btn-block">
+                                                            <i class="fa fa-plus fa-fw ic-dfa"></i>Agregar Filas
+                                                        </button>   
+                                                       
+                                                    
+                                                       
+                                                    </div>
+                                                </div>
+                        
+                                    <div class="col-md-2">
+                                        <label>EXISTEN :
+                                            <span *ngIf="venta_listaProductos!=null">{{venta_listaProductos.length}}</span> EN TOTAL</label>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Del {{inicio}} al {{fin}}</label>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-md-5">
+                                            <label> Tamaño Pagina</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                                <option [ngValue]="10">10</option>
+                                                <option [ngValue]="15">15</option>
+                                                <option [ngValue]="20">20</option>
+                                                <option [ngValue]="30">30</option>
+                                                <option [ngValue]="100">100</option>
+                                                <option [ngValue]="500">500</option>
+                                                <option [ngValue]="1000">1000</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="col-md-2">
+                                        <button (click)="abrirModalCatalogoVenta()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-plus fa-fw ic-dfa"></i>
+                                            <i class="fa fa-shopping-cart fa-fw ic-dfa"></i>Agregar</button>
+                                    </div>
+                                </div>
+
+
+                                <div class=" table-responsive tabla-dfa">
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr class="bg-teal tam-cabecera">
+                                                <th>N°</th>
+                                                <th>ACCION</th>
+                                                <th>ACCION</th>
+                                                <th>NOMBRE</th>
+                                             
+                                                <th>PRECIO VENTA</th>
+                                                 <th>CANTIDAD</th>
+                                                <th>UNIDAD MEDIDA</th>
+
+                                              <th>SUB GRUPO</th>
+                                              <th>PROVEEDOR</th>
+                                                <th>GRUPO</th>
+                                                <th>MODULO</th>
+                                                <th>ALMACEN</th>
+                                              
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr *ngFor="let pro of listaProductos;let j = index" class="bg-cyan tam-cuerpo">
+                                                <td>{{inicio+j}}</td>
+                                                <td>
+                                                    <button (click)="eliminarCarrito(j)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                <button (click)="verStock(pro)" class="btn btn-primary btn-block">
+                                                            <i class="fa fa-eye fa-fw ic-dfa"></i>Stock
+                                                        </button>
+                                                </td>
+                                                 <td style="width:500px;">
+                                    
+                                                    <div class="col-md-5 col-xd-5">
+                                                       <div class="form-group">
+               
+                                                          
+                                                               <input class="caja-entera"  style="width: 480px; font-size: 15px" id="{{'tbCompracelda'+j}}" required type="text"
+                                                               [(ngModel)]="pro.nombre"
+                                                               (keypress)="teclaKeyPressAutocomplete($event,j)"
+                                                               (keyup)="teclaKeyUpAutocomplete($event,j)"
+                                                               (keydown)="teclaKeyDownAutocomplete($event,j)">                                 
+                                                        
+                       
+               
+                                                           <ul style="width: 480px;" id="{{'tbListaPro'+j}}" class="lista-diego2"
+                                                               *ngIf="pro.lista_autocompletado!=null">
+                                                               <li *ngFor="let ob of pro.lista_autocompletado">
+                                                                   <a (click)="elegirProducto(ob,j)">
+                                                                       {{ ob.nombre }} - {{ob.nombre_marca}} 
+                                                                   </a>
+                                                               </li>
+                                                           </ul>
+                                                        
+                                                       </div>
+                                                   </div>   
+                                                  
+               
+                                                   
+               
+                                               
+                                               </td>
+                                             
+                                                <td>
+                                                    <input (keyup)="validarPrecio(pro,$event)" (change)="calcularIgv()" type="number" [(ngModel)]="pro.precio_venta"
+                                                        name="txtPrecioVenta">
+                                                </td>
+                                              <td>
+                                                    <input (change)="calcularIgv()" type="number" [(ngModel)]="pro.cantidad" name="txtCantiTable">
+                                                </td>
+                                                <td>
+                                                    <select [(ngModel)]="pro.id_unidad_medida">
+                                                        <option *ngFor="let uni of unidades_medida; let i = index" [value]="uni.id_unidad_medida">{{uni.nombre}} </option>
+                                                    </select>
+                                                </td>
+
+
+                                                  <td>{{pro.nombre_tipo_producto}}</td>
+                                                <td>{{pro.nombre_proveedor}}</td>
+                                                <td>{{pro.nombre_aplicacion}}</td>
+                                                <td>{{pro.nombre_almacen}}</td>
+                                                <td>{{pro.nombre_local}}</td>
+                                              
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div> -->
+
+<div class="login-panel panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Lista de Productos</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-4 col-xd-12">
+                <div class="input-group-dfa" style="margin: 5px;">
+                    <span class="input-group-addon-dfa">
+                        <i class="fa fa-money ic-dfa m-2"></i>TOTAL:{{simboloMonedaSelected}} </span>
+                        
+                           <input class="form-control" [(ngModel)]="montoTotalSelected" />
+                 
+                  
+
+                </div>
+            </div>
+
+            <div class="col-md-4 col-xd-12">
+                <div class="input-group-dfa" style="margin: 5px;">
+                    <span class="input-group-addon-dfa">
+                        <i class="fa fa-money ic-dfa"></i>SUB TOTAL:{{simboloMonedaSelected}}
+                    </span>
+                    <span class="form-control">
+                        {{subTotalCotiSelected}}
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-xd-12">
+                <div class="input-group-dfa" style="margin: 5px;">
+                    <span class="input-group-addon-dfa">
+                        <i class="fa fa-money ic-dfa"></i>IGV:{{simboloMonedaSelected}}
+                    </span>
+                    <span class="form-control">
+                        {{igvCotiSelected}}
+                    </span>
+                </div>
+            </div>
+          
+            <div class="col-md-3 col-xd-12" *ngIf="!ActiveMoneda">
+                <select class="form-control" [(ngModel)]="tipoMonedaSelected" 
+                    (ngModelChange)="obtenerTipoMonedaGeneral(tipoMonedaSelected);" style="margin: 5px;">
+                    <option *ngFor="let tm of tiposMoneda; let i = index" [ngValue]="tm">{{tm.nombre}}
+                    </option>
+                </select>
+            </div>
+          
+
+          
+            
+            <div class="col-md-4 col-xd-6">
+                <div class="form-group" style="margin: 5px;">
+                    <label>Inc. Igv</label>
+                    <input type="checkbox" [(ngModel)]="incluyeIgvSelected" (ngModelChange)="calcularIgv();">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-12">
+              
+
+                <div class="row bg-teal tabla-cabecera-botones">
+
+                    <div class="col-md-3 col-xd-3">
+                        <div class="form-group">
+                            <label>Cantidad Celdas: </label>
+                            <input class="form-control" required placeholder="23" type="text"
+                                [(ngModel)]="cantidadCeldas" name="txtCantidadCeldas">
+                        </div>
+                    </div>
+                    
+                        <div class="col-md-2 col-xd-2">
+                            <div class="form-group">
+                                <label>Accion: </label>
+                                  <button (click)="agregarProductoMultiple(cantidadCeldas);"
+                                    class="btn btn-primary btn-block">
+                                    <i class="fa fa-plus fa-fw ic-dfa"></i>Agregar Filas
+                                </button>   
+                                
+                               
+                            </div>
+                        </div>
+
+                  
+                   
+                  
+
+
+                </div>
+
+                <div class=" table-responsive tabla-dfa">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr class="bg-teal tam-cabecera">
+                                <th>N°</th>         
+                                <th>ACCION</th>            
+                                <th>NOMBRE</th>
+                                <th>CANTIDAD</th>
+                                <th>PRECIO VENTA</th>
+                                <th>TOTAL</th>               
+                                <th>SUB GRUPO</th>
+                                
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let pro of listaProductos;let j = index" class="bg-cyan tam-cuerpo">
+                                <td>{{inicio+j}}</td>
+                               
+                                <td>
+                                    <div class="btn-toolbar" style="margin-left: 9px; width:100px;"  role="toolbar">
+                                        <div class="btn-group">
+                                           
+
+                                                <button type="button" (click)="eliminarCarrito(j)" class="btn btn-primary"
+                                                   data-toggle="tooltip" data-placement="top" title="Eliminar Lista">
+                                                   <i class="fa fa-trash fa-fw ic-dfa"></i>
+                                               </button>
+                                            
+                                       
+                                              <button type="button" (click)="verStock(pro)" class="btn btn-primary"
+                                                data-toggle="tooltip" data-placement="top" title="Ver Stock">
+                                                <i class="fa fa-eye fa-fw ic-dfa"></i>
+                                            </button>  
+                                         
+
+
+                                           <!-- <button type="button" (click)="verUltimasVentas(pro,j)"
+                                                class="btn btn-primary" data-toggle="tooltip" data-placement="top"
+                                                title="Ver Ultimas Ventas">
+                                                <i class="fa fa-list-ol fa-fw ic-dfa"></i>
+                                            </button>  -->
+                                        </div>
+
+                                    </div>
+
+
+
+                                </td>
+                              
+
+                                <td style="width:500px;">
+                                    
+                                     <div class="col-md-5 col-xd-5">
+                                        <div class="form-group">
+
+                                          
+                                                <input class="caja-entera"  style="width: 480px;" id="{{'tbCompracelda'+j}}" required type="text"
+                                                [(ngModel)]="pro.nombre"
+                                                (keypress)="teclaKeyPressAutocomplete($event,j)"
+                                                (keyup)="teclaKeyUpAutocomplete($event,j)"
+                                                (keydown)="teclaKeyDownAutocomplete($event,j)">                                 
+                                            <ul style="width: 480px; font-size: 15px;" id="{{'tbListaPro'+j}}" class="lista-diego2"
+                                                *ngIf="pro.lista_autocompletado!=null">
+                                                <li *ngFor="let ob of pro.lista_autocompletado">
+                                                    <a (click)="elegirProducto(ob,j)">
+                                                        {{ ob.nombre }} - {{ob.nombre_marca}} - <span style="color: red">S./{{ob.porc4}}</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                         
+                                        </div>
+                                    </div>   
+                                   
+
+                                    
+
+                                
+                                </td>
+
+
+                                <td>
+                                
+                                        <input class="caja-numero3" style="width: 60px; font-size: 15px"  (change)="calcularIgv()" type="number"
+                                        [(ngModel)]="pro.cantidad" name="txtCantiTable"> 
+                                    
+                                
+                                   
+                                </td>
+                                <td>
+                                         <input class="caja-numero3" style="font-size: 15px;" (change)="validarPrecio(pro)"
+                                     type="number" [(ngModel)]="pro.precio_venta"
+                                        name="txtPrecioVenta">  
+                                    
+                                  
+                                 
+                                </td>
+
+
+                                <td class="color6">{{pro.tipo_moneda.simbolo}}{{pro.sub_total}}</td>         
+                                <td>{{pro.nombre_tipo_producto}}</td>
+                           </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+</div>
+
+
+
+
+<button id="modalClienteCotizacion" hidden="hidden" data-toggle="modal" data-target="#modalClienteCotizacionPnl"></button>
+<div class="modal fade" id="modalClienteCotizacionPnl">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS CLIENTE</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <!--
+                <form-cliente [buttonSelectedActivated]="buttonSelectedActivatedCli" [buttonEliminarActivated]="buttonEliminarActivatedCli"
+                    [buttonEditarActivated]="buttonEditarActivatedCli" (clienteSeleccionado)="obtenerClienteDatosExternos($event)">
+                </form-cliente>-->
+
+                <form-find-cliente (clienteSeleccionado)="obtenerClienteDatosExternos($event)">
+                </form-find-cliente>
+
+            </div>
+            <div class="modal-footer">
+                <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                <!--(click)="activarBuscar($event)"-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<button id="modalCatalogoVenta" hidden="hidden" data-keyboard="true"  data-toggle="modal" data-target="#modalCatalogoVentaPnl"></button>
+<div class="modal fade" id="modalCatalogoVentaPnl"  tabindex='-1' >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS PRODUCTO</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+                <!-- [campoOculto]="campoOcultoVenta" -->
+                <form-catalogo-venta [buttonSelectedActivated]="buttonSelectedActivatedPro" [buttonEliminarActivated]="buttonEliminarActivatedPro"
+                    [buttonEditarActivated]="buttonEditarActivatedPro" [panelListaBeanSelected]="panelListaCatalogoVenta" [panelListaVentaBeanSelected]="panelListaCatalogoVentaDerecha"
+                    [estiloTablaDerecha]="estiloTablaDerechaCatalogo" [estiloBusquedaCatalogo]="estiloBusquedaCatalogo" [colMd2]="colMd2Catalogo"
+                    [colMd4]="colMd4Catalogo" [col1Md2]="col1Md2Catalogo" [campoOculto]="campoOcultoVenta" (productoSeleccionado)="obtenerDatosExternos($event)">
+                </form-catalogo-venta>
+
+            </div>
+            <div class="modal-footer">
+                <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                <!--(click)="activarBuscar($event)"-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<button id="modalPDFCoti" hidden="hidden" data-toggle="modal" data-target="#modalPDFCotiPnl"></button>
+<div class="modal fade" id="modalPDFCotiPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true"  (click)="cerrarModal('modalPDFCoti')">&times;</button>
+                <!--<h4 class="modal-title">{{tituloPDF}}</h4>-->
+            </div>
+            <div id="modalPDFCotiView" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <!-- <button (click)="activarBuscar($event)" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+               -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<button id="modalClavePermisoCoti" hidden="hidden" data-toggle="modal" data-target="#modalClavePermisoCotiPnl"></button>
+<div class="modal fade" id="modalClavePermisoCotiPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button (click)="aceptarClave()" class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>CLAVE AUTORIZACION</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="col-md-12 col-xd-2">
+                    <div class="form-group">
+                        <label>Ingrese Clave de Autorizacion: </label>
+                        <input class="form-control" required placeholder="123" type="password" [(ngModel)]="clavePermiso" name="txtClavePermiso">
+                    </div>
+                </div>
+                <div class="col-md-4 col-xd-2">
+                    <button (click)="aceptarClave()" class="btn btn-primary btn-block">
+                        <i class="fa fa-save fa-fw ic-dfa"></i>Aceptar
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<button id="modalStockProductoCotizacion" hidden="hidden" data-toggle="modal" data-target="#modalStockProductoCotizacionPnl"></button>
+<div class="modal fade" id="modalStockProductoCotizacionPnl">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" (click)="cerrarModal('modalStockProductoCotizacion')" >&times;</button>
+                <h4 class="modal-title">
+                    <label>Stock Producto</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                    <div  class="login-panel panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Lista de stock </h3>
+                            </div>
+                            <div class="panel-body">
+                
+                                    <div class="row">
+                
+                                        <div class="col-md-12">
+                
+                                            <div class=" table-responsive tabla-dfa">
+                                                <table class="table table-condensed">
+                                                    <thead>
+                                                        <tr class="bg-teal tam-cabecera">
+                                                            <th>N°</th>
+                                                            <th>ALMACEN</th>
+                                                            <th>ID PRODUCTO</th>
+                                                            <th>NOMBRE PRODUCTO</th>
+                                                            <th>STOCK</th>
+                                                            <th>PRECIO COMPRA</th>
+                                                        </tr>
+                                                    </thead>
+                
+                                                    <tbody>
+                                                        <tr *ngFor="let pro of lista_stock;let j = index" class="bg-cyan tam-cuerpo">
+                                                            <td>{{inicio+j}}</td>
+                                                            <td>{{pro.nombre_almacen}}</td>
+                                                            <td>{{pro.id_producto}}</td>
+                                                            <td>{{pro.nombre_producto}}</td>
+                                                            <td>{{pro.stock}}</td>
+                                                            <td>{{pro.precio_compra}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                
+                            </div>
+                        </div>
+                
+                
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>

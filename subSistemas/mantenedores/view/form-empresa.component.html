@@ -1,0 +1,356 @@
+<!--
+    <div class="row">
+        <div class="col-md-12" >    
+        -->
+<div *ngIf="transferido">
+    Transfiriendo..
+    <div class="loader">Loading...</div>
+</div>
+
+
+<div *ngIf="tienePermisoView">
+
+
+    <div *ngIf="!panelPermisosSelected">
+
+
+
+        <ul *ngIf="!panelEditarSelected" class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" href="#buscarEmpresa">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#nuevoEmpresa">
+                    <i class="fa fa-plus fa-fw ic-dfa"></i>Nuevo</a>
+            </li>
+
+        </ul>
+        <div *ngIf="!panelEditarSelected" class="tab-content">
+
+            <div id="buscarEmpresa" class="tab-pane fade in active">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Busqueda de Empresa</h3>
+                    </div>
+                    <div class="panel-body">
+
+
+                        <div class="col-md-12 col-xd-2">
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Id Empresa: </label>
+                                    <input class="form-control" required placeholder="1" type="number" [(ngModel)]="idEmpresaSelected" name="txtIdEmpresa">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Nombre: </label>
+                                    <input class="form-control" required placeholder="SAC" type="text" [(ngModel)]="nombreSelected" name="txtNombre">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>RUC: </label>
+                                    <input class="form-control" required placeholder="20145787845" type="text" [(ngModel)]="rucSelected" name="txtRuc">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Direccion: </label>
+                                    <input class="form-control" required placeholder="Av. España 302" type="text" [(ngModel)]="direccionSelected" name="txtDireccion">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Telefono: </label>
+                                    <input class="form-control" required placeholder="99999999999" type="text" [(ngModel)]="telefonoSelected" name="txtTelefono">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Correo: </label>
+                                    <input class="form-control" required placeholder="informes@gmail.com" type="text" [(ngModel)]="correoSelected" name="txtCorreo">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Fecha: </label>
+                                    <input class="form-control" required placeholder="1" type="date" [(ngModel)]="fechaSelected" name="txtFecha">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="buscar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-search fa-fw ic-dfa"></i>Ejecutar</button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="nuevoEmpresa" class="tab-pane fade ">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Registro de Empresa</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="col-md-12 col-xd-2">
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Nombre: </label>
+                                    <input class="form-control" required placeholder="SAC" type="text" [(ngModel)]="nombreSelected" name="txtNombre">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>RUC: </label>
+                                    <input class="form-control" required placeholder="20145787845" type="text" [(ngModel)]="rucSelected" name="txtRuc">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Direccion: </label>
+                                    <input class="form-control" required placeholder="Av. España 302" type="text" [(ngModel)]="direccionSelected" name="txtDireccion">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Telefono: </label>
+                                    <input class="form-control" required placeholder="985412547" type="text" [(ngModel)]="telefonoSelected" name="txtTelefono">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Correo: </label>
+                                    <input class="form-control" required placeholder="informes@gmail.com" type="text" [(ngModel)]="correoSelected" name="txtCorreo">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12">
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="registrar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-save fa-fw ic-dfa"></i>Guardar</button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <div *ngIf="panelEditarSelected" class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Editar Empresa</h3>
+
+            </div>
+            <div class="panel-body">
+
+
+
+                <div class="col-md-2 tabla-cabecera-botones">
+                    <button (click)="regresar()" class="btn btn-primary btn-block">
+                        <i class="fa fa-reply fa-fw ic-dfa"></i>Regresar
+                    </button>
+                </div>
+
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="form-group">
+                        <label>Nombre: </label>
+                        <input class="form-control" required placeholder="SAC" type="text" [(ngModel)]="nombreSelected" name="txtNombre">
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="form-group">
+                        <label>RUC: </label>
+                        <input class="form-control" required placeholder="20145787845" type="text" [(ngModel)]="rucSelected" name="txtRuc">
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="form-group">
+                        <label>Direccion: </label>
+                        <input class="form-control" required placeholder="Av. España 302" type="text" [(ngModel)]="direccionSelected" name="txtDireccion">
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="form-group">
+                        <label>Telefono: </label>
+                        <input class="form-control" required placeholder="999999999" type="text" [(ngModel)]="telefonoSelected" name="txtTelefono">
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="form-group">
+                        <label>Correo: </label>
+                        <input class="form-control" required placeholder="informes@gmail.com" type="text" [(ngModel)]="correoSelected" name="txtCorreo">
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <label> Accion</label>
+                    <button (click)="editar()" class="btn btn-primary btn-block">
+                        <i class="fa fa-save fa-fw ic-dfa"></i>Editar</button>
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+
+
+        <div *ngIf="panelListaBeanSelected" class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Lista de Empresas</h3>
+            </div>
+            <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="row bg-teal tabla-cabecera-botones">
+                            <div class="col-md-12">
+                                <h5>EXISTEN :{{totalLista}} EN TOTAL</h5>
+                            </div>
+                            <div class="col-md-2">
+                                <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-2">
+                                <label>Del {{inicio}} al {{fin}}</label>
+                            </div>
+
+                            <div class="col-md-2">
+                                <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-5">
+                                    <label> Tamaño Pagina</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                        <option [ngValue]="10">10</option>
+                                        <option [ngValue]="15">15</option>
+                                        <option [ngValue]="20">20</option>
+                                        <option [ngValue]="30">30</option>
+                                        <option [ngValue]="100">100</option>
+                                        <option [ngValue]="500">500</option>
+                                        <option [ngValue]="1000">1000</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class=" table-responsive tabla-dfa">
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr class="bg-teal tam-cabecera">
+                                        <th>N°</th>
+                                        <th *ngIf="buttonSelectedActivated">ACCION</th>
+                                        <th *ngIf="!buttonSelectedActivated">ACCION</th>
+                                        <th *ngIf="!buttonSelectedActivated">ACCION</th>
+                                        <th>ID EMPRESA</th>
+                                        <th>NOMBRE</th>
+                                        <th>RUC</th>
+                                        <th>DIRECCION</th>
+                                        <th>TELEFONO</th>
+                                        <th>CORREO</th>
+                                        <th>FECHA</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr *ngFor="let obj of listaEmpresas;let j = index" class="bg-cyan tam-cuerpo">
+                                        <td>{{inicio+j}}</td>
+                                        <td *ngIf="buttonSelectedActivated">
+                                            <button (click)="seleccionar(obj)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-hand-o-up fa-fw ic-dfa"></i>Select.
+                                            </button>
+                                        </td>
+                                        <td *ngIf="!buttonSelectedActivated">
+                                            <button (click)="eliminar(obj)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                            </button>
+                                        </td>
+                                        <td *ngIf="!buttonSelectedActivated">
+                                            <button (click)="abrirPanelEditar(obj)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-plus-square fa-fw ic-dfa"></i>Editar
+                                            </button>
+                                        </td>
+
+                                        <td>{{obj.id_empresa}}</td>
+                                        <td>{{obj.nombre}}</td>
+                                        <td>{{obj.ruc}}</td>
+                                        <td>{{obj.direccion}}</td>
+                                        <td>{{obj.telefono}}</td>
+                                        <td>{{obj.correo}}</td>
+                                        <td>{{obj.fecha}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

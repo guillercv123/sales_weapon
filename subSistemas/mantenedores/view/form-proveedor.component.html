@@ -1,0 +1,45 @@
+
+<div *ngIf="transferido">
+    Transfiriendo..
+    <div class="loader">Loading...</div>
+</div>
+
+
+<div *ngIf="tienePermisoView">
+
+
+    <div *ngIf="!panelPermisosSelected">
+
+
+        <ul  class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" href="#buscarProveedor">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#nuevoProveedor">
+                    <i class="fa fa-plus fa-fw ic-dfa"></i>Nuevo</a>
+            </li>
+        </ul>
+        <div *ngIf="!panelEditarSelected" class="tab-content">
+            <div id="buscarProveedor" class="tab-pane fade in active">
+
+               <form-find-proveedor (editarProveedorAction)="editarProveedorAction($event)" >
+               </form-find-proveedor>
+            </div>
+
+
+            <div id="nuevoProveedor" class="tab-pane fade ">
+                <form-new-proveedor>
+                </form-new-proveedor>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+

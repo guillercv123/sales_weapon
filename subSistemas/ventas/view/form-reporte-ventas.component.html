@@ -1,0 +1,508 @@
+
+        <div *ngIf="transferido">
+            Transfiriendo..
+            <div class="loader">Loading...</div>
+        </div>
+
+     
+        
+        
+        <div *ngIf="tienePermisoView">
+        
+        
+            <div *ngIf="!panelPermisosSelected">
+        
+        
+        
+                <ul *ngIf="!panelEditarSelected" class="nav nav-tabs">
+                    <li class="active">
+                        <a data-toggle="tab" >
+                            <i class="fa fa-search fa-fw ic-dfa"></i>Historial de Ventas</a>
+                    </li>
+                  
+        
+                </ul>
+                <div *ngIf="!panelEditarSelected" class="tab-content">
+        
+                    <div  class="tab-pane fade in active">
+        
+                        <div class="login-panel panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">FILTRAR VENTAS</h3>
+                            </div>
+                            <div class="panel-body">
+        
+                                <div class="col-md-12 col-xd-2">
+                                    
+                                    <div class="col-md-3 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Fecha Inicio: </label>
+                                            <input class="form-control" required type="date" [(ngModel)]="fechaInicioSelected"
+                                                name="txtFechaInicio">
+                                        </div>
+                                    </div>
+        
+                                    <div class="col-md-3 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Fecha Fin: </label>
+                                            <input class="form-control" required type="date" [(ngModel)]="fechaFinSelected"
+                                                name="txtFechaFin">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Cliente: </label>
+                                            <div class="input-group">
+                                                <label class="form-control">
+                                                    <span *ngIf="clienteSelected!=null">{{clienteSelected.nombres}} &nbsp;{{clienteSelected.apellido_paterno}} &nbsp;
+                                                        {{clienteSelected.apellido_materno}}
+                                                    </span>
+                                                </label>
+                                                <span class="input-group-btn">
+                                                    <button (click)="abrirModalCliente()" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-search fa-fw ic-dfa"></i>
+                                                        <i class="fa fa-user fa-fw ic-dfa"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+    
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                            <label> Accion</label>
+                                            <button (click)="buscar()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-search fa-fw ic-dfa"></i>buscar</button>
+                                    </div>
+                                    <div class="col-md-2">
+                                            <label> Accion</label>
+                                            <button (click)="limpiarCampos()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-paint-brush fa-fw ic-dfa"></i>limpiar</button>
+                                    </div>
+        
+                                    
+                                </div>
+        
+                               
+        
+        
+                            </div>
+        
+        
+                        </div>
+        
+                    </div>
+        
+                   
+                </div>
+        
+        
+
+        
+        
+        
+        
+            </div>
+        
+        </div>
+
+        <div class="login-panel panel panel-default">
+                <div class="panel-heading"> 
+                    <h3 class="panel-title">Lista de Ventas en Caja</h3>
+                </div>
+                <div class="panel-body">
+        
+                    <div class="row">
+                        <div class="col-md-4 col-xd-12">
+                            <div class="input-group-dfa" style="margin: 5px;">
+                                <span class="input-group-addon-dfa">
+                                    <i class="fa fa-money ic-dfa m-2"></i>TOTAL:S/. </span>
+                                <input class="form-control" [(ngModel)]="montoTotalSelected"/>
+                            </div>
+                        </div>
+                    </div>
+        
+        
+        
+                    <div class="row">
+        
+                        <div class="col-md-12">
+        
+        
+                            <div class="row bg-teal tabla-cabecera-botones">
+                                
+                                <div class="col-md-3">
+                                    <label>EXISTEN :{{totalLista}} EN TOTAL</label>
+                                </div>
+                               
+                                <div class="col-md-4">
+                                   
+                                        <div class="col-md-7">
+                                            <label>Tamaño Pagina</label>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                                <option [ngValue]="10">10</option>
+                                                <option [ngValue]="15">15</option>
+                                                <option [ngValue]="20">20</option>
+                                                <option [ngValue]="30">30</option>
+                                                <option [ngValue]="100">100</option>
+                                                <option [ngValue]="500">500</option>
+                                                <option [ngValue]="1000">1000</option>
+                                            </select>
+                                        </div>
+            
+                        
+        
+                                </div>
+        
+                                <div *ngIf="!buttonSelected" class="col-md-1">
+
+                                    <button class="btn-primary icono-dfa" (click)="exportarExcelDetalle();">
+                                        <img src="assets/img/xls.png" width="24"> XLS</button>
+        
+                                </div>
+                                <div *ngIf="!buttonSelected" class="col-md-1">
+                                        <button (click)="buscarVenta()" class="btn-primary icono-dfa">
+                                         <img src="assets/img/Eye256_25057.png" width="24">Detalle
+                                        </button>
+                                </div>
+                                <!-- <div *ngIf="!buttonSelected" class="col-md-1">
+                                    <button   (click)="EnviarEmail()" class="btn-primary icono-dfa">
+                                     <img src="assets/img/editar.png" width="24">Email
+                                    </button>
+                                </div> -->
+                                <div *ngIf="!buttonSelected" class="col-md-1">
+                                    <button (click)="imprimirComprobanteTicketera()" class="btn-primary icono-dfa">
+                                     <img src="assets/img/print_25843.png" width="24">ticketera
+                                    </button>
+                                </div>
+                                <div *ngIf="!buttonSelected" class="col-md-1">
+                                    <button (click)="imprimirComprobante()" class="btn-primary icono-dfa">
+                                     <img src="assets/img/print_25843.png" width="24">imprimir A4
+                                    </button>
+                                </div>
+        
+        
+                            </div>
+        
+        
+        
+        
+                            
+        
+        
+                            <div class=" table-responsive tabla-dfa">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr class="bg-teal tam-cabecera">
+                                          <th>Nº</th>
+                                            <th>TIPO COMPROBANTE</th>
+                                            <th>COMPROBANTE</th>
+                                            <th>NRO DOC CLI</th>
+                                            <th>CLIENTE</th>
+                                            <th>MEDIO PAGO</th>
+                                            
+                                            <th>MONTO TOTAL</th>
+                             
+                                            <th>ESTADO PAGO</th>
+                                            <th>FECHA PAGO</th>
+                         
+                                            
+                                            <th>EMPLEADO</th>
+                                            <th>ID VENTA</th>
+                                           
+                                        </tr>
+                                    </thead>
+                                    
+                                    <tbody *ngIf="listaVentas">
+                                        <tr  *ngFor="let obj of listaVentas;let j = index" class="bg-cyan tam-cuerpo">
+                                           
+                                            <td class="mouse"  (click)="listaObjeto(obj)">{{j+1}}</td>
+
+                                            <td class="mouse"  (click)="listaObjeto(obj)">{{obj.tipo_comprobante}}</td>
+                                            <td class="mouse" (click)="listaObjeto(obj)">{{obj.serie_comprobante}}-{{obj.numero_comprobante}}</td>
+                                            <td class="mouse" (click)="listaObjeto(obj)">
+                                                {{obj.numero_documento_cliente}}</td>
+                                            
+                                            <td class="mouse" (click)="listaObjeto(obj)"> {{obj.nombres_cliente}}&nbsp; {{obj.apellido_paterno_cliente}}&nbsp;
+                                                {{obj.apellido_materno_cliente}}</td>
+                                            
+                                            <td class="mouse" (click)="listaObjeto(obj)">{{obj.nombre_medio_pago}}</td>
+                                            
+                                               <td class="mouse" (click)="listaObjeto(obj)">{{obj.simbolo_tipo_moneda}}{{obj.monto_total}}</td> 
+                                           <td class="mouse" (click)="listaObjeto(obj)">{{obj.is_pagada==1?'PAGADO':obj.is_pagada==0?'NO
+                                                    PAGADO':''}}</td>
+                                           
+        
+                                            <td class="mouse" (click)="listaObjeto(obj)">{{obj.fecha_pago}}</td>
+                                             <td class="mouse" (click)="listaObjeto(obj)">
+                                                {{obj.nombres_empleado}}
+                                                &nbsp; {{obj.apellido_paterno_empleado}} &nbsp;
+                                                {{obj.apellido_materno_empleado}}
+                                            </td>
+                                            <td>{{obj.id_venta}}</td>
+                                          
+                                          
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+        
+        
+        
+                </div>
+            </div>
+           
+                <div *ngIf="Loading">
+                    <div class="loader">Cargando...</div>
+                </div>
+        
+        
+        
+         <button id="modalDetalleVenta" hidden="hidden" data-toggle="modal" data-target="#modalDetalleVentPnl"></button>
+            <div class="modal fade" id="modalDetalleVentPnl">
+                <div class="modal-dialog ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">
+                                <label>DETALLE DE LA VENTA</label>
+                            </h4>
+                        </div>
+            
+                        <div class="modal-body">     
+                                <div class="panel-body">
+            
+                        
+                                    <div class="col-md-12 col-xd-2">
+                        
+                                        <div class="col-md-6 col-xd-2">
+                                            <div class="form-group">
+                                                <label>Cliente: </label>
+                                                <span class="form-control">
+                                                    <span *ngIf="ventaSelected!=null">{{ventaSelected.nombres_cliente}}</span>
+                                                </span>
+                        
+                                            </div>
+                                        </div>
+                        
+                        
+                                        <div class="col-md-6 col-xd-2">
+                                            <div class="form-group">
+                                                <label>N° DOCUMENTO: </label>
+                                                <span class="form-control">
+                                                    <span *ngIf="ventaSelected!=null">{{ventaSelected.numero_documento_cliente}}</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                        
+                                        <div class="col-md-12 col-xd-2">
+                                            <div class="form-group">
+                                                <label>Direccion Cliente: </label>
+                                                <textarea class="form-control" *ngIf="ventaSelected!=null"
+                                                    disabled>{{ventaSelected.direccion_cliente}}</textarea>
+                                            </div>
+                                        </div>
+                        
+                                        <div class="col-md-4 col-xd-2">
+                                            <div class="form-group">
+                                                <label>Telefono: </label>
+                                                <span class="form-control">
+                                                    <span *ngIf="ventaSelected!=null">{{ventaSelected.telefono_cliente}}</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                        
+                                        <div class="col-md-8 col-xd-2">
+                                            <div class="form-group">
+                                                <label>Correo: </label>
+                                                <span class="form-control">
+                                                    <span *ngIf="ventaSelected!=null">{{ventaSelected.correo_cliente}}</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                        
+                           
+                        
+                                       
+                                    </div>
+                        
+                        
+                        
+                                </div>
+                          
+                        
+                            <div class="login-panel panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Detalle Venta </h3>
+                                </div>
+                                <div class="panel-body">
+                        
+                        
+                                    <div class=" table-responsive tabla-dfa">
+                                        <table class="table table-condensed">
+                                            <thead>
+                                                <tr class="bg-teal tam-cabecera">
+                                                    <!--<th>N°</th>-->
+                                                    <th>LINEA</th>
+                                                    <th>CANTIDAD</th>
+                                                    <th>DESCRIPCION</th>
+                                                    <th>P.UNIT</th>
+                                                    <th>UM</th>
+                                                    <th>TOTAL</th>
+                                                </tr>
+                                            </thead>
+                        
+                                            <tbody>
+                                                <tr *ngFor="let pro of listaProductosDetalle;let j = index" class="bg-cyan tam-cuerpo">
+                                                    <td>{{inicio+j}}</td>
+                                                    <!--<td>{{pro.nombre_tipo_producto}}</td>-->
+                                                    <td>{{pro.cantidad}}</td>
+                                                    <td>{{pro.nombre}}</td>
+                                                    <td>{{pro.simbolo}}{{completar_ceros_derecha(pro.precio_venta,2)}}</td>
+                                                    <td>{{pro.nombre_unidad_medida}}</td>
+                                                    <td>{{pro.simbolo}}{{completar_ceros_derecha(round2(pro.cantidad *
+                                                            pro.precio_venta),2)}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                        
+                        
+                                    <div *ngIf="ventaSelected!=null" class="col-md-12">
+                        
+                                        <div class="col-md-offset-3 col-md-3 col-xd-2">
+                                            <div class="form-group">
+                                                <label>Sub total : </label>
+                                                <span class="form-control">
+                                                    <span
+                                                        *ngIf="ventaSelected!=null">{{ventaSelected.simbolo_tipo_moneda}}{{ventaSelected.sub_total}}</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-xd-2">
+                                            <div class="form-group">
+                                                <label>IGV (
+                                                    <span *ngIf="ventaSelected!=null">{{ventaSelected.porc_igv}}</span>)% :
+                                                </label>
+                                                <span class="form-control">
+                                                    <span
+                                                        *ngIf="ventaSelected!=null">{{ventaSelected.simbolo_tipo_moneda}}{{ventaSelected.igv}}</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-xd-2">
+                                            <div class="form-group">
+                                                <label>Total : </label>
+                                                <span class="form-control">
+                                                    <span
+                                                        *ngIf="ventaSelected!=null">{{ventaSelected.simbolo_tipo_moneda}}{{ventaSelected.monto_total}}</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                        
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        
+   
+<button id="modalCliente" hidden="hidden" data-toggle="modal" data-target="#modalClientePnl"></button>
+<div class="modal fade" id="modalClientePnl">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS CLIENTE</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <!--
+                <form-cliente [buttonSelectedActivated]="buttonSelectedActivatedCli" [buttonEliminarActivated]="buttonEliminarActivatedCli"
+                    [buttonEditarActivated]="buttonEditarActivatedCli" (clienteSeleccionado)="obtenerClienteDatosExternos($event)">
+                </form-cliente>-->
+
+                <form-find-cliente (clienteSeleccionado)="obtenerClienteDatosExternos($event)">
+                </form-find-cliente>
+
+            </div>
+            <div class="modal-footer">
+                <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                <!--(click)="activarBuscar($event)"-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<button id="modalSendEmail" hidden="hidden" data-toggle="modal" data-target="#modalSendEmailPnl"></button>
+<div class="modal fade" id="modalSendEmailPnl">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>ENVIAR CORREO</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+                <div style="margin: auto">
+                     
+            <div class="col-md-8 col-xd-2" style="margin: 10px;" >
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-user bigicon">DATOS CLIENTE</i> </span>
+                            <input class="form-control" type="email" [(ngModel)]="dateClient" name="EmailUsertxt">
+                 </div>
+            </div>
+           
+            <div class="col-md-8 col-xd-2" style="margin: 10px;" >
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-pencil-square-o bigicon">ASUNTO:</i> </span>
+                        <input class="form-control" type="text" [(ngModel)]="AsuntoSelected" name="Asuntotext" >
+             </div>
+        </div>
+        
+           
+            <div class="col-md-8 col-xd-2" style="margin: 10px;" >
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-envelope-o bigicon">CORREO ELECTRONICO</i></span>
+                            <input class="form-control" type="email" [(ngModel)]="SendEmail" name="SendEmailtxt" >
+                </div>   
+            </div>
+
+            
+            <div class="col-md-8 col-xd-2" style="margin: 10px;">
+                <span  class="input-group-addon"><i class="fa fa-pencil-square-o bigicon">MENSAJE</i></span>
+                <textarea class="form-control"  name="messagetxt" [(ngModel)]="message"    rows="7"></textarea>
+            </div>
+                <div class="form-group">
+                        <div class="col-md-12 text-center">
+                            <button type="submit" (click)="enviar()" class="btn btn-primary btn-lg">Enviar</button>
+                        </div>
+                </div>
+
+            </div>
+
+                </div>
+                      
+                
+            <div class="modal-footer">
+                <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                <!--(click)="activarBuscar($event)"-->
+            </div>
+        </div>
+    </div>
+</div>

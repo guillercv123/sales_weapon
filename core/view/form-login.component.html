@@ -1,0 +1,65 @@
+<div class="hold-transition login-page">
+
+
+
+
+<div class="login-box">
+    <div class="login-logo">
+      <div class="col-md-4 col-xs-4"><img class="img-responsive" src="assets/img/logo.jpg"/></div>
+      
+      <div class="col-md-8  col-xs-8 bloque-vertical"><a href="#"><b>{{nombreSistema}}</b></a></div>
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+      <p class="login-box-msg">Ingrese sus datos para iniciar sesión</p>
+  
+      <form [formGroup]="loginForm" >
+        <div class="form-group has-feedback">
+
+          <input  formControlName="txtUsuario"  type="text" class="form-control-login" name="txtUsuario" placeholder="Usuario" required autofocus>
+          <div *ngIf="formErrors.txtUsuario" class="alert alert-warning">
+                  {{ formErrors.txtUsuario }}
+          </div>
+          <i class="fa fa-user form-control-feedback" aria-hidden="true"></i>
+          
+        </div>
+        <div class="form-group has-feedback">
+            <input formControlName="txtClave" type="password" class="form-control-login" name="txtClave" placeholder="Password" required>
+            <div *ngIf="formErrors.txtClave" class="alert alert-warning">
+                {{ formErrors.txtClave }}
+            </div>
+
+          <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+
+        
+         
+    
+
+
+        <div class="row">
+        <div class="col-md-8 col-xs-8">
+              <select class="form-control" [ngModelOptions]="{standalone: true}" required [(ngModel)]="almacenSelected" name="cbAlmacen">
+                  <option *ngFor="let mar of listaAlmacen; let i = index" [ngValue]="mar">{{mar.nombre}} </option>
+              </select>
+          </div>
+          <!-- /.col -->
+          <div class="col-xs-4 col-md-4">
+            <button [disabled]="!loginForm.valid" (click)="ingresar()"  class="btn btn-primary btn-block btn-flat" type="submit">INGRESAR</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+  
+
+  
+    
+  
+    </div>
+    <!-- /.login-box-body -->
+  </div>
+  <!-- /.login-box -->
+
+</div>
+
+

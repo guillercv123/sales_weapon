@@ -1,0 +1,564 @@
+<!--
+    <div class="row">
+        <div class="col-md-12" >    
+        -->
+        <div *ngIf="transferido">
+            Transfiriendo..
+            <div class="loader">Loading...</div>
+        </div>
+        
+        
+        
+        <div *ngIf="tienePermisoView">
+        
+        
+            <div *ngIf="!panelPermisosSelected">
+        
+        
+        
+                <ul *ngIf="!panelEditarSelected" class="nav nav-tabs">
+                    <li class="active">
+                        <a data-toggle="tab" href="#buscarConfiguracionCuenta">
+                            <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#nuevoConfiguracionCuenta">
+                            <i class="fa fa-plus fa-fw ic-dfa"></i>Nuevo</a>
+                    </li>
+        
+                </ul>
+                <div *ngIf="!panelEditarSelected" class="tab-content">
+        
+                    <div id="buscarConfiguracionCuenta" class="tab-pane fade in active">
+        
+                        <div class="login-panel panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Busqueda Configuracion de Cuentas</h3>
+                            </div>
+                            <div class="panel-body">
+        
+        
+                            
+    
+                                <div class="col-md-12 col-xd-2">
+        
+                                    <div class="col-md-5 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Codigo: </label>
+                                            <input class="form-control" required placeholder="" type="text" [(ngModel)]="configuracionCuentaSelected.codigo"
+                                                name="txtTitulo">
+                                        </div>
+                                    </div>
+        
+                                    <div class="col-md-5 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Descripcion: </label>
+                                            <input class="form-control" required placeholder="" type="text" [(ngModel)]="configuracionCuentaSelected.descripcion"
+                                                name="txtPeriodo">
+                                        </div>
+                                    </div>
+        
+        
+                                </div>
+        
+                                <div class="col-md-12 col-xd-12">
+        
+        
+        
+                                    <div class="col-md-2">
+                                        <label> Accion</label>
+                                        <button (click)="buscar()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</button>
+                                    </div>
+        
+                                    <div class="col-md-2">
+                                        <label> Accion</label>
+                                        <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                                    </div>
+                                </div>
+        
+        
+                            </div>
+                        </div>
+        
+                    </div>
+        
+                    <div id="nuevoConfiguracionCuenta" class="tab-pane fade ">
+        
+                        <div class="login-panel panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Registro de Configuracion de Cuenta</h3>
+                            </div>
+                            <div class="panel-body">
+        
+                                <div class="col-md-12 col-xd-12">
+        
+                                    <div class="col-md-5 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Codigo: </label>
+                                            <input class="form-control" required placeholder="" type="text" [(ngModel)]="configuracionCuentaSelected.codigo"
+                                                name="txtTitulo">
+                                        </div>
+                                    </div>
+        
+                                    <div class="col-md-5 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Descripcion: </label>
+                                            <input class="form-control" required placeholder="" type="text" [(ngModel)]="configuracionCuentaSelected.descripcion"
+                                                name="txtPeriodo">
+                                        </div>
+                                    </div>
+                                </div>
+        
+        
+        
+        
+                                <div class="col-md-12 col-xd-12">
+                                    <div class="col-md-2">
+                                        <label> Accion</label>
+                                        <button (click)="registrar()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-save fa-fw ic-dfa"></i>Guardar</button>
+                                    </div>
+        
+                                    <div class="col-md-2">
+                                        <label> Accion</label>
+                                        <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                                    </div>
+        
+                                </div>
+        
+        
+        
+                            </div>
+                        </div>
+        
+                    </div>
+                </div>
+        
+        
+        
+        
+        
+        
+        
+             
+                <div *ngIf="panelEditarSelected" class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Editar Configuracion Cuenta</h3>
+        
+                    </div>
+                    <div class="panel-body">
+        
+                        <div class="col-md-12 col-xd-12">
+        
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="regresar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-reply fa-fw ic-dfa"></i>Regresar
+                                </button>
+                            </div>
+        
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="editar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-save fa-fw ic-dfa"></i>Editar</button>
+                            </div>
+                        </div>
+        
+        
+                        <div *ngIf="libroCompraSelected!=null" class="col-md-12 col-xd-12">
+        
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Titulo: </label>
+                                    <input class="form-control" required placeholder="" type="text" [(ngModel)]="libroCompraSelected.titulo"
+                                        name="txtTitulo">
+                                </div>
+                            </div>
+        
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Periodo: </label>
+                                    <input class="form-control" required placeholder="" type="text" [(ngModel)]="libroCompraSelected.periodo"
+                                        name="txtPeriodo">
+                                </div>
+                            </div>
+        
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Periodo Fecha: </label>
+                                    <input class="form-control" required placeholder="" type="date" [(ngModel)]="libroCompraSelected.periodo_fecha"
+                                        name="txtPeriodoFecha">
+                                </div>
+                            </div>
+        
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Ruc: </label>
+                                    <input class="form-control" required placeholder="" type="text" [(ngModel)]="libroCompraSelected.ruc"
+                                        name="txtRuc">
+        
+                                </div>
+                            </div>
+        
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Razon Social: </label>
+                                    <input class="form-control" required placeholder="" type="text" [(ngModel)]="libroCompraSelected.razon_social"
+                                        name="txtRazonSocial">
+        
+                                </div>
+                            </div>
+                        </div>
+        
+                    </div>
+        
+        
+                    <div class="login-panel panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Detalle Libro Compra </h3>
+                        </div>
+                        <div class="panel-body">
+        
+                            <div class="row bg-teal tabla-cabecera-botones">
+        
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Cantidad Celdas: </label>
+                                        <input class="form-control" required placeholder="23" type="text" [(ngModel)]="cantidadCeldas"
+                                            name="txtCantidadCeldas">
+                                    </div>
+                                </div>
+        
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Accion: </label>
+                                        <button (click)="agregarFilaLibroCompra(cantidadCeldas);" class="btn btn-primary btn-block">
+                                            <i class="fa fa-plus fa-fw ic-dfa"></i>Agregar Filas
+                                        </button>
+                                    </div>
+                                </div>
+        
+                            </div>
+        
+        
+                            <div class=" table-responsive tabla-dfa">
+        
+                                <table id="tabla-productos" class="table table-condensed tabla-libros-contable">
+                                    <thead>
+                                        <tr class="bg-teal tam-cabecera">
+                                            <th rowspan="3">ACCION</th>
+                                            <th rowspan="3">NÚMERO CORRELATIVO DEL REGISTRO O CÓDIGO UNICO DE LA OPERACIÓN</th>
+                                            <th rowspan="3">FECHA DE EMISIÓN DEL COMPROBANTE DE PAGO O DOCUMENTO</th>
+                                            <th rowspan="3">FECHA DE VENCIMIENTO O FECHA DE PAGO (1)</th>
+                                            <th colspan="3">COMPROBANTE DE PAGO O DOCUMENTO</th>
+                                            <th rowspan="3">
+                                                N° DEL COMPROBANTE DE PAGO,
+                                                DOCUMENTO, N° DE ORDEN DEL
+                                               FORMULARIO FÍSICO O VIRTUAL, 
+                                              N° DE DUA, DSI O LIQUIDACIÓN DE 
+                                             COBRANZA U OTROS DOCUMENTOS 
+                                          EMITIDOS POR SUNAT PARA ACREDITAR 
+                                          EL CRÉDITO FISCAL EN LA IMPORTACIÓN
+                                            </th>
+                                            <th colspan="3">INFORMACIÓN DEL PROVEEDOR</th>
+                                            <th colspan="2"> ADQUISICIONES GRAVADAS DESTINADAS A OPERACIONES	
+                                                GRAVADAS Y/O DE EXPORTACIÓN	
+                                            </th>
+                                            <th colspan="2"> ADQUISICIONES GRAVADAS DESTINADAS A OPERACIONES	
+                                                GRAVADAS Y/O DE EXPORTACIÓN Y A OPERACIONES NO GRAVADAS	
+                                                </th>
+                                            <th colspan="2"> ADQUISICIONES GRAVADAS DESTINADAS A OPERACIONES	
+                                                NO GRAVADAS	</th>
+                                            <th rowspan="3">VALOR DE LAS ADQUISICIONES ISC NO GRAVADAS</th>
+                                            <th rowspan="3">ISC</th>
+                                            <th rowspan="3">OTROS TRIBUTOS Y CARGOS</th>
+                                            <th rowspan="3">IMPORTE TOTAL </th>
+                                            <th rowspan="3">N° DE COMPROBANTE DE PAGO EMITIDO POR SUJETO NO DOMICILIADO (2) </th>
+                                            <th colspan="2">CONSTANCIA DE DEPÓSITO DE DETRACCIÓN (3)</th>
+                                            <th rowspan="3">TIPO DE CAMBIO</th>
+                                            <th colspan="4">
+                                                REFERENCIA DEL COMPROBANTE DE PAGO			
+                                                O DOCUMENTO ORIGINAL QUE SE MODIFICA	
+                                            </th>		
+        
+        
+                                        </tr>
+                                        <tr class="bg-teal tam-cabecera">
+                                            <th rowspan="2">TIPO (TABLA 10)</th>
+                                            <th rowspan="2">SERIE O CÓDIGO DE LA DEPENDENCIA ADUANERA (TABLA 11)</th>
+                                            <th rowspan="2">AÑO DE EMISIÓN DE LA DUA O DSI</th>
+                                            <th colspan="2">DOCUMENTO DE IDENTIDAD</th>
+                                            <th rowspan="2">APELLIDOS
+                                                Y NOMBRES,
+                                                 DENOMINACIÓN
+                                                O RAZÓN 
+                                                SOCIAL
+                                                </th>
+                                            <th rowspan="2">BASE IMPONIBLE  </th>
+                                            <th rowspan="2">IGV</th>
+                                            <th rowspan="2">BASE IMPONIBLE  </th>
+                                            <th rowspan="2">IGV</th>
+                                            <th rowspan="2">BASE IMPONIBLE  </th>
+                                            <th rowspan="2">IGV</th>
+                                            <th rowspan="2">NUMERO</th>
+                                            <th rowspan="2">FECHA DE EMISIÓN </th>
+                                            <th rowspan="2">FECHA</th>
+                                            <th rowspan="2">TIPO(TABLA 10)</th>
+                                            <th rowspan="2">SERIE</th>
+                                            <th rowspan="2">N° DEL COMPROBANTE DE PAGO O DOCUMENTO </th>
+                                        </tr>
+                                        <tr class="bg-teal tam-cabecera">
+                                            <th>TIPO (TABLA 2)</th>
+                                            <th>NÚMERO</th>
+                                           
+                                        </tr>
+                                    </thead>
+        
+                                    <tbody>
+                                        <tr *ngFor="let de of lista_detalle_libro;let j = index" class="bg-cyan tam-cuerpo">
+                                            <td>
+                                                <button (click)="eliminarItem(j)" class="btn btn-primary btn-block">
+                                                    <i class="fa fa-trash fa-fw ic-dfa"></i>
+                                                </button>
+                                            </td>
+        
+                                            <td>
+                                                <input class="" required type="text" [(ngModel)]="de.correlativo">
+                                            </td>
+                                            <td>
+                                                <input class="" required type="date" [(ngModel)]="de.fecha_emision_comprobante">
+                                            </td>
+                                            <td>
+                                                <input class="" required type="date" [(ngModel)]="de.fecha_vencimiento_comprobante">
+                                            </td>
+                                            <td>
+                                                <span class="codigo-tabla-sunat">
+                                                    <select  [(ngModel)]="de.tipo_comprobante" >
+                                                        <option *ngFor="let a of tabla_10; let i = index" [ngValue]="a">{{a.codigo}} - {{a.descripcion}} </option>
+                                                    </select>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <div class="col-md-8" >
+                                                        <span *ngIf="de.inc_codigo_aduana"  class="codigo-tabla-sunat">
+                                                                <select  [(ngModel)]="de.serie_codigo_aduanera_comprobante" >
+                                                                    <option *ngFor="let a of tabla_11; let i = index" [ngValue]="a">{{a.codigo}} - {{a.descripcion}} </option>
+                                                                </select>
+                                                        </span>
+                                                        <span *ngIf="!de.inc_codigo_aduana">
+                                                                <input class="" required type="text" [(ngModel)]="de.serie_codigo_aduanera_comprobante">
+                                                        </span>
+                                                
+                                                </div>
+        
+                                                <div class="col-md-4" >
+                                                    <span>
+                                                        <input type="checkbox" [(ngModel)]="de.inc_codigo_aduana" 
+                                                        />
+                                                    </span>
+                                                </div>
+        
+                                            </td>
+                                            <td>
+                                                <input class="" required type="text" [(ngModel)]="de.anio_emision_dua_comprobante">
+                                            </td>
+                                            <td>
+                                                <input class="" required type="text" [(ngModel)]="de.nro_comprobante_pago">
+                                            </td>
+                                            <td>
+                                                <span class="codigo-tabla-sunat">
+                                                    <select  [(ngModel)]="de.tipo_doc_proveedor" >
+                                                        <option *ngFor="let a of tabla_2; let i = index" [ngValue]="a">{{a.codigo}} - {{a.descripcion}} </option>
+                                                    </select>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <input class="" required type="text" [(ngModel)]="de.nro_doc_proveedor">
+                                            </td>
+                                            <td>
+                                                <input class="" required type="text" [(ngModel)]="de.razon_social_proveedor">
+                                            </td>
+        
+                                            <td>
+                                                <input class="" required type="number" [(ngModel)]="de.base_imponible_adquisiciones_gravadas_expor">
+                                            </td>
+                                            <td>
+                                                <input class="" required type="number" [(ngModel)]="de.igv_adquisiciones_gravadas_expor">
+                                            </td>
+                                            <td>
+                                                <input class="" required type="number" [(ngModel)]="de.base_imponible_adquisiciones_expor_no_gravadas">
+                                            </td>
+                                            <td>
+                                                <input class="" required type="number" [(ngModel)]="de.igv_adquisiciones_expor_no_gravadas">
+                                            </td>
+                                            <td>
+                                                <input class="" required type="number" [(ngModel)]="de.base_imponible_adquisiciones_no_gravadas">
+                                            </td>
+                                            <td>
+                                                <input class="" required type="number" [(ngModel)]="de.igv_adquisiciones_no_gravadas">
+                                            </td>
+                                            <td>
+                                                <input class="" required type="number" [(ngModel)]="de.valor_adquisiciones_no_gravadas">
+                                            </td>
+        
+                                            <td>
+                                                <input class="" required type="number" [(ngModel)]="de.isc">
+                                            </td>
+        
+                                            <td>
+                                                <input class="" required type="number" [(ngModel)]="de.otros_tributos_cargos">
+                                            </td>
+        
+        
+        
+                                            <td>
+                                                <input class="" required type="number" [(ngModel)]="de.importe_total">
+                                            </td>
+                                            <td>
+                                                <input class="" required type="text" [(ngModel)]="de.nro_comprobante_pago_sujeto_no_domiciliado">
+                                            </td>
+                                            <td>
+                                                <input class="" required type="text" [(ngModel)]="de.numero_deposito">
+                                            </td>
+                                            <td>
+                                                <input class="" required type="date" [(ngModel)]="de.fecha_emision_deposito">
+                                            </td>
+                                            <td>
+                                                <input class="" required type="number" [(ngModel)]="de.tipo_cambio">
+                                            </td>
+        
+        
+        
+                                            <td>
+                                                <input class="" required type="date" [(ngModel)]="de.fecha_documento_modifica">
+                                            </td>
+                                            <td>
+                                                <span class="codigo-tabla-sunat">
+                                                    <select  [(ngModel)]="de.tipo_documento_modifica" >
+                                                        <option *ngFor="let a of tabla_10; let i = index" [ngValue]="a">{{a.codigo}} - {{a.descripcion}} </option>
+                                                    </select>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <input class="" required type="text" [(ngModel)]="de.serie_documento_modifica">
+                                            </td>
+                                            <td>
+                                                <input class="" required type="text" [(ngModel)]="de.nro_documento_modifica">
+                                            </td>
+        
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+        
+                        </div>
+        
+                    </div>
+        
+        
+        
+                </div>
+        
+        
+        
+        
+                <div *ngIf="panelListaBeanSelected" class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lista de Configuraciones de Cuentas</h3>
+                    </div>
+                    <div class="panel-body">
+        
+                        <div class="row">
+                            <div class="col-md-12">
+        
+                                <div class="row bg-teal tabla-cabecera-botones">
+                                    <div class="col-md-12">
+                                        <h5>EXISTEN :{{totalLista}} EN TOTAL</h5>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Del {{inicio}} al {{fin}}</label>
+                                    </div>
+        
+                                    <div class="col-md-2">
+                                        <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-md-5">
+                                            <label> Tamaño Pagina</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                                <option [ngValue]="10">10</option>
+                                                <option [ngValue]="15">15</option>
+                                                <option [ngValue]="20">20</option>
+                                                <option [ngValue]="30">30</option>
+                                                <option [ngValue]="100">100</option>
+                                                <option [ngValue]="500">500</option>
+                                                <option [ngValue]="1000">1000</option>
+                                            </select>
+                                        </div>
+        
+                                    </div>
+                                </div>
+        
+                                <div class=" table-responsive tabla-dfa">
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr class="bg-teal tam-cabecera">
+                                                <th>N°</th>
+                                                <th>ACCION</th>
+                                                <th>ACCION</th>
+                                                <th>ID CONFIGURACION CUENTA</th>
+                                                <th>CODIGO</th>
+                                                <th>DESCRIPCION</th>
+                                              
+                                            </tr>
+                                        </thead>
+        
+                                        <tbody>
+                                            <tr *ngFor="let obj of configuraciones_cuenta;let j = index" class="bg-cyan tam-cuerpo">
+                                                <td>{{inicio+j}}</td>
+                                            
+                                                <td>
+                                                    <button (click)="eliminar(obj)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button (click)="abrirPanelEditar(obj)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-plus-square fa-fw ic-dfa"></i>Editar
+                                                    </button>
+                                                </td>
+                                            
+        
+        
+                                                <td>{{obj.id_conta_configuracion_cuenta}}</td>
+                                                <td>{{obj.codigo}}</td>
+                                                <td>{{obj.descripcion}}</td>
+                                              
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+        
+        
+        
+                    </div>
+                </div>
+        
+        
+            </div>
+        
+        </div>

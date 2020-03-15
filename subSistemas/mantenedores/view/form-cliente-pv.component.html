@@ -1,0 +1,362 @@
+<!--
+    <div class="row">
+        <div class="col-md-12" >    
+        -->
+<div *ngIf="transferido">
+    Transfiriendo..
+    <div class="loader">Loading...</div>
+</div>
+
+
+<div *ngIf="tienePermisoView">
+
+
+    <div *ngIf="!panelPermisosSelected">
+
+
+
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a (click)="activarPanelBusqueda(true)" data-toggle="tab" href="#buscarClientePv">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</a>
+            </li>
+            <li>
+                <a (click)="activarPanelBusqueda(false)" data-toggle="tab" href="#nuevoClientePv">
+                    <i class="fa fa-plus fa-fw ic-dfa"></i>Nuevo</a>
+            </li>
+
+        </ul>
+        <div class="tab-content">
+            <div id="buscarClientePv" class="tab-pane fade in active">
+
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Busqueda de Clientes</h3>
+                    </div>
+                    <div class="panel-body">
+
+
+                        <div class="col-md-12 col-xd-2">
+
+                          
+                            <!--
+                                <div class="col-md-3 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Nombres: </label>
+                                        <input class="form-control" required placeholder="SKF" type="text" [(ngModel)]="nombresSelected" name="txtNombre">
+                                    </div>
+                                </div>-->
+
+
+                            <div class="col-md-3 col-xd-6">
+                                <div class="form-group">
+                                    <label>Nombres:</label>
+                                    <input class="form-control" name="txtNombre" required [(ngModel)]="nombresSelected" (keypress)="teclaKeyPressAutocomplete($event)"
+                                        (keyup)="teclaKeyUpAutocomplete($event)" (keydown)="teclaKeyDownAutocomplete($event)"
+                                        placeholder="Juan" />
+                                    <ul class="lista-diego" *ngIf="lista_autocompletado!=null">
+                                        <li *ngFor="let bean of lista_autocompletado">
+                                            <a (click)="elegirLista(bean)">
+                                                {{ bean.nombres }}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Tipo Doc: </label>
+                                    <select class="form-control" required [(ngModel)]="tipoDocumentoSelected" name="cbTiposDocumento">
+                                        <option *ngFor="let ti of tiposDocumento; let i = index" [ngValue]="ti">{{ti.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                              <div class="col-md-6 col-xd-12">
+
+                        <div class="form-group">
+                            <label>Nro Doc: </label>
+                            <div class="input-group">
+                                
+                                <div *ngIf="tipoDocumentoSelected==null">
+                                    <input class="form-control" minlength=8 maxlength=8 required placeholder="84571254" type="text" [(ngModel)]="numeroDocumentoSelected" name="txtNumeroDoc"   onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;">
+                                </div>
+
+                                <div *ngIf="tipoDocumentoSelected!=null">
+                                    <input *ngIf="tipoDocumentoSelected.nombre=='DNI'" class="form-control" minlength=8 maxlength=8 required placeholder="84571254" type="text" [(ngModel)]="numeroDocumentoSelected" name="txtNumeroDoc"   onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;">
+                                    <input *ngIf="tipoDocumentoSelected.nombre=='RUC'" class="form-control" minlength=11 maxlength=11 required placeholder="84571254" type="text" [(ngModel)]="numeroDocumentoSelected" name="txtNumeroDoc"   onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;">
+                                </div>
+                            </div>
+
+                        </div>
+                  
+                    
+                </div>
+
+                            
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="buscar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-search fa-fw ic-dfa"></i>Ejecutar</button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-12 col-xd-2">
+
+                        </div>
+
+                        <div class="col-md-12 col-xd-2">
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div id="nuevoClientePv" class="tab-pane fade ">
+<!--
+                <form-persona [activatedSelected]="activatedSelectedPer" [beanSelected]="beanSelectedPer" [nombresSelected]="nombresSelectedPer"
+                [apellidoPaternoSelected]="apellidoPaternoSelectedPer" [apellidoMaternoSelected]="apellidoMaternoSelectedPer"
+                [numeroDocumentoSelected]="numeroDocumentoSelectedPer" [direccionSelected]="direccionSelectedPer" [telefonoSelected]="telefonoSelectedPer"
+                [correoSelected]="correoSelectedPer" [panelListaBeanSelected]="panelListaBeanSelectedPer" [panelEditarSelected]="panelEditarSelectedPer"
+                (editarPersona)="editarPersona($event)" (dataExterna)="obtenerDatosExternos($event)">
+            </form-persona>-->
+
+
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+        <div *ngIf="panelListaBeanSelected" class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Lista de Clientes</h3>
+            </div>
+            <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="row bg-teal tabla-cabecera-botones">
+                            <div class="col-md-12">
+                                <h5>EXISTEN :{{totalLista}} EN TOTAL</h5>
+                            </div>
+                            <div class="col-md-2">
+                                <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-2">
+                                <label>Del {{inicio}} al {{fin}}</label>
+                            </div>
+
+                            <div class="col-md-2">
+                                <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-5">
+                                    <label> Tamaño Pagina</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                        <option [ngValue]="10">10</option>
+                                        <option [ngValue]="15">15</option>
+                                        <option [ngValue]="20">20</option>
+                                        <option [ngValue]="30">30</option>
+                                        <option [ngValue]="100">100</option>
+                                        <option [ngValue]="500">500</option>
+                                        <option [ngValue]="1000">1000</option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-1">
+
+                                <button class="btn-primary icono-dfa" (click)="exportarExcel();">
+                                    <img src="assets/img/xls.png" width="24"> XLS</button>
+
+                            </div>
+                            <div class="col-md-1">
+
+                                <button class="btn-primary icono-dfa" (click)="exportarPdf();">
+                                    <img src="assets/img/pdf.png" width="24"> PDF</button>
+
+                            </div>
+                        </div>
+
+                        <div class=" table-responsive tabla-dfa">
+
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr class="bg-teal tam-cabecera">
+                                        <th>N°</th>
+                                        <th *ngIf="buttonSelectedActivated">ACCION</th>
+                                        <th *ngIf="buttonEliminarActivated">ACCION</th>
+                                        <th *ngIf="buttonEditarActivated"> ACCION</th>
+                                        <th>ID CLIENTE</th>
+                                        <th>FECHA ASIGNACION</th>
+                                        <th>ID PERSONA</th>
+                                        <th>TIPO PER.</th>
+                                        <th>NOMBRES</th>
+                                        <th>APELLIDO PATERNO</th>
+                                        <th>APELLIDO MATERNO</th>
+                                        <th>TIPO DOC.</th>
+                                        <th>NRO DOC</th>
+                                        <th>DIRECCION</th>
+                                        <th>TELEFONO</th>
+                                        <th>CORREO</th>
+                                        <th>OBSERVACION</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr *ngFor="let obj of listaClientes;let j = index" class="bg-cyan tam-cuerpo">
+                                        <td>{{inicio+j}}</td>
+                                        <td *ngIf="buttonSelectedActivated">
+                                            <button (click)="seleccionar(obj)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-hand-o-up fa-fw ic-dfa"></i>Select.
+                                            </button>
+                                        </td>
+                                        <td *ngIf="buttonEliminarActivated">
+                                            <button (click)="eliminar(obj)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                            </button>
+                                        </td>
+                                        <td *ngIf="buttonEditarActivated">
+                                            <button (click)="abrirPanelEditar(obj)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-plus-square fa-fw ic-dfa"></i>Editar
+                                            </button>
+                                        </td>
+                                        <td>{{obj.id_cliente}}</td>
+                                        <td>{{obj.fecha_asignacion}}</td>
+                                        <td>{{obj.id_persona}}</td>
+                                        <td>{{obj.nombre_tipo_persona}}</td>
+                                        <td>{{obj.nombres}}</td>
+                                        <td>{{obj.apellido_paterno}}</td>
+                                        <td>{{obj.apellido_materno}}</td>
+                                        <td>{{obj.nombre_tipo_documento}}</td>
+                                        <td>{{obj.numero_documento}}</td>
+                                        <td>{{obj.direccion}}</td>
+                                        <td>{{obj.telefono}}</td>
+                                        <td>{{obj.correo}}</td>
+                                        <td>{{obj.observacion}}</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+</div>
+
+
+
+<button id="modalPersona" hidden="hidden" data-toggle="modal" data-target="#modalPersonaPnl"></button>
+<div class="modal fade" id="modalPersonaPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" (click)="cerrarModal('modalPersona')">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS PERSONA</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+<!--
+                <form-persona [activatedSelected]="activatedSelectedPer" [beanSelected]="beanSelectedPer" [nombresSelected]="nombresSelectedPer"
+                    [apellidoPaternoSelected]="apellidoPaternoSelectedPer" [apellidoMaternoSelected]="apellidoMaternoSelectedPer"
+                    [numeroDocumentoSelected]="numeroDocumentoSelectedPer" [direccionSelected]="direccionSelectedPer" [telefonoSelected]="telefonoSelectedPer"
+                    [correoSelected]="correoSelectedPer" [panelListaBeanSelected]="panelListaBeanSelectedPer" [panelEditarSelected]="panelEditarSelectedPer"
+                    (editarPersona)="editarPersona($event)" (dataExterna)="obtenerDatosExternos($event)">
+                </form-persona>-->
+
+            </div>
+            <div class="modal-footer">
+                <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                <!--(click)="activarBuscar($event)"-->
+            </div>
+        </div>
+    </div>
+</div>
+<button id="modalPersona" hidden="hidden" data-toggle="modal" data-target="#modalPersonaPnl"></button>
+<div class="modal fade" id="modalPersonaPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" (click)="cerrarModal('modalPersona')">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS PERSONA</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+<!--
+                <form-persona [tabsActivated]="tabsPersonaActivated" [activatedSelected]="activatedSelectedPer" [beanSelected]="beanSelectedPer" [nombresSelected]="nombresSelectedPer"
+                    [apellidoPaternoSelected]="apellidoPaternoSelectedPer" [apellidoMaternoSelected]="apellidoMaternoSelectedPer"
+                    [numeroDocumentoSelected]="numeroDocumentoSelectedPer" [direccionSelected]="direccionSelectedPer" [telefonoSelected]="telefonoSelectedPer"
+                    [correoSelected]="correoSelectedPer" [panelListaBeanSelected]="panelListaBeanSelectedPer" [panelEditarSelected]="panelEditarSelectedPer"
+                    (editarPersona)="editarPersona($event)" (dataExterna)="obtenerDatosExternos($event)">
+                </form-persona>-->
+
+            </div>
+            <div class="modal-footer">
+                <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                <!--(click)="activarBuscar($event)"-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<button id="modalPDF" hidden="hidden" data-toggle="modal" data-target="#modalPDFPnl"></button>
+<div class="modal fade" id="modalPDFPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <!--<h4 class="modal-title">{{tituloPDF}}</h4>-->
+            </div>
+            <div id="mostrarPDF" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <!-- <button (click)="activarBuscar($event)" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+               -->
+            </div>
+        </div>
+    </div>
+</div>

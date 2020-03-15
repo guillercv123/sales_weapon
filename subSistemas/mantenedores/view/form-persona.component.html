@@ -1,0 +1,38 @@
+<div *ngIf="completado">
+    <div class="loader">Cargando...</div>
+</div>
+
+
+<div *ngIf="tienePermisoView">
+
+
+    <div *ngIf="!panelPermisosSelected">
+
+
+
+        <ul *ngIf="!panelEditarSelected && tabsActivated" class="nav nav-tabs">
+            <li>
+                <a data-toggle="tab" href="#buscarPersona">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</a>
+            </li>
+            <li class="active">
+                <a data-toggle="tab" href="#nuevoPersona">
+                    <i class="fa fa-plus fa-fw ic-dfa"></i>Nuevo</a>
+            </li>
+
+        </ul>
+        <div *ngIf="!panelEditarSelected" class="tab-content">
+            <div id="buscarPersona" class="tab-pane fade ">
+                <form-find-persona (editarPersonaAction)="editarPersonaAction($event)"></form-find-persona>
+            </div>
+
+
+            <div id="nuevoPersona" class="tab-pane fade in active">
+                <form-new-persona></form-new-persona>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

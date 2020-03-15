@@ -1,0 +1,73 @@
+<!--
+    <div class="row">
+        <div class="col-md-12" >    
+        -->
+        <div *ngIf="transferido">
+            Transfiriendo..
+            <div class="loader">Loading...</div>
+        </div>
+        
+        
+        <div *ngIf="tienePermisoView">
+        
+        
+            <div *ngIf="!panelPermisosSelected">
+        
+        
+        
+                <ul *ngIf="!panelEditarSelected" class="nav nav-tabs">
+                    <li class="active">
+                        <a data-toggle="tab" href="#buscarAlmacen">
+                            <i class="fa fa-edit fa-fw ic-dfa"></i>EDITAR PORCENTAJE DE DESCUENTO</a>
+                    </li>
+                    
+                </ul>
+                <div *ngIf="!panelEditarSelected" class="tab-content">
+        
+                    <div id="buscarAlmacen" class="tab-pane fade in active">
+        
+                        <div class="login-panel panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">PORCENTAJE de DESCUENTO</h3>
+                            </div>
+                            <div class="panel-body">
+        
+        
+                                <div class="col-md-12 col-xd-2">
+
+                            
+                                    <div class="col-md-5 col-xd-5">
+                                        <div class="form-group">
+                                            <label>INGRESE NUEVO PORCENTAJE: </label>
+                                            <input class="form-control" required placeholder="Nuevo valor de porcentaje" type="text" [(ngModel)]="porcentajeSelected" name="txtPorcentaje">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label> Accion</label>
+                                        
+                                        <button (click)="editar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-save fa-fw ic-dfa"></i>Editar</button>
+                                </div>
+
+                               
+                                    
+                                </div>
+                                
+        
+        
+                            </div>
+                        </div>
+        
+                    </div>
+                </div>
+        
+        
+        
+        
+    
+        
+            </div>
+        
+        </div>
+        

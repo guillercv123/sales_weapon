@@ -1,0 +1,471 @@
+<!--
+    <div class="row">
+        <div class="col-md-12" >    
+        -->
+<div *ngIf="transferido">
+    Transfiriendo..
+    <div class="loader">Loading...</div>
+</div>
+
+
+<div *ngIf="tienePermisoView">
+
+
+    <div *ngIf="!panelPermisosSelected">
+
+
+
+        <ul *ngIf="!panelEditarSelected" class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" href="#buscarUnidadEmpresa">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#nuevoUnidadEmpresa">
+                    <i class="fa fa-plus fa-fw ic-dfa"></i>Nuevo</a>
+            </li>
+
+        </ul>
+        <div *ngIf="!panelEditarSelected" class="tab-content">
+
+            <div id="buscarUnidadEmpresa" class="tab-pane fade in active">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Busqueda de Unidad Empresa</h3>
+                    </div>
+                    <div class="panel-body">
+
+
+                        <div class="col-md-12 col-xd-2">
+
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Id Unidad Empresa: </label>
+                                    <input class="form-control" required placeholder="1" type="text" [(ngModel)]="idUnidadEmpresaSelected" name="txtIdUnidadEmpresa">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Nombre: </label>
+                                    <input class="form-control" required placeholder="Oficina de Tecnologia" type="text" [(ngModel)]="nombreSelected" name="txtNombre">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Iniciales: </label>
+                                    <input class="form-control" required placeholder="OFI" type="text" [(ngModel)]="inicialesSelected" name="txtIniciales">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Ubicacion: </label>
+                                    <input class="form-control" required placeholder="2do Piso" type="text" [(ngModel)]="ubicacionSelected" name="txtUbicacion">
+                                </div>
+                            </div>
+
+                            <!--
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Id Empresa: </label>
+                                        <input class="form-control" required placeholder="1" type="number" [(ngModel)]="idEmpresaSelected" name="txtIdEmpresa">
+                                    </div>
+                                </div>-->
+
+                            <div class="col-md-6 col-xd-2">
+                                <div class="form-group">
+                                    <label>Empresa: </label>
+                                    <div class="input-group">
+                                        <label class="form-control">
+                                            <span *ngIf="empresaSelected!=null">{{empresaSelected.nombre}}</span>
+                                        </label>
+                                        <span class="input-group-btn">
+                                            <button (click)="abrirModalEmpresa()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-search fa-fw ic-dfa"></i>
+                                                <i class="fa fa-university fa-fw ic-dfa"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <!--
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Id Super Unidad: </label>
+                                        <input class="form-control" required placeholder="1" type="number" [(ngModel)]="idSuperUnidadEmpresaSelected" name="txtIdSuperUnidadEmpresa">
+                                    </div>
+                                </div>-->
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Super Unidad: </label>
+                                    <select class="form-control" required [(ngModel)]="superUnidadEmpresaSelected" name="cbSuperUnidad">
+                                        <option *ngFor="let uni of listaUnidadesEmpresaTotal; let i = index" [ngValue]="uni">{{uni.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-4 col-xd-2">
+                                <div class="form-group">
+                                    <label>Informal </label>
+                                    <input type="checkbox" [(ngModel)]="informalSelected" name="cbInformal">
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-12">
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="buscar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-search fa-fw ic-dfa"></i>Ejecutar</button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="nuevoUnidadEmpresa" class="tab-pane fade ">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Registro de Unidad Empresa</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="col-md-12 col-xd-2">
+
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Nombre: </label>
+                                    <input class="form-control" required placeholder="Oficina de Tecnologia" type="text" [(ngModel)]="nombreSelected" name="txtNombre">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Iniciales: </label>
+                                    <input class="form-control" required placeholder="OFI" type="text" [(ngModel)]="inicialesSelected" name="txtIniciales">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Ubicacion: </label>
+                                    <input class="form-control" required placeholder="2do Piso" type="text" [(ngModel)]="ubicacionSelected" name="txtUbicacion">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-xd-2">
+                                <div class="form-group">
+                                    <label>Empresa: </label>
+                                    <div class="input-group">
+                                        <label class="form-control">
+                                            <span *ngIf="empresaSelected!=null">{{empresaSelected.nombre}}</span>
+                                        </label>
+                                        <span class="input-group-btn">
+                                            <button (click)="abrirModalEmpresa()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-search fa-fw ic-dfa"></i>
+                                                <i class="fa fa-university fa-fw ic-dfa"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!--
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Id Empresa: </label>
+                                        <input class="form-control" required placeholder="1" type="number" [(ngModel)]="idEmpresaSelected" name="txtIdEmpresa">
+                                    </div>
+                                </div>
+
+                      
+                                <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Id Super Unidad: </label>
+                                        <input class="form-control" required placeholder="1" type="number" [(ngModel)]="idSuperUnidadEmpresaSelected" name="txtIdSuperUnidadEmpresa">
+                                    </div>
+                                </div>-->
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Super Unidad: </label>
+                                    <select class="form-control" required [(ngModel)]="superUnidadEmpresaSelected" name="cbSuperUnidad">
+                                        <option *ngFor="let uni of listaUnidadesEmpresaTotal; let i = index" [ngValue]="uni">{{uni.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-xd-2">
+                                <div class="form-group">
+                                    <label>Informal </label>
+                                    <input type="checkbox" [(ngModel)]="informalSelected" name="cbInformal">
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="registrar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-save fa-fw ic-dfa"></i>Guardar</button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <div *ngIf="panelEditarSelected" class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Editar Unidad Empresa</h3>
+
+            </div>
+            <div class="panel-body">
+
+
+
+                <div class="col-md-2 tabla-cabecera-botones">
+                    <button (click)="regresar()" class="btn btn-primary btn-block">
+                        <i class="fa fa-reply fa-fw ic-dfa"></i>Regresar
+                    </button>
+                </div>
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="form-group">
+                        <label>Nombre: </label>
+                        <input class="form-control" required placeholder="Oficina de Tecnologia" type="text" [(ngModel)]="nombreSelected" name="txtNombre">
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="form-group">
+                        <label>Iniciales: </label>
+                        <input class="form-control" required placeholder="OFI" type="text" [(ngModel)]="inicialesSelected" name="txtIniciales">
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="form-group">
+                        <label>Ubicacion: </label>
+                        <input class="form-control" required placeholder="2do Piso" type="text" [(ngModel)]="ubicacionSelected" name="txtUbicacion">
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="form-group">
+                        <label>Empresa: </label>
+                        <div class="input-group">
+                            <label class="form-control">
+                                <span *ngIf="empresaSelected!=null">{{empresaSelected.nombre}}</span>
+                            </label>
+                            <span class="input-group-btn">
+                                <button (click)="abrirModalEmpresa()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-search fa-fw ic-dfa"></i>
+                                    <i class="fa fa-university fa-fw ic-dfa"></i>
+                                </button>
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-2 col-xd-2">
+                    <div class="form-group">
+                        <label>Super Unidad: </label>
+                        <select class="form-control" required [(ngModel)]="superUnidadEmpresaSelected" name="cbSuperUnidad">
+                            <option *ngFor="let uni of listaUnidadesEmpresaTotal; let i = index" [ngValue]="uni">{{uni.nombre}} </option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="form-group">
+                        <label>Informal </label>
+                        <input type="checkbox" [(ngModel)]="informalSelected" name="cbInformal">
+                    </div>
+                </div>
+
+
+                <div class="col-md-2">
+                    <label> Accion</label>
+                    <button (click)="editar()" class="btn btn-primary btn-block">
+                        <i class="fa fa-save fa-fw ic-dfa"></i>Editar</button>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+        <div *ngIf="panelListaBeanSelected" class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Lista de Unides Entidades</h3>
+            </div>
+            <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="row bg-teal tabla-cabecera-botones">
+                            <div class="col-md-12">
+                                <h5>EXISTEN :{{totalLista}} EN TOTAL</h5>
+                            </div>
+                            <div class="col-md-2">
+                                <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-2">
+                                <label>Del {{inicio}} al {{fin}}</label>
+                            </div>
+
+                            <div class="col-md-2">
+                                <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-5">
+                                    <label> Tamaño Pagina</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                        <option [ngValue]="10">10</option>
+                                        <option [ngValue]="15">15</option>
+                                        <option [ngValue]="20">20</option>
+                                        <option [ngValue]="30">30</option>
+                                        <option [ngValue]="100">100</option>
+                                        <option [ngValue]="500">500</option>
+                                        <option [ngValue]="1000">1000</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class=" table-responsive tabla-dfa">
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr class="bg-teal tam-cabecera">
+                                        <th>N°</th>
+                                        <th *ngIf="buttonSelectedActivated">ACCION</th>
+                                        <th *ngIf="!buttonSelectedActivated">ACCION</th>
+                                        <th *ngIf="!buttonSelectedActivated">ACCION</th>
+                                        <th>ID UNIDAD ENTIDAD</th>
+                                        <th>NOMBRE</th>
+                                        <th>INICIALES</th>
+                                        <th>UBICACION</th>
+                                        <th>EMPRESA</th>
+                                        <th>SUPER UNIDAD</th>
+                                        <th>ES INFORMAL</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr *ngFor="let obj of listaUnidadesEmpresa;let j = index" class="bg-cyan tam-cuerpo">
+                                        <td>{{inicio+j}}</td>
+                                        <td *ngIf="buttonSelectedActivated">
+                                            <button (click)="seleccionar(obj)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-hand-o-up fa-fw ic-dfa"></i>Select.
+                                            </button>
+                                        </td>
+                                        <td *ngIf="!buttonSelectedActivated">
+                                            <button (click)="eliminar(obj)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                            </button>
+                                        </td>
+                                        <td *ngIf="!buttonSelectedActivated">
+                                            <button (click)="abrirPanelEditar(obj)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-plus-square fa-fw ic-dfa"></i>Editar
+                                            </button>
+                                        </td>
+                                        <td>{{obj.id_unidad_empresa}}</td>
+                                        <td>{{obj.nombre}}</td>
+                                        <td>{{obj.iniciales}}</td>
+                                        <td>{{obj.ubicacion}}</td>
+                                        <td>{{obj.nombre_empresa}}</td>
+                                        <td>{{obj.nombre_super_unidad_empresa}}</td>
+                                        <td>{{obj.informal}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<button id="modalEmpresa" hidden="hidden" data-toggle="modal" data-target="#modalEmpresaPnl"></button>
+<div class="modal fade" id="modalEmpresaPnl">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS Empresa</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <form-empresa [buttonSelectedActivated]="buttonSelectedActivatedEmpre" (empresaSeleccionada)="obtenerEmpresaDatosExternos($event)"></form-empresa>
+
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>

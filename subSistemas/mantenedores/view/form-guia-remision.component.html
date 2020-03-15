@@ -1,0 +1,47 @@
+<!--
+    <div class="row">
+        <div class="col-md-12" >    
+        -->
+<div *ngIf="transferido">
+    Transfiriendo..
+    <div class="loader">Loading...</div>
+</div>
+
+
+<div *ngIf="tienePermisoView">
+
+
+    <div *ngIf="!panelPermisosSelected">
+
+
+
+        <ul *ngIf="!panelEditarSelected && tabsActivated" class="nav nav-tabs">
+            <li>
+                <a data-toggle="tab" href="#buscarGuiaRemision">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</a>
+            </li>
+            <li class="active">
+                <a data-toggle="tab" href="#nuevoGuiaRemision">
+                    <i class="fa fa-plus fa-fw ic-dfa"></i>Nuevo</a>
+            </li>
+        </ul>
+
+        <div *ngIf="!panelEditarSelected" class="tab-content">
+            <div id="buscarGuiaRemision" class="tab-pane fade ">
+                <form-find-guia-remision></form-find-guia-remision>
+            </div>
+
+
+            <div id="nuevoGuiaRemision" class="tab-pane fade in active ">
+                <form-new-guia-remision></form-new-guia-remision>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+

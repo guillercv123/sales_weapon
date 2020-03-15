@@ -1,0 +1,166 @@
+    <div class="login-panel panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{tituloPanel}}</h3>
+        </div>
+        <div class="panel-body">
+
+                <div class="col-md-12 col-xd-12">
+
+                    <div class="col-md-3 col-xd-2">
+                        <div class="form-group">
+                            <label>Tipo Persona: </label>
+                            <select class="form-control" required [(ngModel)]="tipoPersonaSelected" name="cbTiposPersona" (change)="mostrarGenero()">
+                                <option *ngFor="let ti of tiposPersona; let i = index" [ngValue]="ti">{{ti.nombre}} </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- <div *ngIf="generoVisible" class="col-md-3 col-xd-12">
+                            <div class="form-group">
+                                <label>Genero: </label>
+                                <select class="form-control" required [(ngModel)]="generoSelected" name="cbGenero">
+                                        <option value="F">FEMENINO</option>
+                                        <option value="M">MASCULINO</option>
+                                        <option value="O">OTRO</option>
+                                </select>
+                            </div>
+                    </div> -->
+
+                    <div class="col-md-3 col-xd-12" *ngIf="!generoVisible">
+                        <div class="form-group">
+                            <label>Tipo Doc: </label>
+                            <select class="form-control" required [(ngModel)]="tipoDocumentoSelected" name="cbTiposDocumento">
+                                <option *ngFor="let ti of tiposDocumento; let i = index" [ngValue]="ti">{{ti.nombre}} </option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 col-xd-12" *ngIf="!generoVisible">
+
+                            <div class="form-group">
+                                <label>Nro Doc: </label>
+                                <div class="input-group">
+                                    
+                                    <div *ngIf="tipoDocumentoSelected==null">
+                                        <input class="form-control" minlength=8 maxlength=8 required placeholder="84571254" type="text" [(ngModel)]="numeroDocumentoSelected" name="txtNumeroDoc"   onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;">
+                                    </div>
+
+                                    <div *ngIf="tipoDocumentoSelected!=null">
+                                        <input *ngIf="tipoDocumentoSelected.nombre=='DNI'" class="form-control" minlength=8 maxlength=8 required placeholder="84571254" type="text" [(ngModel)]="numeroDocumentoSelected" name="txtNumeroDoc"   onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;">
+                                        <input *ngIf="tipoDocumentoSelected.nombre=='RUC'" class="form-control" minlength=11 maxlength=11 required placeholder="84571254" type="text" [(ngModel)]="numeroDocumentoSelected" name="txtNumeroDoc"   onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;">        
+                                  </div>
+
+
+                                   
+                                    <span class="input-group-btn">
+                                        <button (click)="buscarSunat()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-search fa-fw ic-dfa"></i>
+                                            <img src="assets/img/sunat.png" width="16">Sunat
+                                        </button>
+                                    </span>
+
+                                    <span class="input-group-btn">
+                                        <button (click)="buscarReniec()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-search fa-fw ic-dfa"></i>
+                                            <img src="assets/img/reniec.png" width="16">Reniec
+                                        </button>
+                                    </span>
+
+                                    <!--
+                                    <span class="input-group-btn">
+                                        <button (click)="buscarJNE()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-search fa-fw ic-dfa"></i>
+                                            <img src="assets/img/jne2.png" width="16">JNE
+                                        </button>
+                                    </span>-->
+                                </div>
+
+                            </div>
+                      
+                        
+                    </div>
+
+
+                    <div class="col-md-6 col-xd-12">
+                        <div class="form-group">
+                            <label>Nombres: </label>
+                            <input style="text-transform: uppercase" class="form-control" required placeholder="Juan" type="text" [(ngModel)]="nombresSelected" name="txtNombre">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-xd-12">
+                        <div class="form-group">
+                            <label>Apellido Paterno: </label>
+                            <input  style="text-transform: uppercase" class="form-control" required placeholder="Perez" type="text" [(ngModel)]="apellidoPaternoSelected" name="txtApellidoPaterno">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-xd-12">
+                        <div class="form-group">
+                            <label>Apellido Materno: </label>
+                            <input style="text-transform: uppercase" class="form-control" required placeholder="Perez" type="text" [(ngModel)]="apellidoMaternoSelected" name="txtApellidoMaterno">
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-7 col-xd-12">
+                        <div class="form-group">
+                            <label>Direccion: </label>
+                            <input style="text-transform: uppercase" class="form-control" required placeholder="Av. España 302" type="text" [(ngModel)]="direccionSelected" name="txtDireccion">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 col-xd-12">
+                        <div class="form-group">
+                            <label>Telefono: </label>
+                            <input class="form-control" required placeholder="987451247" type="text" [(ngModel)]="telefonoSelected" name="txtTelefono">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-xd-12">
+                        <div class="form-group">
+                            <label>Correo: </label>
+                            <input class="form-control" required placeholder="informes@gmail.com" type="text" [(ngModel)]="correoSelected" name="txtCorreo">
+                        </div>
+                    </div>
+
+
+                    <div *ngIf="checkClienteActivado" class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>Es Cliente? : </label>
+                            <input  class="form-control" type="checkbox" [(ngModel)]="isClienteSelected" name="chIsCliente" >
+                        </div>
+                    </div>
+
+                    <div *ngIf="checkProveedorActivado" class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>Es Proveedor? : </label>
+                            <input  class="form-control" type="checkbox" [(ngModel)]="isProveedorSelected" name="chIsProveedor" >
+                        </div>
+                    </div>
+                    
+                </div>
+
+
+
+
+                <div class="col-md-12 col-xd-12">
+
+                    <div class="col-md-2 col-xd-12">
+                        <label> Accion</label>
+                        <button id="botonRegistrarPersona" (click)="guardar()" class="btn btn-primary btn-block">
+                            <i class="fa fa-save fa-fw ic-dfa"></i>Guardar</button>
+                    </div>
+                    <div class="col-md-2 col-xd-12">
+                        <label> Accion</label>
+                        <button (click)="limpiar()" class="btn btn-primary btn-block">
+                            <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                    </div>
+
+                </div>
+
+
+        </div>
+    </div>
+

@@ -1,0 +1,458 @@
+<div class="login-panel panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Registro de Guia Remision</h3>
+    </div>
+    <div class="panel-body">
+
+        <div class="col-md-12 col-xd-2">
+
+            <div *ngIf="!tieneComprobante && (ventaSelected!=null || compraSelected != null )" class="col-md-4">
+                <label> Accion</label>
+                <button (click)="registrar()" class="btn btn-primary btn-block">
+                    <i class="fa fa-save fa-fw ic-dfa"></i>Generar Guia Remision</button>
+            </div>
+
+            <div *ngIf="tieneComprobante && (ventaSelected!=null || compraSelected != null )" class="col-md-4">
+                <label> Accion</label>
+                <button (click)="imprimirGuiaRemision()" class="btn btn-primary btn-block">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Imprimir Guia Remision</button>
+            </div>
+
+
+            <div class="col-md-2">
+                <label> Accion</label>
+                <button (click)="limpiarCampos()" class="btn btn-primary btn-block">
+                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+            </div>
+        </div>
+
+
+        <div class="col-md-12 col-xd-2">
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Id Compra/Venta: </label>
+                    <div class="input-group">
+                        <input class="form-control" required placeholder="23" type="number"
+                            [(ngModel)]="idCompraVentaSelected" name="txtIdCompraVenta">
+                        <span class="input-group-btn">
+                            <button (click)="buscarCompraVenta()" class="btn btn-primary btn-block">
+                                <i class="fa fa-search fa-fw ic-dfa"></i>
+                            </button>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-4 col-xd-2">
+                <div class="form-group">
+                    <label>Categoria Guia Remision: </label>
+                    <select class="form-control" required [(ngModel)]="categoriaComprobanteSelected"
+                        name="cbCategoriasComprobante" (ngModelChange)="mostrarTiposComprobante()">
+                        <option *ngFor="let ti of categoriasComprobante; let i = index" [ngValue]="ti">{{ti.nombre}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div *ngIf="!comprobanteCompraActivated">
+
+            <div class="col-md-12 col-xd-2">
+
+
+
+
+                <div class="col-md-3 col-xd-2">
+                    <div class="form-group">
+                        <label>Tipo Documento: </label>
+                        <select class="form-control" required [(ngModel)]="tipoComprobanteSelected"
+                            name="cbTiposComprobante" (ngModelChange)="mostrarSeriesComprobante()">
+                            <option *ngFor="let ti of tiposComprobante; let i = index" [ngValue]="ti">{{ti.nombre}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-xd-2">
+                    <div class="form-group">
+                        <label>Serie : </label>
+                        <select class="form-control" required [(ngModel)]="serieComprobanteSelected"
+                            name="cbSeriesComprobante" (ngModelChange)="mostrarCorrelativoSerie()">
+                            <option *ngFor="let ti of seriesComprobante; let i = index" [ngValue]="ti">{{ti.numero}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-xd-2">
+                    <div class="form-group">
+                        <label>Numero Correlativo: </label>
+                        <span class="form-control">
+                            <span class="numero-correlativo"
+                                *ngIf="numeroCorrelativoSiguiente!=null">{{numeroCorrelativoSiguiente}}</span>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div *ngIf="comprobanteCompraActivated">
+
+            <div class="col-md-12 col-xd-2">
+
+                <div class="col-md-4 col-xd-2">
+                    <div class="form-group">
+                        <label>Serie Guia Remision: </label>
+                        <input class="form-control" type="text" [(ngModel)]="serieSelected" name="txtSerie">
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xd-2">
+                    <div class="form-group">
+                        <label>Numero Guia Remision: </label>
+                        <input class="form-control" type="text" [(ngModel)]="numeroSelected" name="txtNumero">
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <div class="col-md-12 col-xd-2">
+
+
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Punto Partida: </label>
+                    <input class="form-control" type="text" [(ngModel)]="puntoPartidaSelected" name="txtNumero">
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Punto Llegada: </label>
+                    <input class="form-control" type="text" [(ngModel)]="puntoLlegadaSelected" name="txtNumero">
+                </div>
+            </div>
+
+
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Fecha Emision: </label>
+                    <input class="form-control" type="date" [(ngModel)]="fechaEmisionSelected" name="txtNumero">
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Fecha Inicio Traslado: </label>
+                    <input class="form-control" type="date" [(ngModel)]="fechaInicioTrasladoSelected" name="txtNumero">
+                </div>
+            </div>
+
+            <!--
+                                    <div class="col-md-3 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Motivo Traslado: </label>
+                                            <input class="form-control" type="text" [(ngModel)]="motivoTrasladoSelected" name="txtNumero">
+                                        </div>
+                                    </div>-->
+
+
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Motivo Traslado: : </label>
+                    <select class="form-control" required [(ngModel)]="motivoTrasladoSelected"
+                        name="cbSeriesComprobante">
+                        <option value="COMPRA">COMPRA</option>
+                        <option value="VENTA SUJETA A CONFIRMAR">VENTA SUJETA A CONFIRMAR</option>
+                        <option value="DEVOLUCION">DEVOLUCION</option>
+                        <option value="TRASLADO POR EMISOR DE COMPROBANTE DE PAGO">TRASLADO POR EMISOR DE COMPROBANTE DE
+                            PAGO</option>
+                        <option value="RECOJO BIENES TRASFORMADOS">RECOJO BIENES TRASFORMADOS</option>
+                        <option value="IMPORTACION">IMPORTACION</option>
+                        <option value="VENTA">VENTA</option>
+                        <option value="CONSIGNACION">CONSIGNACION</option>
+                        <option value="PARA TRANSFORMACION">PARA TRANSFORMACION</option>
+                        <option value="ENTRE ESTABLECIMIENTO DE LA MISMA EMPRESA">ENTRE ESTABLECIMIENTO DE LA MISMA
+                            EMPRESA</option>
+                        <option value="ZONA PRIMARIA">ZONA PRIMARIA</option>
+                        <option value="EXPORTACION">EXPORTACION</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Nro Orden: </label>
+                    <input class="form-control" type="text" [(ngModel)]="nroOrdenSelected" name="txtNumero">
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Referencia Cliente: </label>
+                    <input class="form-control" type="text" [(ngModel)]="referenciaClienteSelected" name="txtNumero">
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Referencia Origen: </label>
+                    <input class="form-control" type="text" [(ngModel)]="referenciaOrigenSelected" name="txtNumero">
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Condiciones Entrega: </label>
+                    <input class="form-control" type="text" [(ngModel)]="condicionesEntregaSelected" name="txtNumero">
+                </div>
+            </div>
+
+            <div class="col-md-4 col-xd-2">
+                <div class="form-group">
+                    <label>Tipo Moneda Costo: </label>
+                    <select class="form-control" required [(ngModel)]="tipoMonedaSelected" name="cbTipoMoneda">
+                        <option *ngFor="let ti of tiposMoneda; let i = index" [ngValue]="ti">{{ti.nombre}} </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Costo Minimo: </label>
+                    <input class="form-control" type="number" [(ngModel)]="costoMinimoSelected" name="txtNumero">
+                </div>
+            </div>
+
+            <div class="col-md-5 col-xd-2">
+                <div class="form-group">
+                    <label>Empresa Transporte: </label>
+
+                    <div class="input-group">
+                        <label class="form-control">{{nombreEmpresaTransporte}}</label>
+                        <span class="input-group-btn">
+                            <button (click)="abrirModalPersona()" class="btn btn-primary btn-block">
+                                <i class="fa fa-search fa-fw ic-dfa"></i>
+                                <i class="fa fa-truck fa-fw ic-dfa"></i>
+                            </button>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-5 col-xd-2">
+                <div class="form-group">
+                    <label>Conductor Vehiculo: </label>
+
+                    <div class="input-group">
+                        <label class="form-control">{{nombreConductorSelected}}</label>
+                        <span class="input-group-btn">
+                            <button (click)="abrirModalConductor()" class="btn btn-primary btn-block">
+                                <i class="fa fa-search fa-fw ic-dfa"></i>
+                                <i class="fa fa-id-card fa-fw ic-dfa"></i>
+                            </button>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
+</div>
+
+
+<div class="login-panel panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Detalle Guia Remision </h3>
+    </div>
+    <div class="panel-body">
+
+
+        <div class=" table-responsive tabla-dfa">
+            <table class="table table-condensed">
+                <thead>
+                    <tr class="bg-teal tam-cabecera">
+                        <!--<th>N°</th>-->
+                        <th>LINEA</th>
+                        <th>CANTIDAD</th>
+                        <th>DESCRIPCION</th>
+                        <th>P.UNIT</th>
+                        <th>UM</th>
+                        <th>TOTAL</th>
+                        <th>PESO</th>
+                        <th>UM</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let pro of listaProductos;let j = index" class="bg-cyan tam-cuerpo">
+                        <td>{{inicio+j}}</td>
+                        <!--<td>{{pro.nombre_tipo_producto}}</td>-->
+                        <td>{{pro.cantidad}}</td>
+                        <td>{{pro.nombre_producto}}</td>
+                        <td>{{pro.simbolo}}{{completar_ceros_derecha(pro.precio,2)}}</td>
+                        <td>{{pro.nombre_unidad_medida}}</td>
+                        <td>{{pro.simbolo}}{{completar_ceros_derecha(round2(pro.cantidad * pro.precio),2)}}</td>
+                        <td>
+                            <input type="number" [(ngModel)]="pro.peso" name="txtPeso">
+                        </td>
+                        <td>
+                            <select [(ngModel)]="pro.id_unidad_medida_peso">
+                                <option *ngFor="let uni of unidades_medida; let i = index"
+                                    [value]="uni.id_unidad_medida">{{uni.nombre}} </option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div *ngIf="ventaSelected!=null" class="col-md-12">
+
+            <div class="col-md-offset-3 col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Sub total : </label>
+                    <span class="form-control">
+                        <span
+                            *ngIf="ventaSelected!=null">{{ventaSelected.simbolo_tipo_moneda}}{{completar_ceros_derecha(ventaSelected.sub_total,2)}}</span>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>IGV (
+                        <span *ngIf="ventaSelected!=null">{{ventaSelected.porc_igv}}</span>)% : </label>
+                    <span class="form-control">
+                        <span
+                            *ngIf="ventaSelected!=null">{{ventaSelected.simbolo_tipo_moneda}}{{completar_ceros_derecha(ventaSelected.igv,2)}}</span>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Total : </label>
+                    <span class="form-control">
+                        <span
+                            *ngIf="ventaSelected!=null">{{ventaSelected.simbolo_tipo_moneda}}{{completar_ceros_derecha(ventaSelected.monto_total,2)}}</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="compraSelected!=null" class="col-md-12">
+
+            <div class="col-md-offset-3 col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Sub total : </label>
+                    <span class="form-control">
+                        <span
+                            *ngIf="compraSelected!=null">{{compraSelected.simbolo_tipo_moneda}}{{completar_ceros_derecha(compraSelected.sub_total,2)}}</span>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>IGV (
+                        <span *ngIf="compraSelected!=null">{{compraSelected.porc_igv}}</span>)% : </label>
+                    <span class="form-control">
+                        <span
+                            *ngIf="compraSelected!=null">{{compraSelected.simbolo_tipo_moneda}}{{completar_ceros_derecha(compraSelected.igv,2)}}</span>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Total : </label>
+                    <span class="form-control">
+                        <span
+                            *ngIf="compraSelected!=null">{{compraSelected.simbolo_tipo_moneda}}{{completar_ceros_derecha(compraSelected.monto_total,2)}}</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<button id="modalPersona2NewGuia" hidden="hidden" data-toggle="modal" data-target="#modalPersona2NewGuiaPnl"></button>
+<div class="modal fade" id="modalPersona2NewGuiaPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS PERSONA</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+
+                <form-find-persona 
+                    (dataExterna)="obtenerDatosPersonaExterna($event)">
+                </form-find-persona>
+
+            </div>
+            <div class="modal-footer">
+                <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                <!--(click)="activarBuscar($event)"-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<button id="modalConductorGuia" hidden="hidden" data-toggle="modal" data-target="#modalConductorGuiaPnl"></button>
+<div class="modal fade" id="modalConductorGuiaPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS CONDUCTOR</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+
+                <form-find-conductor-vehiculo 
+                    (conductorSeleccionado)="obtenerDatosConductorExterna($event)">
+                </form-find-conductor-vehiculo>
+
+            </div>
+            <div class="modal-footer">
+                <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                <!--(click)="activarBuscar($event)"-->
+            </div>
+        </div>
+    </div>
+</div>

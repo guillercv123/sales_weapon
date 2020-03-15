@@ -1,0 +1,170 @@
+<!--
+    <div class="row">
+        <div class="col-md-12" >    
+        -->
+<div *ngIf="transferido">
+    Transfiriendo..
+    <div class="loader">Loading...</div>
+</div>
+
+
+<div *ngIf="tienePermisoView">
+
+
+    <div *ngIf="!panelPermisosSelected">
+
+
+
+        <ul class="nav nav-tabs">
+            <li>
+                <a (click)="obtenerCompras()" data-toggle="tab" href="#buscarCompra">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</a>
+            </li>
+            <li class="active">
+                <a data-toggle="tab" href="#nuevoCompra">
+                    <i class="fa fa-plus fa-fw ic-dfa"></i>Nuevo</a>
+            </li>
+            <li id="tabCompobante">
+                <a (click)="generarComprobante()" data-toggle="tab" href="#comprobanteCompra">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Comprobante Compra</a>
+            </li>
+            <li id="tabGuiaRemision">
+                <a (click)="generarGuiaRemision()" data-toggle="tab" href="#guiaRemision">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Guia Remision Compra</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="buscarCompra" class="tab-pane fade ">
+                <form-find-compra (editarCompraAction)="editarCompraAction($event)">
+                </form-find-compra>
+            </div>
+
+
+            <div id="nuevoCompra" class="tab-pane fade in active ">
+                <form-new-compra>
+                </form-new-compra>
+            </div>
+
+            <div id="comprobanteCompra" class="tab-pane fade ">
+                <!-- <form-comprobante [tabsActivated]="tabsComprobanteActivated"></form-comprobante>-->
+                <form-new-comprobante></form-new-comprobante>
+            </div>
+
+            <div id="guiaRemision" class="tab-pane fade ">
+                <!--<form-guia-remision [tabsActivated]="tabsGuiaRemisionActivated"></form-guia-remision>-->
+                <form-new-guia-remision></form-new-guia-remision>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+    </div>
+
+</div>
+
+
+
+<!--
+<button id="modalCatalogoCompra" hidden="hidden" data-toggle="modal" data-target="#modalCatalogoCompraPnl"></button>
+<div class="modal fade" id="modalCatalogoCompraPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS PRODUCTO</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <form-catalogo-compra [buttonSelectedActivated]="buttonSelectedActivatedPro" [buttonEliminarActivated]="buttonEliminarActivatedPro"
+                    [buttonEditarActivated]="buttonEditarActivatedPro" (productoSeleccionado)="obtenerDatosExternos($event)">
+                </form-catalogo-compra> 
+
+            </div>
+            <div class="modal-footer">
+>
+            </div>
+        </div>
+    </div>
+</div>-->
+
+
+<button id="modalProducto2" hidden="hidden" data-toggle="modal" data-target="#modalProducto2Pnl"></button>
+<div class="modal fade" id="modalProducto2Pnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS PRODUCTO</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <form-producto [buttonSelected]="activatedSelectedPro"
+                    (productoSeleccionado)="obtenerDatosProducto($event)">
+                </form-producto>
+                <!--
+                <form-catalogo-compra [buttonSelectedActivated]="buttonSelectedActivatedPro" [buttonEliminarActivated]="buttonEliminarActivatedPro"
+                    [buttonEditarActivated]="buttonEditarActivatedPro" (productoSeleccionado)="obtenerDatosExternos($event)">
+                </form-catalogo-compra> -->
+
+            </div>
+            <div class="modal-footer">
+                <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                <!--(click)="activarBuscar($event)"-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<button id="modalPDF" hidden="hidden" data-toggle="modal" data-target="#modalPDFPnl"></button>
+<div class="modal fade" id="modalPDFPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <!--<h4 class="modal-title">{{tituloPDF}}</h4>-->
+            </div>
+            <div id="mostrarPDF" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <!-- <button (click)="activarBuscar($event)" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+               -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<button id="modalPDFCompra" hidden="hidden" data-toggle="modal" data-target="#modalPDFCompraPnl"></button>
+<div class="modal fade" id="modalPDFCompraPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <!--<h4 class="modal-title">{{tituloPDF}}</h4>-->
+            </div>
+            <div id="mostrarCompraPDF" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <!-- <button (click)="activarBuscar($event)" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+               -->
+            </div>
+        </div>
+    </div>
+</div>

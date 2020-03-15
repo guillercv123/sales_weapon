@@ -1,0 +1,202 @@
+<div class="login-panel panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Busqueda de Clientes</h3>
+    </div>
+    <div class="panel-body">
+
+
+        <div class="col-md-12 col-xd-2">
+
+           
+
+            <div class="col-md-3 col-xd-6">
+                <div class="form-group">
+                    <label>Nombres:</label>
+                    <input style="text-transform: uppercase" class="form-control" name="txtNombre" required [(ngModel)]="nombresSelected"
+                        (keypress)="teclaKeyPressAutocomplete($event)" (keyup)="teclaKeyUpAutocomplete($event)"
+                        (keydown)="teclaKeyDownAutocomplete($event)" placeholder="Juan" />
+                    <ul class="lista-diego" *ngIf="lista_autocompletado!=null">
+                        <li *ngFor="let bean of lista_autocompletado">
+                            <a (click)="elegirLista(bean)">
+                                {{ bean.nombres }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+  
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Tipo Doc: </label>
+                    <select class="form-control" required [(ngModel)]="tipoDocumentoSelected" name="cbTiposDocumento">
+                        <option *ngFor="let ti of tiposDocumento; let i = index" [ngValue]="ti">{{ti.nombre}} </option>
+                    </select>
+                </div>
+            </div>
+
+            
+            <div class="col-md-6 col-xd-12">
+
+                <div class="form-group">
+                    <label>Nro Doc: </label>
+                    <div class="input-group">
+                        
+                        <div *ngIf="tipoDocumentoSelected==null">
+                            <input class="form-control" minlength=8 maxlength=8 required placeholder="84571254" type="text" [(ngModel)]="numeroDocumentoSelected" name="txtNumeroDoc"   onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;">
+                        </div>
+
+                        <div *ngIf="tipoDocumentoSelected!=null">
+                            <input *ngIf="tipoDocumentoSelected.nombre=='DNI'" (keypress)="teclaEnter($event)" class="form-control" minlength=8 maxlength=8 required placeholder="84571254" type="text" [(ngModel)]="numeroDocumentoSelected" name="txtNumeroDoc"   onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;">
+                            <input *ngIf="tipoDocumentoSelected.nombre=='RUC'" (keypress)="teclaEnter($event)" class="form-control" minlength=11 maxlength=11 required placeholder="84571254" type="text" [(ngModel)]="numeroDocumentoSelected" name="txtNumeroDoc"   onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;">
+                        </div>
+                    </div>
+
+                </div>
+          
+            
+        </div>
+
+
+            <div class="col-md-2">
+                <label> Accion</label>
+                <button (click)="buscar()" class="btn btn-primary btn-block">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Ejecutar</button>
+            </div>
+
+            <div class="col-md-2">
+                <label> Accion</label>
+                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<div class="login-panel panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Lista de Clientes</h3>
+    </div>
+    <div class="panel-body">
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="row bg-teal tabla-cabecera-botones">
+                    <div class="col-md-12">
+                        <h5>EXISTEN :{{totalLista}} EN TOTAL</h5>
+                    </div>
+                    <div class="col-md-2">
+                        <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                            <i class="fa fa-backward fa-fw ic-dfa"></i>
+                        </button>
+                    </div>
+                    <div class="col-md-2">
+                        <label>Del {{inicio}} al {{fin}}</label>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                            <i class="fa fa-forward fa-fw ic-dfa"></i>
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="col-md-5">
+                            <label> Tamaño Pagina</label>
+                        </div>
+                        <div class="col-md-4">
+                            <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                <option [ngValue]="10">10</option>
+                                <option [ngValue]="15">15</option>
+                                <option [ngValue]="20">20</option>
+                                <option [ngValue]="30">30</option>
+                                <option [ngValue]="100">100</option>
+                                <option [ngValue]="500">500</option>
+                                <option [ngValue]="1000">1000</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-1">
+
+                        <button class="btn-primary icono-dfa" (click)="exportarExcel();">
+                            <img src="assets/img/xls.png" width="24"> XLS</button>
+
+                    </div>
+                    <div class="col-md-1">
+
+                        <button class="btn-primary icono-dfa" (click)="exportarPdf();">
+                            <img src="assets/img/pdf.png" width="24"> PDF</button>
+
+                    </div>
+                </div>
+
+                <div class=" table-responsive tabla-dfa">
+
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr class="bg-teal tam-cabecera">
+                                <th>N°</th>
+                                <th *ngIf="buttonSelectedActivated">ACCION</th>
+                                <th *ngIf="!buttonSelectedActivated">ACCION</th>
+                                <th *ngIf="!buttonSelectedActivated"> ACCION</th>
+                                <th>FECHA ASIGNACION</th>
+                                <th>TIPO PER.</th>
+                                <th>NOMBRES</th>
+                                <th>APELLIDO PATERNO</th>
+                                <th>APELLIDO MATERNO</th>
+                                <th>TIPO DOC.</th>
+                                <th>NRO DOC</th>
+                                <th>DIRECCION</th>
+                                <th>TELEFONO</th>
+                                <th>CORREO</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let obj of listaClientes;let j = index" class="bg-cyan tam-cuerpo">
+                                <td>{{inicio+j}}</td>
+                                <td *ngIf="buttonSelectedActivated">
+                                    <button (click)="seleccionar(obj)" class="btn btn-primary btn-block">
+                                        <i class="fa fa-hand-o-up fa-fw ic-dfa"></i>Select.
+                                    </button>
+                                </td>
+                                <td *ngIf="!buttonSelectedActivated">
+                                    <button (click)="eliminar(obj)" class="btn btn-primary btn-block">
+                                        <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                    </button>
+                                </td>
+                                <td *ngIf="!buttonSelectedActivated">
+                                    <button (click)="abrirPanelEditar(obj)" class="btn btn-primary btn-block">
+                                        <i class="fa fa-plus-square fa-fw ic-dfa"></i>Editar
+                                    </button>
+                                </td>
+                                <td>{{obj.fecha_asignacion}}</td>
+                                <td>{{obj.nombre_tipo_persona}}</td>
+                                <td>{{obj.nombres}}</td>
+                                <td>{{obj.apellido_paterno}}</td>
+                                <td>{{obj.apellido_materno}}</td>
+                                <td>{{obj.nombre_tipo_documento}}</td>
+                                <td>{{obj.numero_documento}}</td>
+                                <td>{{obj.direccion}}</td>
+                                <td>{{obj.telefono}}</td>
+                                <td>{{obj.correo}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+

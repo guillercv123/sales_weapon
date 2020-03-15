@@ -1,0 +1,1044 @@
+<!--
+    <div class="row">
+        <div class="col-md-12" >    
+        -->
+<div *ngIf="transferido">
+    Transfiriendo..
+    <div class="loader">Loading...</div>
+</div>
+
+
+<div *ngIf="tienePermisoView">
+
+
+    <div *ngIf="!panelPermisosSelected">
+
+
+
+        <ul *ngIf="!panelEditarSelected && tabsActivated" class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" href="#buscarGuiaRemision">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</a>
+            </li>
+            <li >
+                <a data-toggle="tab" href="#nuevoGuiaRemision">
+                    <i class="fa fa-plus fa-fw ic-dfa"></i>Nuevo</a>
+            </li>
+        </ul>
+
+        <div *ngIf="!panelEditarSelected" class="tab-content">
+            <div id="buscarGuiaRemision" class="tab-pane fade in active">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Busqueda de Guia Remisión</h3>
+                    </div>
+                    <div class="panel-body">
+
+
+
+                        <div class="col-md-12 col-xd-2">
+
+
+                            <div class="col-md-4 col-xd-2">
+                                <div class="form-group">
+                                    <label>Categoria Guia Remision: </label>
+                                    <select class="form-control" required [(ngModel)]="categoriaComprobanteSelected" name="cbCategoriasComprobante" >
+                                        <option *ngFor="let ti of categoriasComprobante; let i = index" [ngValue]="ti">{{ti.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-xd-2">
+                                <div class="form-group">
+                                    <label>Serie Guia Remision: </label>
+                                    <input class="form-control" type="text" [(ngModel)]="serieSelected" name="txtSerie">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-xd-2">
+                                <div class="form-group">
+                                    <label>Numero Guia Remision: </label>
+                                    <input class="form-control" type="text" [(ngModel)]="numeroSelected" name="txtNumero">
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-12 col-xd-2">
+
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Punto Partida: </label>
+                                    <input class="form-control" type="text" [(ngModel)]="puntoPartidaSelected" name="txtNumero">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Punto Llegada: </label>
+                                    <input class="form-control" type="text" [(ngModel)]="puntoLlegadaSelected" name="txtNumero">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Fecha Emision: </label>
+                                    <input class="form-control" type="date" [(ngModel)]="fechaEmisionBuscarSelected" name="txtNumero">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Fecha Inicio Traslado: </label>
+                                    <input class="form-control" type="date" [(ngModel)]="fechaInicioTrasladoBuscarSelected" name="txtNumero">
+                                </div>
+                            </div>
+
+                            <!--
+                                    <div class="col-md-3 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Motivo Traslado: </label>
+                                            <input class="form-control" type="text" [(ngModel)]="motivoTrasladoSelected" name="txtNumero">
+                                        </div>
+                                    </div>-->
+
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Motivo Traslado: : </label>
+                                    <select class="form-control" required [(ngModel)]="motivoTrasladoSelected" name="cbSeriesComprobante">
+                                        <option value="COMPRA">COMPRA</option>
+                                        <option value="VENTA SUJETA A CONFIRMAR">VENTA SUJETA A CONFIRMAR</option>
+                                        <option value="DEVOLUCION">DEVOLUCION</option>
+                                        <option value="TRASLADO POR EMISOR DE COMPROBANTE DE PAGO">TRASLADO POR EMISOR DE COMPROBANTE DE PAGO</option>
+                                        <option value="RECOJO BIENES TRASFORMADOS">RECOJO BIENES TRASFORMADOS</option>
+                                        <option value="IMPORTACION">IMPORTACION</option>
+                                        <option value="VENTA">VENTA</option>
+                                        <option value="CONSIGNACION">CONSIGNACION</option>
+                                        <option value="PARA TRANSFORMACION">PARA TRANSFORMACION</option>
+                                        <option value="ENTRE ESTABLECIMIENTO DE LA MISMA EMPRESA">ENTRE ESTABLECIMIENTO DE LA MISMA EMPRESA</option>
+                                        <option value="ZONA PRIMARIA">ZONA PRIMARIA</option>
+                                        <option value="EXPORTACION">EXPORTACION</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Nro Orden: </label>
+                                    <input class="form-control" type="text" [(ngModel)]="nroOrdenSelected" name="txtNumero">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Referencia Cliente: </label>
+                                    <input class="form-control" type="text" [(ngModel)]="referenciaClienteSelected" name="txtNumero">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Referencia Origen: </label>
+                                    <input class="form-control" type="text" [(ngModel)]="referenciaOrigenSelected" name="txtNumero">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Condiciones Entrega: </label>
+                                    <input class="form-control" type="text" [(ngModel)]="condicionesEntregaSelected" name="txtNumero">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Tipo Moneda: </label>
+                                    <select class="form-control" required [(ngModel)]="tipoMonedaSelected" name="cbTipoMoneda">
+                                        <option *ngFor="let ti of tiposMoneda; let i = index" [ngValue]="ti">{{ti.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Costo Minimo: </label>
+                                    <input class="form-control" type="number" [(ngModel)]="costoMinimoSelected" name="txtNumero">
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-4 col-xd-2">
+                                <div class="form-group">
+                                    <label>Destinatario: </label>
+
+                                    <div class="input-group">
+                                        <label class="form-control">{{nombrePersonaDestinatario}}</label>
+                                        <span class="input-group-btn">
+                                            <button (click)="abrirModalPersonaDestinatario()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-search fa-fw ic-dfa"></i>
+                                                <i class="fa fa-users fa-fw ic-dfa"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            
+
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Empresa Transporte: </label>
+
+                                    <div class="input-group">
+                                        <label class="form-control">{{nombreEmpresaTransporte}}</label>
+                                        <span class="input-group-btn">
+                                            <button (click)="abrirModalPersona()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-search fa-fw ic-dfa"></i>
+                                                <i class="fa fa-truck fa-fw ic-dfa"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Conductor Vehiculo: </label>
+
+                                    <div class="input-group">
+                                        <label class="form-control">{{nombreConductorSelected}}</label>
+                                        <span class="input-group-btn">
+                                            <button (click)="abrirModalConductor()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-search fa-fw ic-dfa"></i>
+                                                <i class="fa fa-id-card fa-fw ic-dfa"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+
+                        <div class="col-md-12 col-xd-2">
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="buscar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-search fa-fw ic-dfa"></i>Ejecutar</button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="limpiarBuscar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lista Guia Remision </h3>
+                    </div>
+                    <div class="panel-body">
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="row bg-teal tabla-cabecera-botones">
+                                    <div class="col-md-12">
+                                        <h5>EXISTEN :{{totalLista}} EN TOTAL</h5>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Del {{inicio}} al {{fin}}</label>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-md-5">
+                                            <label> Tamaño Pagina</label>
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                                <option [ngValue]="10">10</option>
+                                                <option [ngValue]="15">15</option>
+                                                <option [ngValue]="20">20</option>
+                                                <option [ngValue]="30">30</option>
+                                                <option [ngValue]="100">100</option>
+                                                <option [ngValue]="500">500</option>
+                                                <option [ngValue]="1000">1000</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class=" table-responsive tabla-dfa">
+
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr class="bg-teal tam-cabecera">
+                                                <th>N°</th>
+                                                <th>ACCION</th>
+                                                <th>ID COMPRA VENTA</th>
+                                                <th>ID GUIA REMISION</th>
+                                                <th>TIPO GUIA</th>
+                                                <th>SERIE</th>
+                                                <th>NUMERO</th>
+                                                <th>RUC EMISOR</th>
+                                                <th>RUC DESTINATARIO</th>
+                                                <th>PUNTO PARTIDA</th>
+                                                <th>PUNTO LLEGADA</th>
+                                                <th>FECHA EMISION</th>
+                                                <th>FECHA INICIO TRASLADO</th>
+                                                <th>COSTO MINIMO</th>
+                                                <th>TIPO MONEDA</th>
+                                                <th>SIMBOLO MONEDA</th>
+                                                <th>ID TIPO MONEDA</th>
+                                                <th>ID PERSONA DESTINATARIO</th>
+                                                <th>ID EMPRESA TRANSPORTE</th>
+                                                <th>ID COMPROBANTE</th>
+                                                <th>ID CONDUCTOR VEHICULO</th>
+                                                <th>MOTIVO TRASLADO</th>
+                                                <th>ESTADO</th>
+                                                <th>NRO ORDEN</th>
+                                                <th>REFERENCIA CLIENTE</th>
+                                                <th>REFERENCIA ORIGEN</th>
+                                                <th>CONDICIONES ENTREGA</th>
+                                                <th>MARCA</th>
+                                                <th>NRO PLACA</th>
+                                                <th>NRO CONSTANCIA INSCRIPCION</th>
+                                                <th>NRO LICENCIA CONDUCIR</th>
+                                                <th>ID PERSONA</th>
+                                                <th>CONDUCTOR</th>
+                                                <th>NUMERO DOC CONDUCTOR</th>
+                                                <th>DESTINATARIO</th>
+                                                <th>NUMERO DOC DESTINATARIO</th>
+                                                <th>TIPO DOC DESTINATARIO</th>
+                                                <th>EMPRESA TRANSPORTE</th>
+                                                <th>NRO DOC EMPRESA TRANSPORTE</th>
+                                                <th>SERIE COMPROBANTE</th>
+                                                <th>NUMERO COMPROBANTE</th>
+                                                <th>TIPO COMPROBANTE</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr *ngFor="let obj of listaComprobantes;let j = index" class="bg-cyan tam-cuerpo">
+                                                <td>{{inicio+j}}</td>
+                                                <td>
+                                                    <button (click)="seleccionar(obj)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-hand-o-up fa-fw ic-dfa"></i>Select.
+                                                    </button>
+                                                </td>
+                     
+                                                <td>{{obj.id_compra_venta}}</td>
+                                                <td>{{obj.id_guia_remision}}</td>
+                                                <td>{{obj.tipo_guia}}</td>
+                                                <td>{{obj.serie}}</td>
+                                                <td>{{obj.numero}}</td>
+                                                <td>{{obj.ruc_emisor}}</td>
+                                                <td>{{obj.ruc_destinatario}}</td>
+                                                <td>{{obj.punto_partida}}</td>
+                                                <td>{{obj.punto_llegada}}</td>
+                                                <td>{{obj.fecha_emision}}</td>
+                                                <td>{{obj.fecha_inicio_traslado}}</td>
+                                                <td>{{obj.costo_minimo}}</td>
+                                                <td>{{obj.nombre_tipo_moneda}}</td>
+                                                <td>{{obj.simbolo_tipo_moneda}}</td>
+                                                <td>{{obj.id_tipo_moneda}}</td>
+                                                <td>{{obj.id_persona_destinatario}}</td>
+                                                <td>{{obj.id_persona_empresa_transporte}}</td>
+                                                <td>{{obj.id_comprobante}}</td>
+                                                <td>{{obj.id_conductor_vehiculo}}</td>
+                                                <td>{{obj.motivo_traslado}}</td>
+                                                <td>{{obj.estado}}</td>
+                                                <td>{{obj.nro_orden}}</td>
+                                                <td>{{obj.referencia_cliente}}</td>
+                                                <td>{{obj.referencia_origen}}</td>
+                                                <td>{{obj.condiciones_entrega}}</td>
+                                                <td>{{obj.marca}}</td>
+                                                <td>{{obj.nro_placa}}</td>
+                                                <td>{{obj.nro_constancia_inscripcion}}</td>
+                                                <td>{{obj.nro_licencia_conducir}}</td>
+                                                <td>{{obj.id_persona}}</td>
+                                                <td>{{obj.conductor}}</td>
+                                                <td>{{obj.numero_documento_conductor}}</td>
+                                                <td>{{obj.persona_destinatario}}</td>
+                                                <td>{{obj.numero_documento_persona_destinatario}}</td>
+                                                <td>{{obj.nombre_tipo_documento_destinatario}}</td>
+                                                <td>{{obj.persona_empresa_transporte}}</td>
+                                                <td>{{obj.numero_documento_persona_empresa_transporte}}</td>
+                                                <td>{{obj.serie_comprobante}}</td>
+                                                <td>{{obj.numero_comprobante}}</td>
+                                                <td>{{obj.nombre_tipo_comprobante}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div id="nuevoGuiaRemision" class="tab-pane fade  ">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Registro de Guia Remision</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="col-md-12 col-xd-2">
+
+                            <div *ngIf="!tieneComprobante && (ventaSelected!=null || compraSelected != null )" class="col-md-4">
+                                <label> Accion</label>
+                                <button (click)="registrar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-save fa-fw ic-dfa"></i>Generar Guia Remision</button>
+                            </div>
+
+                            <div *ngIf="tieneComprobante && (ventaSelected!=null || compraSelected != null )" class="col-md-4">
+                                <label> Accion</label>
+                                <button (click)="imprimirGuiaRemision()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-search fa-fw ic-dfa"></i>Imprimir Guia Remision</button>
+                            </div>
+
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="limpiarCampos()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12 col-xd-2">
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Id Compra/Venta: </label>
+                                    <div class="input-group">
+                                        <input class="form-control" required placeholder="23" type="number" [(ngModel)]="idCompraVentaSelected" name="txtIdCompraVenta">
+                                        <span class="input-group-btn">
+                                            <button (click)="buscarCompraVenta()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-search fa-fw ic-dfa"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-xd-2">
+                                <div class="form-group">
+                                    <label>Categoria Guia Remision: </label>
+                                    <select class="form-control" required [(ngModel)]="categoriaComprobanteSelected" name="cbCategoriasComprobante" (ngModelChange)="mostrarTiposComprobante()">
+                                        <option *ngFor="let ti of categoriasComprobante; let i = index" [ngValue]="ti">{{ti.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                        <div *ngIf="!comprobanteCompraActivated">
+
+                            <div class="col-md-12 col-xd-2">
+
+
+
+
+                                <div class="col-md-3 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Tipo Documento: </label>
+                                        <select class="form-control" required [(ngModel)]="tipoComprobanteSelected" name="cbTiposComprobante" (ngModelChange)="mostrarSeriesComprobante()">
+                                            <option *ngFor="let ti of tiposComprobante; let i = index" [ngValue]="ti">{{ti.nombre}} </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Serie : </label>
+                                        <select class="form-control" required [(ngModel)]="serieComprobanteSelected" name="cbSeriesComprobante" (ngModelChange)="mostrarCorrelativoSerie()">
+                                            <option *ngFor="let ti of seriesComprobante; let i = index" [ngValue]="ti">{{ti.numero}} </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-xd-2">
+                                        <div class="form-group">
+                                                <label>Numero Correlativo: </label>
+                                                <span class="form-control">
+                                                    <span class="numero-correlativo" *ngIf="numeroCorrelativoSiguiente!=null">{{numeroCorrelativoSiguiente}}</span>
+                                                </span>
+                                        </div>
+                                    </div>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div *ngIf="comprobanteCompraActivated">
+
+                            <div class="col-md-12 col-xd-2">
+
+                                <div class="col-md-4 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Serie Guia Remision: </label>
+                                        <input class="form-control" type="text" [(ngModel)]="serieSelected" name="txtSerie">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Numero Guia Remision: </label>
+                                        <input class="form-control" type="text" [(ngModel)]="numeroSelected" name="txtNumero">
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="col-md-12 col-xd-2">
+
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Punto Partida: </label>
+                                    <input class="form-control" type="text" [(ngModel)]="puntoPartidaSelected" name="txtNumero">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Punto Llegada: </label>
+                                    <input class="form-control" type="text" [(ngModel)]="puntoLlegadaSelected" name="txtNumero">
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Fecha Emision: </label>
+                                    <input class="form-control" type="date" [(ngModel)]="fechaEmisionSelected" name="txtNumero">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Fecha Inicio Traslado: </label>
+                                    <input class="form-control" type="date" [(ngModel)]="fechaInicioTrasladoSelected" name="txtNumero">
+                                </div>
+                            </div>
+
+                            <!--
+                                    <div class="col-md-3 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Motivo Traslado: </label>
+                                            <input class="form-control" type="text" [(ngModel)]="motivoTrasladoSelected" name="txtNumero">
+                                        </div>
+                                    </div>-->
+
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Motivo Traslado: : </label>
+                                    <select class="form-control" required [(ngModel)]="motivoTrasladoSelected" name="cbSeriesComprobante">
+                                        <option value="COMPRA">COMPRA</option>
+                                        <option value="VENTA SUJETA A CONFIRMAR">VENTA SUJETA A CONFIRMAR</option>
+                                        <option value="DEVOLUCION">DEVOLUCION</option>
+                                        <option value="TRASLADO POR EMISOR DE COMPROBANTE DE PAGO">TRASLADO POR EMISOR DE COMPROBANTE DE PAGO</option>
+                                        <option value="RECOJO BIENES TRASFORMADOS">RECOJO BIENES TRASFORMADOS</option>
+                                        <option value="IMPORTACION">IMPORTACION</option>
+                                        <option value="VENTA">VENTA</option>
+                                        <option value="CONSIGNACION">CONSIGNACION</option>
+                                        <option value="PARA TRANSFORMACION">PARA TRANSFORMACION</option>
+                                        <option value="ENTRE ESTABLECIMIENTO DE LA MISMA EMPRESA">ENTRE ESTABLECIMIENTO DE LA MISMA EMPRESA</option>
+                                        <option value="ZONA PRIMARIA">ZONA PRIMARIA</option>
+                                        <option value="EXPORTACION">EXPORTACION</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Nro Orden: </label>
+                                    <input class="form-control" type="text" [(ngModel)]="nroOrdenSelected" name="txtNumero">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Referencia Cliente: </label>
+                                    <input class="form-control" type="text" [(ngModel)]="referenciaClienteSelected" name="txtNumero">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Referencia Origen: </label>
+                                    <input class="form-control" type="text" [(ngModel)]="referenciaOrigenSelected" name="txtNumero">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Condiciones Entrega: </label>
+                                    <input class="form-control" type="text" [(ngModel)]="condicionesEntregaSelected" name="txtNumero">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-xd-2">
+                                <div class="form-group">
+                                    <label>Tipo Moneda Costo: </label>
+                                    <select class="form-control" required [(ngModel)]="tipoMonedaSelected" name="cbTipoMoneda">
+                                        <option *ngFor="let ti of tiposMoneda; let i = index" [ngValue]="ti">{{ti.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Costo Minimo: </label>
+                                    <input class="form-control" type="number" [(ngModel)]="costoMinimoSelected" name="txtNumero">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Empresa Transporte: </label>
+
+                                    <div class="input-group">
+                                        <label class="form-control">{{nombreEmpresaTransporte}}</label>
+                                        <span class="input-group-btn">
+                                            <button (click)="abrirModalPersona()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-search fa-fw ic-dfa"></i>
+                                                <i class="fa fa-truck fa-fw ic-dfa"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Conductor Vehiculo: </label>
+
+                                    <div class="input-group">
+                                        <label class="form-control">{{nombreConductorSelected}}</label>
+                                        <span class="input-group-btn">
+                                            <button (click)="abrirModalConductor()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-search fa-fw ic-dfa"></i>
+                                                <i class="fa fa-id-card fa-fw ic-dfa"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Detalle Guia Remision </h3>
+                    </div>
+                    <div class="panel-body">
+
+
+                        <div class=" table-responsive tabla-dfa">
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr class="bg-teal tam-cabecera">
+                                        <!--<th>N°</th>-->
+                                        <th>LINEA</th>
+                                        <th>CANTIDAD</th>
+                                        <th>DESCRIPCION</th>
+                                        <th>P.UNIT</th>
+                                        <th>UM</th>
+                                        <th>TOTAL</th>
+                                        <th>PESO</th>
+                                        <th>UM</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr *ngFor="let pro of listaProductos;let j = index" class="bg-cyan tam-cuerpo">
+                                        <td>{{inicio+j}}</td>
+                                        <!--<td>{{pro.nombre_tipo_producto}}</td>-->
+                                        <td>{{pro.cantidad}}</td>
+                                        <td>{{pro.nombre_producto}}</td>
+                                        <td>{{pro.simbolo}}{{completar_ceros_derecha(pro.precio,2)}}</td>
+                                        <td>{{pro.nombre_unidad_medida}}</td>
+                                        <td>{{pro.simbolo}}{{completar_ceros_derecha((pro.cantidad * pro.precio),2)}}</td>
+                                        <td>
+                                            <input type="number" [(ngModel)]="pro.peso" name="txtPeso">
+                                        </td>
+                                        <td>
+                                            <select [(ngModel)]="pro.id_unidad_medida_peso">
+                                                <option *ngFor="let uni of unidades_medida; let i = index" [value]="uni.id_unidad_medida">{{uni.nombre}} </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div *ngIf="ventaSelected!=null" class="col-md-12">
+
+                            <div class="col-md-offset-3 col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Sub total : </label>
+                                    <span class="form-control">
+                                        <span *ngIf="ventaSelected!=null">{{ventaSelected.simbolo_tipo_moneda}}{{completar_ceros_derecha(ventaSelected.sub_total,2)}}</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>IGV (
+                                        <span *ngIf="ventaSelected!=null">{{ventaSelected.porc_igv}}</span>)% : </label>
+                                    <span class="form-control">
+                                        <span *ngIf="ventaSelected!=null">{{ventaSelected.simbolo_tipo_moneda}}{{completar_ceros_derecha(ventaSelected.igv,2)}}</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Total : </label>
+                                    <span class="form-control">
+                                        <span *ngIf="ventaSelected!=null">{{ventaSelected.simbolo_tipo_moneda}}{{completar_ceros_derecha(ventaSelected.monto_total,2)}}</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="compraSelected!=null" class="col-md-12">
+
+                            <div class="col-md-offset-3 col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Sub total : </label>
+                                    <span class="form-control">
+                                        <span *ngIf="compraSelected!=null">{{compraSelected.simbolo_tipo_moneda}}{{compraSelected.sub_total}}</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>IGV (
+                                        <span *ngIf="compraSelected!=null">{{compraSelected.porc_igv}}</span>)% : </label>
+                                    <span class="form-control">
+                                        <span *ngIf="compraSelected!=null">{{compraSelected.simbolo_tipo_moneda}}{{compraSelected.igv}}</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Total : </label>
+                                    <span class="form-control">
+                                        <span *ngIf="compraSelected!=null">{{compraSelected.simbolo_tipo_moneda}}{{compraSelected.monto_total}}</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+
+
+
+        <div *ngIf="panelEditarSelected" class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Editar Comprobante</h3>
+
+            </div>
+            <div class="panel-body">
+
+
+
+                <div class="col-md-2">
+                    <button (click)="regresar()" class="btn btn-primary btn-block">
+                        <i class="fa fa-reply fa-fw ic-dfa"></i>Regresar
+                    </button>
+                </div>
+
+                <!--
+                        tipo_comprobante:any; 
+                        tipo_moneda:any;
+                        medio_pago:any;
+                        id_empleado:any;
+                        serie:any;
+                        cliente:any; 
+                        direccion:any;
+                        ruc_emisor:any;
+                        ruc_receptor:any;
+                        telefono:any; -->
+
+
+                <div class="col-md-12 col-xd-2">
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Cliente: </label>
+                            <div class="input-group">
+                                <label class="form-control">
+                                    <span *ngIf="clienteSelected!=null">{{clienteSelected.nombres}}{{clienteSelected.apellido_paterno}}{{clienteSelected.apellido_materno}}</span>
+                                </label>
+                                <span class="input-group-btn">
+                                    <button (click)="abrirModalCliente()" class="btn btn-primary btn-block">
+                                        <i class="fa fa-search fa-fw ic-dfa"></i>
+                                        <i class="fa fa-user fa-fw ic-dfa"></i>
+                                    </button>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Direccion: </label>
+                            <span class="form-control">
+                                <span *ngIf="clienteSelected!=null">{{clienteSelected.direccion}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Telefono: </label>
+                            <span class="form-control">
+                                <span *ngIf="clienteSelected!=null">{{clienteSelected.telefono}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Ruc: </label>
+                            <span class="form-control">
+                                <span *ngIf="clienteSelected!=null">{{clienteSelected.numero_documento}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Numero: </label>
+                            <input class="form-control" required placeholder="23" type="text" [(ngModel)]="numero" name="txtNumero">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Fecha: </label>
+                            <input class="form-control" required  type="date" [(ngModel)]="fecha" name="txtFecha">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Fecha Emision: </label>
+                            <input class="form-control" required  type="date" [(ngModel)]="fecha_emision" name="txtFechaEmision">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Monto total: </label>
+                            <input class="form-control" required placeholder="23.5" type="text" [(ngModel)]="monto_total" name="txtMontoTotal">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Sub Total: </label>
+                            <input class="form-control" required placeholder="23.5" type="text" [(ngModel)]="sub_total" name="txtSubTotal">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Igv: </label>
+                            <input class="form-control" required placeholder="12.5" type="text" [(ngModel)]="igv" name="txtIgv">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Porc Igv: </label>
+                            <input class="form-control" required placeholder="18" type="text" [(ngModel)]="porc_igv" name="txtPorcIgv">
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Nro Orden: </label>
+                            <input class="form-control" required placeholder="23" type="text" [(ngModel)]="nro_orden" name="txtNroOrden">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Nro Guia Remision: </label>
+                            <input class="form-control" required placeholder="23" type="text" [(ngModel)]="nro_guia_remision" name="txtNroGuiaRemision">
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-2">
+                    <label> Accion</label>
+                    <button (click)="editar()" class="btn btn-primary btn-block">
+                        <i class="fa fa-save fa-fw ic-dfa"></i>Editar</button>
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!--
+<button id="modalPDFGuiaRemison" hidden="hidden" data-toggle="modal" data-target="#modalPDFGuiaRemisonPnl"></button>
+<div class="modal fade" id="modalPDFGuiaRemisonPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+              
+            </div>
+            <div id="guiaBusquedaMostrarPDF" class="modal-body">
+            </div>
+            <div class="modal-footer">
+               
+            </div>
+        </div>
+    </div>
+</div>-->
+
+
+
+<button id="modalPersona2" hidden="hidden" data-toggle="modal" data-target="#modalPersona2Pnl"></button>
+<div class="modal fade" id="modalPersona2Pnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS PERSONA</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+
+                <form-persona [activatedSelected]="activatedSelectedPer" (dataExterna)="obtenerDatosPersonaExterna($event)">
+                </form-persona>
+
+            </div>
+            <div class="modal-footer">
+                <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                <!--(click)="activarBuscar($event)"-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<button id="modalConductor" hidden="hidden" data-toggle="modal" data-target="#modalConductorPnl"></button>
+<div class="modal fade" id="modalConductorPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS CONDUCTOR</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+
+                <form-conductor-vehiculo [buttonSelected]="activatedSelectedCondu" (conductorSeleccionado)="obtenerDatosConductorExterna($event)">
+                </form-conductor-vehiculo>
+
+            </div>
+            <div class="modal-footer">
+                <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                <!--(click)="activarBuscar($event)"-->
+            </div>
+        </div>
+    </div>
+</div>

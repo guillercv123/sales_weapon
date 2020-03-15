@@ -1,0 +1,276 @@
+<!--
+    <div class="row">
+        <div class="col-md-12" >    
+        -->
+<div *ngIf="transferido">
+    Transfiriendo..
+    <div class="loader">Loading...</div>
+</div>
+
+
+<div *ngIf="tienePermisoView">
+
+
+    <div *ngIf="!panelPermisosSelected">
+
+
+
+        <ul *ngIf="!panelEditarSelected" class="nav nav-tabs">
+            <li>
+                <a data-toggle="tab" (click)="abrirPanelBuscar();" href="#buscarTipoProducto">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</a>
+            </li>
+            <li class="active">
+                <a data-toggle="tab" (click)="abrirPanelRegistrar();" href="#nuevoTipoProducto">
+                    <i class="fa fa-plus fa-fw ic-dfa"></i>Nuevo</a>
+            </li>
+
+        </ul>
+        <div *ngIf="!panelEditarSelected" class="tab-content">
+
+            <div id="buscarTipoProducto" class="tab-pane fade">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Busqueda de Sub Grupo</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="col-md-12 col-xd-2">
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Codigo de Sub Grupo: </label>
+                                    <input class="form-control" required placeholder="codigo de sub grupo" type="text" [(ngModel)]="idTipoProductoSelected" name="txtIdTipoProducto">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Nombre: </label>
+                                    <input class="form-control" required placeholder="Busque un sub grupo" type="text" [(ngModel)]="nombreSelected" name="txtNombre">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-12">
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="buscar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-search fa-fw ic-dfa"></i>Ejecutar</button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="nuevoTipoProducto" class="tab-pane fade in active">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Registro de Sub Grupo</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="col-md-12 col-xd-2">
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Nombre de Grupo: </label>
+                                    <input class="form-control" required placeholder="Nombre de sub grupo" type="text" [(ngModel)]="nombreSelected" name="txtNombre">
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Seleccion el grupo:</label>
+                                    <select class="form-control" required [(ngModel)]="apliSelected" name="cbAplicaciones">
+                                        <option *ngFor="let a of listaGrupo; let i = index" [ngValue]="a">{{a.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                          
+                        </div>
+
+                        <div class="col-md-12">
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="registrar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-save fa-fw ic-dfa"></i>Guardar</button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <div *ngIf="panelEditarSelected" class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Editar Sub Grupo</h3>
+
+            </div>
+            <div class="panel-body">
+
+
+
+                <div class="col-md-2 tabla-cabecera-botones">
+                    <button (click)="regresar()" class="btn btn-primary btn-block">
+                        <i class="fa fa-reply fa-fw ic-dfa"></i>Regresar
+                    </button>
+                </div>
+
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="form-group">
+                        <label>Nombre: </label>
+                        <input class="form-control" required placeholder="Rodaje" type="text" [(ngModel)]="nombreSelected" name="txtNombre">
+                    </div>
+
+                    <div class="col-md-3 col-xd-2">
+                        <div class="form-group">
+                            <label>Seleccion el grupo:</label>
+                            <select class="form-control" required [(ngModel)]="apliSelected" name="cbAplicaciones">
+                                <option *ngFor="let a of listaGrupo; let i = index" [ngValue]="a">{{a.nombre}} </option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                </div>
+                
+
+                <div class="col-md-2">
+                    <label> Accion</label>
+                    <button (click)="editar()" class="btn btn-primary btn-block">
+                        <i class="fa fa-save fa-fw ic-dfa"></i>Editar</button>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+        <div *ngIf="panelListaBeanSelected" class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Lista de Sub Grupo</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="row bg-teal tabla-cabecera-botones">
+                            <div class="col-md-12">
+                                <h5>EXISTEN :{{totalLista}} EN TOTAL</h5>
+                            </div>
+                            <div class="col-md-2">
+                                <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-2">
+                                <label>Del {{inicio}} al {{fin}}</label>
+                            </div>
+
+                            <div class="col-md-2">
+                                <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-5">
+                                    <label> Tamaño Pagina</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                        <option [ngValue]="10">10</option>
+                                        <option [ngValue]="15">15</option>
+                                        <option [ngValue]="20">20</option>
+                                        <option [ngValue]="30">30</option>
+                                        <option [ngValue]="100">100</option>
+                                        <option [ngValue]="500">500</option>
+                                        <option [ngValue]="1000">1000</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class=" table-responsive tabla-dfa">
+
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr class="bg-teal tam-cabecera">
+                                        <th>N°</th>
+                                        <th>ACCION</th>
+                                        <th>ACCION</th>
+                                        <th>CODIGO DE SUBGRUPO</th>
+                                        <th>NOMBRE</th>
+                                  
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr *ngFor="let prove of listaTiposProducto;let j = index" class="bg-cyan tam-cuerpo">
+                                        <td>{{inicio+j}}</td>
+                                        <td>
+                                            <button (click)="eliminar(prove)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button (click)="abrirPanelEditar(prove)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-plus-square fa-fw ic-dfa"></i>Editar
+                                            </button>
+                                        </td>
+
+                                        <td>{{prove.id_tipo_producto}}</td>
+                                        <td>{{prove.nombre}}</td>
+                          
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

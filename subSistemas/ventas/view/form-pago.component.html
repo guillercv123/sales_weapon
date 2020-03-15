@@ -1,0 +1,454 @@
+<!--
+    <div class="row">
+        <div class="col-md-12" >    
+        -->
+<div *ngIf="transferido">
+    Transfiriendo..
+    <div class="loader">Loading...</div>
+</div>
+
+
+<div *ngIf="tienePermisoView">
+
+
+    <div *ngIf="!panelPermisosSelected">
+
+
+
+        <ul *ngIf="!panelEditarSelected" class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" href="#buscarPago">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#nuevoPago">
+                    <i class="fa fa-plus fa-fw ic-dfa"></i>Nuevo</a>
+            </li>
+
+        </ul>
+        <div *ngIf="!panelEditarSelected" class="tab-content">
+
+            <div id="buscarPago" class="tab-pane fade in active">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Busqueda de Pago</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="col-md-12 col-xd-2">
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Concepto: </label>
+                                    <input class="form-control" required  type="text" [(ngModel)]="concepto" name="txtConcepto">
+                                </div>
+                            </div>
+
+                        <div class="col-md-3 col-xd-2">
+                            <div class="form-group">
+                                <label>Tipo Moneda: </label>
+                                <select class="form-control" required [(ngModel)]="tipoMonedaSelected" name="cbTipoMoneda">
+                                    <option *ngFor="let ti of tiposMoneda; let i = index" [ngValue]="ti">{{ti.nombre}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-3 col-xd-2">
+                            <div class="form-group">
+                                <label>Saldo: </label>
+                                <input class="form-control" required  type="number" [(ngModel)]="saldo" name="txtSaldo">
+                            </div>
+                        </div>
+
+                     
+                        <div class="col-md-3 col-xd-2">
+                            <div class="form-group">
+                                <label>Abono: </label>
+                                <input class="form-control" required  type="number" [(ngModel)]="abono" name="txtAbono">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-xd-2">
+                            <div class="form-group">
+                                <label>Fecha Pago: </label>
+                                <input class="form-control" required  type="date" [(ngModel)]="fecha_pago" name="txtFechaPago">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-xd-2">
+                            <div class="form-group">
+                                <label>Id Venta: </label>
+                                <input class="form-control" required  type="number" [(ngModel)]="id_venta" name="txtIdVenta">
+                            </div>
+                        </div>
+
+                        </div>
+
+                        <div class="col-md-12 col-xd-2">
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="buscar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-search fa-fw ic-dfa"></i>Ejecutar</button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lista de Pagos</h3>
+                    </div>
+                    <div class="panel-body">
+        
+                        <div class="row">
+                            <div class="col-md-12">
+        
+                                <div class="row bg-teal tabla-cabecera-botones">
+                                    <div class="col-md-12">
+                                        <h5>EXISTEN :{{totalLista}} EN TOTAL</h5>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Del {{inicio}} al {{fin}}</label>
+                                    </div>
+        
+                                    <div class="col-md-2">
+                                        <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-md-5">
+                                            <label> Tamaño Pagina</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                                <option [ngValue]="10">10</option>
+                                                <option [ngValue]="15">15</option>
+                                                <option [ngValue]="20">20</option>
+                                                <option [ngValue]="30">30</option>
+                                                <option [ngValue]="100">100</option>
+                                                <option [ngValue]="500">500</option>
+                                                <option [ngValue]="1000">1000</option>
+                                            </select>
+                                        </div>
+        
+                                    </div>
+                                </div>
+        
+                                <div class=" table-responsive tabla-dfa">
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr class="bg-teal tam-cabecera">
+                                                <th>N°</th>
+                                                <th *ngIf="buttonSelectedActivated">ACCION</th>
+                                                <th *ngIf="!buttonSelectedActivated">ACCION</th>
+                                                <th *ngIf="!buttonSelectedActivated">ACCION</th>
+                                                <th *ngIf="!buttonSelectedActivated">ACCION</th>
+                                                <th>ID PAGO</th>
+                                                <th>CONCEPTO</th>
+                                                <th>SALDO</th>
+                                                <th>ABONO</th>
+                                                <th>FECHA PAGO</th>
+                                                <th>MONTO TOTAL</th>
+                                                <th>CLIENTE</th>
+                                                <th>ID VENTA</th>
+                                            </tr>
+                                        </thead>
+        
+                                        <tbody>
+                                            <tr *ngFor="let obj of listaPagos;let j = index" class="bg-cyan tam-cuerpo">
+                                                <td>{{inicio+j}}</td>
+                                                <td *ngIf="buttonSelectedActivated">
+                                                    <button (click)="seleccionar(obj)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-hand-o-up fa-fw ic-dfa"></i>Select.
+                                                    </button>
+                                                </td>
+                                                <td *ngIf="!buttonSelectedActivated">
+                                                        <button (click)="imprimir(obj.id_pago)" class="btn btn-primary btn-block">
+                                                                <i class="fa fa-print fa-fw ic-dfa"></i>Imprimir
+                                                        </button>
+                                                </td>
+        
+                                                <td *ngIf="!buttonSelectedActivated">
+                                                    <button (click)="eliminar(obj)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                                    </button>
+                                                </td>
+                                                <td *ngIf="!buttonSelectedActivated">
+                                                    <button (click)="abrirPanelEditar(obj)" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-plus-square fa-fw ic-dfa"></i>Editar
+                                                    </button>
+                                                </td>
+        
+                                                <td>{{obj.id_pago}}</td>
+                                                <td>{{obj.concepto}}</td>
+                                                <td>{{obj.simbolo_moneda}}{{obj.saldo}}</td>
+                                                <td>{{obj.simbolo_moneda}}{{obj.abono}}</td>
+                                                <td>{{obj.fecha_pago}}</td>
+                                                <td>{{obj.simbolo_moneda}}{{obj.monto_total}}</td>
+                                                <td>{{obj.cliente}}</td>
+                                                <td>{{obj.id_venta}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+        
+                    </div>
+                </div>
+        
+
+          
+          
+            </div>
+
+            <div id="nuevoPago" class="tab-pane fade ">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Registro de Pago</h3>
+                    </div>
+                    <div class="panel-body">
+
+
+                        <div class="col-md-12 col-xd-2">
+
+                            <div *ngIf="id_pago!=null" class="col-md-12 col-xd-2">
+                                    <div class="col-md-2 col-xd-2">
+                                        <button  (click)="imprimir(id_pago)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-print fa-fw ic-dfa"></i>Imprimir Ticket
+                                        </button>
+                                    </div>
+                            </div>
+
+                     
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Concepto: </label>
+                                    <input class="form-control" required  type="text" [(ngModel)]="concepto" name="txtConcepto">
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Tipo Moneda: </label>
+                                    <select class="form-control" required [(ngModel)]="tipoMonedaSelected" name="cbTipoMoneda">
+                                        <option *ngFor="let ti of tiposMoneda; let i = index" [ngValue]="ti">{{ti.nombre}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Saldo: </label>
+                                    <input class="form-control" required  type="number" [(ngModel)]="saldo" name="txtSaldo">
+                                </div>
+                            </div>
+
+                         
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Abono: </label>
+                                    <input class="form-control" required  type="number" [(ngModel)]="abono" name="txtAbono">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Fecha Pago: </label>
+                                    <input class="form-control" required  type="date" [(ngModel)]="fecha_pago" name="txtFechaPago">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Id Venta: </label>
+                                    <input class="form-control" required  type="number" [(ngModel)]="id_venta" name="txtIdVenta">
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-3 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Buscar Compra: </label>
+                                        <button class="form-control" (click)="abrirModalPDfPorcWidth('modalCompra',90)">
+                                                <i class="fa fa-search fa-fw ic-dfa"></i>Compras
+                                        </button>
+
+                                    </div>
+                             </div>
+                           
+                        </div>
+                        <div class="col-md-12 col-xd-2">
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="registrar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-save fa-fw ic-dfa"></i>Guardar</button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <div *ngIf="panelEditarSelected" class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Editar Pago</h3>
+
+            </div>
+            <div class="panel-body">
+
+                <div class="col-md-2 tabla-cabecera-botones">
+                    <button (click)="regresar()" class="btn btn-primary btn-block">
+                        <i class="fa fa-reply fa-fw ic-dfa"></i>Regresar
+                    </button>
+                </div>
+
+                <div class="col-md-12">
+
+                        <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Concepto: </label>
+                                    <input class="form-control" required  type="text" [(ngModel)]="concepto" name="txtConcepto">
+                                </div>
+                            </div>
+        
+        
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Tipo Moneda: </label>
+                                    <select class="form-control" required [(ngModel)]="tipoMonedaSelected" name="cbTipoMoneda">
+                                        <option *ngFor="let ti of tiposMoneda; let i = index" [ngValue]="ti">{{ti.nombre}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+        
+        
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Saldo: </label>
+                                    <input class="form-control" required  type="number" [(ngModel)]="saldo" name="txtSaldo">
+                                </div>
+                            </div>
+        
+                         
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Abono: </label>
+                                    <input class="form-control" required  type="number" [(ngModel)]="abono" name="txtAbono">
+                                </div>
+                            </div>
+        
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Fecha Pago: </label>
+                                    <input class="form-control" required  type="date" [(ngModel)]="fecha_pago" name="txtFechaPago">
+                                </div>
+                            </div>
+        
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Id Venta: </label>
+                                    <input class="form-control" required  type="number" [(ngModel)]="id_venta" name="txtIdVenta">
+                                </div>
+                            </div>
+                </div>
+               
+
+                <div class="col-md-2">
+                    <label> Accion</label>
+                    <button (click)="editar()" class="btn btn-primary btn-block">
+                        <i class="fa fa-save fa-fw ic-dfa"></i>Editar</button>
+                </div>
+
+
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+<button id="modalCompra" hidden="hidden" data-toggle="modal" data-target="#modalCompraPnl"></button>
+<div class="modal fade" id="modalCompraPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <!--<h4 class="modal-title">{{tituloPDF}}</h4>-->
+            </div>
+            
+            <div class="modal-body">
+                    <form-compra></form-compra>
+            </div>
+
+
+            <div class="modal-footer">
+                <!-- <button (click)="activarBuscar($event)" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+               -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<button id="modalPDF" hidden="hidden" data-toggle="modal" data-target="#modalPDFPnl"></button>
+<div class="modal fade" id="modalPDFPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <!--<h4 class="modal-title">{{tituloPDF}}</h4>-->
+            </div>
+            <div id="mostrarPDF" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <!-- <button (click)="activarBuscar($event)" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+               -->
+            </div>
+        </div>
+    </div>
+</div>

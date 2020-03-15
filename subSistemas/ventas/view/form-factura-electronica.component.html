@@ -1,0 +1,1176 @@
+<!--
+    <div class="row">
+        <div class="col-md-12" >    
+        -->
+<!--<div *ngIf="completado">
+    <div class="loader">Cargando...</div>
+</div>-->
+
+<div *ngIf="completado">
+    <!--<div class="loader">Cargando...</div>-->
+    <div class="loadingDFA">Loading&#8230;</div>
+    Procesando...
+</div>
+
+
+
+<div *ngIf="tienePermisoView">
+
+
+    <div *ngIf="!panelPermisosSelected">
+
+
+
+        <ul *ngIf="!panelEditarSelected && tabsActivated" class="nav nav-tabs">
+            <li  class="active">
+                <a data-toggle="tab" href="#buscarComprobante">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Boletas y Facturas</a>
+            </li>
+          
+            <li>
+                <a data-toggle="tab" href="#listarComprobantesFacturador">
+                    <i class="fa fa-exchange fa-fw ic-dfa"></i>Envio Comprobantes Sunat</a>
+            </li>
+
+            <li>
+                <a data-toggle="tab" href="#comprobantesElectronicos">
+                    <i class="fa fa-list-ul fa-fw ic-dfa"></i>Lista Comprobantes Electronicos Enviados</a>
+            </li>
+
+            <li>
+                <a data-toggle="tab" href="#envioComprobante">
+                    <i class="fa fa-exchange fa-fw ic-dfa"></i>Facturador Nativo Sunat</a>
+            </li>
+
+
+        </ul>
+
+        <div *ngIf="!panelEditarSelected" class="tab-content">
+            <div id="buscarComprobante" class="tab-pane fade in active  ">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Busqueda de Facturas Electronicas</h3>
+                    </div>
+                    <div class="panel-body">
+
+
+
+                        <div class="col-md-12 col-xd-2">
+
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Id Venta: </label>
+                                    <input class="form-control" type="number" [(ngModel)]="idCompraVentaBusqueda" name="txtIdCompraVenta">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Categoria Comprobante: </label>
+                                    <select class="form-control" required [(ngModel)]="categoriaComprobanteSelected"
+                                        name="cbCategoriasComprobante" (ngModelChange)="mostrarTiposComprobante()">
+                                        <option *ngFor="let ti of categoriasComprobante; let i = index" [ngValue]="ti">{{ti.nombre}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Tipo Comprobante: </label>
+                                    <select multiple class="form-control" required [(ngModel)]="tipoComprobanteSelected" name="cbTiposComprobante"
+                                        >
+                                        <option *ngFor="let ti of tiposComprobante; let i = index" [ngValue]="ti">{{ti.nombre}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Serie Comprobante: </label>
+                                    <input class="form-control" type="text" [(ngModel)]="serieSelected" name="txtSerie">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Numero Comprobante: </label>
+                                    <input class="form-control" type="text" [(ngModel)]="numeroSelected" name="txtNumero">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-xd-2">
+                                <div class="form-group">
+                                    <label>Fecha Inicio: </label>
+                                    <input class="form-control" required type="date" [(ngModel)]="fechaInicioSelected"
+                                        name="txtFechaInicio">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-xd-2">
+                                <div class="form-group">
+                                    <label>Fecha Fin: </label>
+                                    <input class="form-control" required type="date" [(ngModel)]="fechaFinSelected"
+                                        name="txtFechaFin">
+                                </div>
+                            </div>
+
+
+
+
+
+                            <!--<div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Medio Pago: </label>
+                                    <select class="form-control" required [(ngModel)]="medioPagoSelected" name="cbMediosPago">
+                                        <option *ngFor="let ti of mediosPago; let i = index" [ngValue]="ti">{{ti.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-4 col-xd-2">
+                                <div class="form-group">
+                                    <label>Fecha: </label>
+                                    <input class="form-control" required type="date" [(ngModel)]="fechaSelected" name="txtFecha">
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-4 col-xd-2">
+                                <div class="form-group">
+                                    <label>Cliente: </label>
+                                    <div class="input-group">
+                                        <label class="form-control">
+                                            <span *ngIf="clienteSelected!=null">{{clienteSelected.nombres}}</span>
+                                        </label>
+                                        <span class="input-group-btn">
+                                            <button (click)="abrirModalCliente()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-search fa-fw ic-dfa"></i>
+                                                <i class="fa fa-user fa-fw ic-dfa"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>-->
+
+                        </div>
+
+
+
+                        <div class="col-md-12 col-xd-2">
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="eliminar_files()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar Files Host</button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="generar_archivo_txt()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-cogs fa-fw ic-dfa"></i>Generar Txt</button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="sincronizar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-download fa-fw ic-dfa"></i>Sincronizar Files</button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="buscar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-search fa-fw ic-dfa"></i>Ejecutar</button>
+                            </div>
+
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="limpiarBuscar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lista Comprobantes </h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="row bg-teal tabla-cabecera-botones">
+                                    <div class="col-md-2">
+                                        <input type="checkbox" name="rememberme" id="rememberme" class="filled-in chk-col-pink"
+                                            [(ngModel)]="seleccionarTodos" (ngModelChange)="selectAll()">
+                                        <label for="rememberme">Seleccionar Todos</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <h5>EXISTEN :{{totalLista}} EN TOTAL</h5>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Del {{inicio}} al {{fin}}</label>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-md-5">
+                                            <label> Tamaño Pagina</label>
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                                <option [ngValue]="10">10</option>
+                                                <option [ngValue]="15">15</option>
+                                                <option [ngValue]="20">20</option>
+                                                <option [ngValue]="30">30</option>
+                                                <option [ngValue]="100">100</option>
+                                                <option [ngValue]="500">500</option>
+                                                <option [ngValue]="1000">1000</option>
+                                            </select>
+                                        </div>
+                                <div class="col-md-3"></div>
+                                        
+                                <div *ngIf="!buttonSelected" class="col-md-1">
+
+                                    <button class="btn-primary icono-dfa" (click)="exportarExcelDetalle();">
+                                        <img src="assets/img/xls.png" width="24"> XLS</button>
+        
+                                </div>
+
+                                    </div>
+                                </div>
+
+                                <div class=" table-responsive tabla-dfa">
+
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr class="bg-teal tam-cabecera">
+                                                <th>#</th>
+                                                <th>N°</th>
+                                                <!--<th>ACCION</th>
+                                                <th>ACCION</th>
+                                                <th>ACCION</th>-->
+
+                                                <th>ESTADO</th>
+                                                <th>OBSERVACION</th>
+                                                <th>RUC EMISOR</th>
+                                                <th>TIPO DOC. TRI.</th>
+                                                <th>SERIE</th>
+                                                <th>NUMERO</th>
+                                                <th>TIPO OPERACION</th>
+                                                <th>FECHA EMISION</th>
+                                                <th>HORA EMISION</th>
+                                                <th>FECHA VENCI.</th>
+                                                <th>COD. DOMI. FISCAL</th>
+                                                <th>TIPO DOC.</th>
+                                                <th>NUMERO DOC.</th>
+                                                <th>RAZON SOCIAL</th>
+                                                <th>TIPO MONEDA</th>
+                                                <th>SUMATORIA TRIBUTOS</th>
+                                                <th>TOTAL VALOR VENTA</th>
+                                                <th>TOTAL PRECIO VENTA</th>
+                                                <th>TOTAL DESCUENTOS</th>
+                                                <th>SUMA. OTROS. CAR.</th>
+                                                <th>TOTAL ANTICI.</th>
+                                                <th>IMPORTE. TOTAL. VEN.</th>
+                                                <th>VERSION UBL</th>
+                                                <th>CUSTOMIZA. DOC.</th>
+
+                                                <th>ID COMPRA VENTA</th>
+                                                <th>ID COMPROBANTE</th>
+                                                <th>CATEGORIA COMPROBANTE</th>
+                                                <th>TIPO COMPROBANTE </th>
+                                                <th>SERIE</th>
+                                                <th>NUMERO</th>
+                                                <th>FECHA</th>
+                                                <th>MONTO TOTAL</th>
+                                                <th>NRO ORDEN</th>
+                                                <th>NRO GUIA</th>
+                                                <th>FECHA EMISION</th>
+                                                <th>SUB TOTAL</th>
+                                                <th>IGV</th>
+                                                <th>PORC IGV</th>
+                                                <th>RUC EMISOR</th>
+                                                <th>RUC RECEPTOR</th>
+                                                <th>CLIENTE</th>
+                                                <th>TELEFONO</th>
+                                                <th>DIRECCION</th>
+                                                <th>TIPO MONEDA</th>
+                                                <th>MEDIO PAGO</th>
+                                                <th>EMPLEADO</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr *ngFor="let obj of listaComprobantes;let j = index" class="bg-cyan tam-cuerpo"
+                                                (click)="elegirFila(listaComprobantes,j)">
+                                                <td> <input type="checkbox" class="filled-in chk-col-pink" id="elegir"
+                                                        [(ngModel)]="obj.selected" name='txtSelecionado'> </td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{inicio+j}}</td>
+                                               
+                                                <!--<td>{{obj.ce_existe}}</td>-->
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.ce_estado}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.ce_observacion}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.ruc_emisor}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.tipo_documento_tributario}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.serie_electronica}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.numero_electronico}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.tipo_operacion}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.fecha_emision_electronica}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.hora_emision_electronica}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.fecha_vencimiento}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.codigo_domicilio_fiscal}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.tipo_documento}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.numero_documento}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.razon_social}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.tipo_moneda}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.sumatoria_tributos}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.total_valor_venta}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.total_precio_venta}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.total_descuentos}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.sumatoria_otros_cargos}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.total_anticipos}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.importe_total_venta}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.version_ubl}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.customizacion_documento}}</td>
+
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.id_compra_venta}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.id_comprobante}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.nombre_categoria_comprobante}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.nombre_tipo_comprobante}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.serie}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.numero}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.fecha}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.monto_total}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.nro_orden}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.nro_guia_remision}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.fecha_emision}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.sub_total}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.igv}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.porc_igv}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.ruc_emisor}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.ruc_receptor}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.cliente}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.telefono}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.direccion}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.nombre_tipo_moneda}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.nombre_medio_pago}}</td>
+                                                <td class="{{obj.ce_existe==1?'color-verde-fact':'color-rojo-fact'}}" >{{obj.nombre_empleado}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div id="listarComprobantesFacturador" class="tab-pane fade ">
+
+                <div id="facturador_comprobantes_panel">
+
+
+                </div>
+
+            </div>
+
+            <div id="comprobantesElectronicos" class="tab-pane fade ">
+
+
+                <div *ngIf="!panelGenerarNotaCreditoDebito">
+                    <div class="login-panel panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Busqueda de Comprobantes Electronicos</h3>
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="col-md-12 col-xd-2">
+
+                                <div class="col-md-3 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Numero Ruc: </label>
+                                        <input class="form-control" type="text" [(ngModel)]="numero_ruc_facturador_ce"
+                                            name="txtNumeroRuc">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Tipo Documento Tributario: </label>
+                                        <input class="form-control" type="text" [(ngModel)]="tipo_doc_tribu_facturador_ce"
+                                            name="txtTipoDocTribu">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Serie Comprobante: </label>
+                                        <input class="form-control" type="text" [(ngModel)]="serie_comprobante_facturador_ce"
+                                            name="txtSerieComprobante">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Numero Comprobante: </label>
+                                        <input class="form-control" type="text" [(ngModel)]="numero_comprobante_facturador_ce"
+                                            name="txtNumeroComprobante">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Fecha Emision: </label>
+                                        <input class="form-control" required type="date" [(ngModel)]="fecha_emision_ce"
+                                            name="txtFechaEmision">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Fecha Envio: </label>
+                                        <input class="form-control" required type="date" [(ngModel)]="fecha_envio_ce"
+                                            name="txtFechaEnvio">
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+
+
+                            <div class="col-md-12 col-xd-2">
+
+                                <div class="col-md-2">
+                                    <label> Accion</label>
+                                    <button (click)="buscarComprobantesElectronicos()" class="btn btn-primary btn-block">
+                                        <i class="fa fa-search fa-fw ic-dfa"></i>Ejecutar</button>
+                                </div>
+
+
+                                <div class="col-md-2">
+                                    <label> Accion</label>
+                                    <button (click)="limpiar_buscar_comprobantes_electronicos()" class="btn btn-primary btn-block">
+                                        <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="login-panel panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Lista Comprobantes Electronicos</h3>
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="row bg-teal tabla-cabecera-botones">
+                                        <div class="col-md-2">
+                                            <input type="checkbox" name="rememberme" id="rememberme" class="filled-in chk-col-pink"
+                                                [(ngModel)]="seleccionarTodosCe" (ngModelChange)="selectAllCe()">
+                                            <label for="rememberme">Seleccionar Todos</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row bg-teal tabla-cabecera-botones">
+
+                                        <div class="col-md-12">
+                                            <h5>EXISTEN :{{totalListaCe}} EN TOTAL</h5>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <button (click)="paginaAnteriorCe()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                            </button>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Del {{inicioCe}} al {{finCe}}</label>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <button (click)="paginaSiguienteCe()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                            </button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="col-md-5">
+                                                <label> Tamaño Pagina</label>
+
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPaginaCe">
+                                                    <option [ngValue]="10">10</option>
+                                                    <option [ngValue]="15">15</option>
+                                                    <option [ngValue]="20">20</option>
+                                                    <option [ngValue]="30">30</option>
+                                                    <option [ngValue]="100">100</option>
+                                                    <option [ngValue]="500">500</option>
+                                                    <option [ngValue]="1000">1000</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class=" table-responsive tabla-dfa">
+
+                                        <table class="table table-condensed">
+                                            <thead>
+                                                <tr class="bg-teal tam-cabecera">
+                                                    <th>#</th>
+                                                    <th>N°</th>
+                                                    <th>Accion</th>
+                                                    <th>Accion</th>
+                                                    <th>Accion</th>
+                                                    <th>id</th>
+                                                    <th>estado</th>
+                                                    <th>observacion</th>
+                                                    <th>ruc emisor</th>
+                                                    <th>tipo doc.</th>
+                                                    <th>serie</th>
+                                                    <th>numero</th>
+                                                    <th>tipo_operacion</th>
+                                                    <th>fecha_emision</th>
+                                                    <th>hora_emision</th>
+                                                    <th>fecha_vencimiento</th>
+                                                    <th>codigo_domicilio_fiscal</th>
+                                                    <th>tipo_documento</th>
+                                                    <th>numero_documento</th>
+                                                    <th>razon_social</th>
+                                                    <th>tipo_moneda</th>
+                                                    <th>sumatoria_tributos</th>
+                                                    <th>total_valor_venta</th>
+                                                    <th>total_precio_venta</th>
+                                                    <th>total_descuentos</th>
+                                                    <th>sumatoria_otros_cargos</th>
+                                                    <th>total_anticipos</th>
+                                                    <th>importe_total_venta</th>
+                                                    <th>version_ubl</th>
+                                                    <th>customizacion_doc</th>
+                                                    <th>fecha_carga</th>
+                                                    <th>fecha_generacion</th>
+                                                    <th>fecha_envio</th>
+                                                    <th>nombre_archivo</th>
+                                                    <th>ind_situacion</th>
+
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <tr *ngFor="let obj of documentos_electronicos;let j = index" class="bg-cyan tam-cuerpo">
+                                                    <td> <input type="checkbox" class="filled-in chk-col-pink" id="elegir"
+                                                            [(ngModel)]="obj.selected" name='txtSelecionado'> </td>
+                                                    <td>{{inicioCe+j}}</td>
+
+                                                    <td>
+                                                        <button (click)="eliminar(obj)" class="btn btn-primary btn-block">
+                                                            <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                                        </button>
+                                                    </td>
+                                                    <td>
+                                                        <button (click)="generar_archivo_txt_baja(obj)" class="btn btn-primary btn-block">
+                                                            <i class="fa fa-trash fa-fw ic-dfa"></i>Dar de Baja
+                                                        </button>
+                                                    </td>
+                                                    <td>
+                                                        <button (click)="abrir_panel_nota_credito(obj)" class="btn btn-primary btn-block">
+                                                            <i class="fa fa-edit fa-fw ic-dfa"></i>Crear Nota
+                                                            Credito/Debito
+                                                        </button>
+                                                    </td>
+                                                    <td>{{obj.id_comprobante_electronico}}</td>
+                                                    <td>{{obj.estado_nombre}}</td>
+                                                    <td>{{obj.observacion}}</td>
+                                                    <td>{{obj.ruc_emisor}}</td>
+                                                    <td>{{obj.tipo_documento_tributario}}</td>
+                                                    <td>{{obj.serie}}</td>
+                                                    <td>{{obj.numero}}</td>
+                                                    <td>{{obj.tipo_operacion}}</td>
+                                                    <td>{{obj.fecha_emision}}</td>
+                                                    <td>{{obj.hora_emision}}</td>
+                                                    <td>{{obj.fecha_vencimiento}}</td>
+                                                    <td>{{obj.codigo_domicilio_fiscal}}</td>
+                                                    <td>{{obj.tipo_documento}}</td>
+                                                    <td>{{obj.numero_documento}}</td>
+                                                    <td>{{obj.razon_social}}</td>
+                                                    <td>{{obj.tipo_moneda}}</td>
+                                                    <td>{{obj.sumatoria_tributos}}</td>
+                                                    <td>{{obj.total_valor_venta}}</td>
+                                                    <td>{{obj.total_precio_venta}}</td>
+                                                    <td>{{obj.total_descuentos}}</td>
+                                                    <td>{{obj.sumatoria_otros_cargos}}</td>
+                                                    <td>{{obj.total_anticipos}}</td>
+                                                    <td>{{obj.importe_total_venta}}</td>
+                                                    <td>{{obj.version_ubl}}</td>
+                                                    <td>{{obj.customizacion_doc}}</td>
+                                                    <td>{{obj.fecha_carga}}</td>
+                                                    <td>{{obj.fecha_generacion}}</td>
+                                                    <td>{{obj.fecha_envio}}</td>
+                                                    <td>{{obj.nombre_archivo}}</td>
+                                                    <td>{{obj.ind_situacion}}</td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="panelGenerarNotaCreditoDebito">
+
+
+                    <div class="col-md-12 col-xd-12">
+                        <div class="col-md-2">
+                            <label> Accion</label>
+                            <button (click)="regresarComprobanteElectronicos()" class="btn btn-primary btn-block">
+                                <i class="fa fa-search fa-fw ic-dfa"></i>Regresar</button>
+                        </div>
+
+                        <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="generar_archivo_txt_nota_credito_debito()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-search fa-fw ic-dfa"></i>Generar Txt</button>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-12 col-xd-12">
+                            <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Nota Credito: </label>
+                                        <input [checked]="true" (click)="elegirNotaCredito()" class="form-control" name="modo" type="radio" [value]="07" [(ngModel)]="doc_electro_envidado.tipo_nota">
+                                    </div>
+                            </div>
+    
+                            <div class="col-md-2 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Nota Debito: </label>
+                                        <input (click)="elegirNotaDebito()" class="form-control"name="modo"  type="radio" [value]="08" [(ngModel)]="doc_electro_envidado.tipo_nota">
+                                    </div>
+                            </div>
+
+                    </div>
+
+
+                    <!--<div class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>Tipo Operacion: </label>
+                            <select class="form-control" required name="cbTipoFactura">
+                                <option *ngFor="let tif of listaTipoFactura; let i = index" [ngValue]="tif">{{tif.descripcion}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>-->
+
+                    <div class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>Tipo Operacion: </label>
+                            <span class="form-control">
+                                <span *ngIf="doc_electro_envidado!=null">{{doc_electro_envidado.tipo_operacion}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>Fecha de Emisión: </label>
+                            <input class="form-control" type="date" [(ngModel)]="doc_electro_envidado.fecha_emision">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>Hora de Emisión: </label>
+                            <input class="form-control" type="time" [(ngModel)]="doc_electro_envidado.hora_emision">
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>Codigo Domi. Fisc,: </label>
+                            <span class="form-control">
+                                <span *ngIf="doc_electro_envidado!=null">{{doc_electro_envidado.codigo_domicilio_fiscal}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>Tipo Documento: </label>
+                            <span class="form-control">
+                                <span *ngIf="doc_electro_envidado!=null">{{doc_electro_envidado.tipo_documento}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>Numero Doc.: </label>
+                            <span class="form-control">
+                                <span *ngIf="doc_electro_envidado!=null">{{doc_electro_envidado.numero_documento}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-xd-2">
+                        <div class="form-group">
+                            <label>Razon Social: </label>
+                            <span class="form-control">
+                                <span *ngIf="doc_electro_envidado!=null">{{doc_electro_envidado.razon_social}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>Tipo Moneda: </label>
+                            <span class="form-control">
+                                <span *ngIf="doc_electro_envidado!=null">{{doc_electro_envidado.tipo_moneda}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+
+                    <div *ngIf="notaCreditoSelected" class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>Tipo Nota Credito: </label>
+                            <select class="form-control"  [(ngModel)]="doc_electro_envidado.tipo_nota_credito_debito" required name="cbTipoNotaCredito">
+                                <option *ngFor="let ti of listaTipoNotaCredito; let i = index" [ngValue]="ti.codigo">{{ti.descripcion}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div *ngIf="!notaCreditoSelected" class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>Tipo Nota Debito: </label>
+                            <select class="form-control" [(ngModel)]="doc_electro_envidado.tipo_nota_credito_debito" required name="cbTipoNotaDebito">
+                                <option *ngFor="let tind of listaTipoNotaDebito; let i = index" [ngValue]="tind.codigo">{{tind.descripcion}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 col-xd-2">
+                        <div class="form-group">
+                            <label>Descripcion/Motivo o Sustento: </label>
+                            <input class="form-control" type="text" [(ngModel)]="doc_electro_envidado.descripcion">
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>Tipo Doc. Tri.: </label>
+                            <span class="form-control">
+                                <span *ngIf="doc_electro_envidado!=null">{{doc_electro_envidado.tipo_documento_tributario}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>Numero Doc.: </label>
+                            <span class="form-control">
+                                <span *ngIf="doc_electro_envidado!=null">{{doc_electro_envidado.serie}}-{{doc_electro_envidado.numero}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>Sumatoria Tributos: </label>
+                            <span class="form-control">
+                                <span *ngIf="doc_electro_envidado!=null">{{doc_electro_envidado.sumatoria_tributos}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>Total Valor Venta: </label>
+                            <span class="form-control">
+                                <span *ngIf="doc_electro_envidado!=null">{{doc_electro_envidado.total_valor_venta}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>Total Precio Venta: </label>
+                            <span class="form-control">
+                                <span *ngIf="doc_electro_envidado!=null">{{doc_electro_envidado.total_precio_venta}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>Total Descuentos: </label>
+                            <span class="form-control">
+                                <span *ngIf="doc_electro_envidado!=null">{{doc_electro_envidado.total_descuentos}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-xd-2">
+                        <div class="form-group">
+                            <label>Sumatoria Otros Cargos: </label>
+                            <span class="form-control">
+                                <span *ngIf="doc_electro_envidado!=null">{{doc_electro_envidado.sumatoria_otros_cargos}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>Total Anticipos: </label>
+                            <span class="form-control">
+                                <span *ngIf="doc_electro_envidado!=null">{{doc_electro_envidado.total_anticipos}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>Total Importe Venta: </label>
+                            <span class="form-control">
+                                <span *ngIf="doc_electro_envidado!=null">{{doc_electro_envidado.importe_total_venta}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>Version Ubl: </label>
+                            <span class="form-control">
+                                <span *ngIf="doc_electro_envidado!=null">{{doc_electro_envidado.version_ubl}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 col-xd-2">
+                        <div class="form-group">
+                            <label>Customizacion Doc: </label>
+                            <span class="form-control">
+                                <span *ngIf="doc_electro_envidado!=null">{{doc_electro_envidado.customizacion_doc}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+
+            
+            <div id="envioComprobante" class="tab-pane fade ">
+
+                <div id="facturador_panel">
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
+
+
+        <div *ngIf="panelEditarSelected" class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Editar Comprobante</h3>
+
+            </div>
+            <div class="panel-body">
+
+
+
+                <div class="col-md-2">
+                    <button (click)="regresar()" class="btn btn-primary btn-block">
+                        <i class="fa fa-reply fa-fw ic-dfa"></i>Regresar
+                    </button>
+                </div>
+
+                <!--
+                tipo_comprobante:any; 
+                tipo_moneda:any;
+                medio_pago:any;
+                id_empleado:any;
+                serie:any;
+                cliente:any; 
+                direccion:any;
+                ruc_emisor:any;
+                ruc_receptor:any;
+                telefono:any; -->
+
+
+                <div class="col-md-12 col-xd-2">
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Cliente: </label>
+                            <div class="input-group">
+                                <label class="form-control">
+                                    <span *ngIf="clienteSelected!=null">{{clienteSelected.nombres}}{{clienteSelected.apellido_paterno}}{{clienteSelected.apellido_materno}}</span>
+                                </label>
+                                <span class="input-group-btn">
+                                    <button (click)="abrirModalCliente()" class="btn btn-primary btn-block">
+                                        <i class="fa fa-search fa-fw ic-dfa"></i>
+                                        <i class="fa fa-user fa-fw ic-dfa"></i>
+                                    </button>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Direccion: </label>
+                            <span class="form-control">
+                                <span *ngIf="clienteSelected!=null">{{clienteSelected.direccion}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Telefono: </label>
+                            <span class="form-control">
+                                <span *ngIf="clienteSelected!=null">{{clienteSelected.telefono}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Ruc: </label>
+                            <span class="form-control">
+                                <span *ngIf="clienteSelected!=null">{{clienteSelected.numero_documento}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Numero: </label>
+                            <input class="form-control" required placeholder="23" type="text" [(ngModel)]="numero" name="txtNumero">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Fecha: </label>
+                            <input class="form-control" required placeholder="23" type="date" [(ngModel)]="fecha" name="txtFecha">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Fecha Emision: </label>
+                            <input class="form-control" required placeholder="23" type="date" [(ngModel)]="fecha_emision"
+                                name="txtFechaEmision">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Monto total: </label>
+                            <input class="form-control" required placeholder="23" type="text" [(ngModel)]="monto_total"
+                                name="txtMontoTotal">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Sub Total: </label>
+                            <input class="form-control" required placeholder="23" type="text" [(ngModel)]="sub_total"
+                                name="txtSubTotal">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Igv: </label>
+                            <input class="form-control" required placeholder="23" type="text" [(ngModel)]="igv" name="txtIgv">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Porc Igv: </label>
+                            <input class="form-control" required placeholder="23" type="text" [(ngModel)]="porc_igv"
+                                name="txtPorcIgv">
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Nro Orden: </label>
+                            <input class="form-control" required placeholder="23" type="text" [(ngModel)]="nro_orden"
+                                name="txtNroOrden">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="form-group">
+                            <label>Nro Guia Remision: </label>
+                            <input class="form-control" required placeholder="23" type="text" [(ngModel)]="nro_guia_remision"
+                                name="txtNroGuiaRemision">
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-2">
+                    <label> Accion</label>
+                    <button (click)="editar()" class="btn btn-primary btn-block">
+                        <i class="fa fa-save fa-fw ic-dfa"></i>Editar</button>
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<button id="modalPDF" hidden="hidden" data-toggle="modal" data-target="#modalPDFPnl"></button>
+<div class="modal fade" id="modalPDFPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <!--<h4 class="modal-title">{{tituloPDF}}</h4>-->
+            </div>
+            <div id="mostrarPDF" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <!-- <button (click)="activarBuscar($event)" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+               -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<button id="modalClienteCom" hidden="hidden" data-toggle="modal" data-target="#modalClienteComPnl"></button>
+<div class="modal fade" id="modalClienteComPnl">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS CLIENTE</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <!--
+                <form-cliente [buttonSelectedActivated]="buttonSelectedActivatedCli" [buttonEliminarActivated]="buttonEliminarActivatedCli"
+                    [buttonEditarActivated]="buttonEditarActivatedCli" (clienteSeleccionado)="obtenerClienteDatosExternos($event)">
+                </form-cliente>-->
+                <form-find-cliente (clienteSeleccionado)="obtenerClienteDatosExternos($event)">
+                    </form-find-cliente>
+
+            </div>
+            <div class="modal-footer">
+                <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                <!--(click)="activarBuscar($event)"-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<button id="modalBuscadorGuiaRemision" hidden="hidden" data-toggle="modal" data-target="#modalBuscadorGuiaRemisionPnl"></button>
+<div class="modal fade" id="modalBuscadorGuiaRemisionPnl">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>GUIA DE REMISION</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <form-guia-remision-buscador [tabsActivated]="tabsBuscadorGuiaRemisionActivated" (dataExterna)="obtenerGuiaRemisionExterna($event)"></form-guia-remision-buscador>
+
+            </div>
+            <div class="modal-footer">
+                <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                <!--(click)="activarBuscar($event)"-->
+            </div>
+        </div>
+    </div>
+</div>

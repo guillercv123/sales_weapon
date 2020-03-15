@@ -1,0 +1,101 @@
+<div *ngIf="transferido">
+    Transfiriendo..
+    <div class="loader">Loading...</div>
+</div>
+
+
+<div *ngIf="tienePermisoView">
+
+
+    <div *ngIf="!panelPermisosSelected">
+
+
+
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" href="#buscarCliente">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#nuevoCliente">
+                    <i class="fa fa-plus fa-fw ic-dfa"></i>Nuevo</a>
+            </li>
+
+        </ul>
+        <div class="tab-content">
+            <div id="buscarCliente" class="tab-pane fade in active">
+                <form-find-cliente (editarPersonaAction)="editarPersonaAction($event)" ></form-find-cliente>
+            </div>
+
+
+            <div id="nuevoCliente" class="tab-pane fade ">
+                <form-new-persona></form-new-persona>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<button id="modalPersona" hidden="hidden" data-toggle="modal" data-target="#modalPersonaPnl"></button>
+<div class="modal fade" id="modalPersonaPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" (click)="cerrarModal('modalPersona')">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS PERSONA</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <!--
+                        <form-persona [activatedSelected]="activatedSelectedPer" [beanSelected]="beanSelectedPer" [nombresSelected]="nombresSelectedPer"
+                            [apellidoPaternoSelected]="apellidoPaternoSelectedPer" [apellidoMaternoSelected]="apellidoMaternoSelectedPer"
+                            [numeroDocumentoSelected]="numeroDocumentoSelectedPer" [direccionSelected]="direccionSelectedPer" [telefonoSelected]="telefonoSelectedPer"
+                            [correoSelected]="correoSelectedPer" [panelListaBeanSelected]="panelListaBeanSelectedPer" [panelEditarSelected]="panelEditarSelectedPer"
+                            (editarPersona)="editarPersona($event)" (dataExterna)="obtenerDatosExternos($event)">
+                        </form-persona>-->
+
+            </div>
+            <div class="modal-footer">
+                <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                <!--(click)="activarBuscar($event)"-->
+            </div>
+        </div>
+    </div>
+</div>
+<button id="modalPersona" hidden="hidden" data-toggle="modal" data-target="#modalPersonaPnl"></button>
+<div class="modal fade" id="modalPersonaPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" (click)="cerrarModal('modalPersona')">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS PERSONA</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <!--
+                        <form-persona [activatedSelected]="activatedSelectedPer" [beanSelected]="beanSelectedPer" [nombresSelected]="nombresSelectedPer"
+                            [apellidoPaternoSelected]="apellidoPaternoSelectedPer" [apellidoMaternoSelected]="apellidoMaternoSelectedPer"
+                            [numeroDocumentoSelected]="numeroDocumentoSelectedPer" [direccionSelected]="direccionSelectedPer" [telefonoSelected]="telefonoSelectedPer"
+                            [correoSelected]="correoSelectedPer" [panelListaBeanSelected]="panelListaBeanSelectedPer" [panelEditarSelected]="panelEditarSelectedPer"
+                            (editarPersona)="editarPersona($event)" (dataExterna)="obtenerDatosExternos($event)">
+                        </form-persona>-->
+
+            </div>
+            <div class="modal-footer">
+                <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                <!--(click)="activarBuscar($event)"-->
+            </div>
+        </div>
+    </div>
+</div>

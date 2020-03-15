@@ -1,0 +1,814 @@
+<!--
+    <div class="row">
+        <div class="col-md-12" >    
+        -->
+<div *ngIf="transferido">
+    Transfiriendo..
+    <div class="loader">Loading...</div>
+</div>
+
+
+<div *ngIf="tienePermisoView">
+
+
+    <div *ngIf="!panelPermisosSelected && !panelRolesSelected">
+
+        <ul *ngIf="!panelEditarSelected" class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" href="#buscarUsuario">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#nuevoUsuario">
+                    <i class="fa fa-plus fa-fw ic-dfa"></i>Nuevo</a>
+            </li>
+
+        </ul>
+        <div *ngIf="!panelEditarSelected" class="tab-content">
+
+            <div id="buscarUsuario" class="tab-pane fade in active">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Busqueda de Usuario</h3>
+                    </div>
+                    <div class="panel-body">
+
+
+                        <div class="col-md-12 col-xd-2">
+
+
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Id Usuario: </label>
+                                    <input class="form-control" required placeholder="1" type="text" [(ngModel)]="idUsuarioSelected" name="txtIdLocal">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Login: </label>
+                                    <input class="form-control" required placeholder="dflores" type="text" [(ngModel)]="loginSelected" name="txtUsuario">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-xd-2">
+                                <div class="form-group">
+                                    <label>Empleado: </label>
+                                    <div class="input-group">
+                                        <label class="form-control">
+                                            <span *ngIf="empleadoSelected!=null">{{empleadoSelected.nombre_empleado}}</span>
+                                        </label>
+                                        <span class="input-group-btn">
+                                            <button (click)="abrirModalEmpleado()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-search fa-fw ic-dfa"></i>
+                                                <i class="fa fa-user fa-fw ic-dfa"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="buscar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-search fa-fw ic-dfa"></i>Ejecutar</button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-trash fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="nuevoUsuario" class="tab-pane fade ">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Registro de Usuario</h3>
+                    </div>
+                    <div class="panel-body">
+
+
+                        <div class="col-md-12 col-xd-2">
+
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Login: </label>
+                                    <input class="form-control" required placeholder="dflores" type="text" [(ngModel)]="loginSelected" name="txtUsuario">
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Clave: </label>
+                                    <input class="form-control" required placeholder="*******" type="password" [(ngModel)]="claveSelected" name="txtClave">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-xd-2">
+                                <div class="form-group">
+                                    <label>Empleado: </label>
+                                    <div class="input-group">
+                                        <label class="form-control">
+                                            <span *ngIf="empleadoSelected!=null">{{empleadoSelected.nombre_empleado}}</span>
+                                        </label>
+                                        <span class="input-group-btn">
+                                            <button (click)="abrirModalEmpleado()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-search fa-fw ic-dfa"></i>
+                                                <i class="fa fa-user fa-fw ic-dfa"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="registrar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-save fa-fw ic-dfa"></i>Guardar</button>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <div *ngIf="panelEditarSelected" class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Editar Usuario</h3>
+
+            </div>
+            <div class="panel-body">
+
+                <div class="col-md-12 tabla-cabecera-botones">
+                    <div class="col-md-3">
+                        <button (click)="regresarEditar()" class="btn btn-primary btn-block">
+                            <i class="fa fa-reply fa-fw ic-dfa"></i>Regresar
+                        </button>
+                    </div>
+                </div>
+
+
+
+
+                <div class="col-md-3 col-xd-2">
+                    <div class="form-group">
+                        <label>Login: </label>
+                        <input class="form-control" required placeholder="dflores" type="text" [(ngModel)]="loginSelected" name="txtUsuario">
+                    </div>
+                </div>
+
+
+                <div class="col-md-3 col-xd-2">
+                    <div class="form-group">
+                        <label>Clave: </label>
+                        <input class="form-control" required placeholder="*******" type="password" [(ngModel)]="claveSelected" name="txtClave">
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xd-2">
+                    <div class="form-group">
+                        <label>Empleado: </label>
+                        <div class="input-group">
+                            <label class="form-control">
+                                <span *ngIf="empleadoSelected!=null">{{empleadoSelected.nombre_empleado}}</span>
+                            </label>
+                            <span class="input-group-btn">
+                                <button (click)="abrirModalEmpleado()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-search fa-fw ic-dfa"></i>
+                                    <i class="fa fa-user fa-fw ic-dfa"></i>
+                                </button>
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-md-2">
+                    <label> Accion</label>
+                    <button (click)="editar()" class="btn btn-primary btn-block">
+                        <i class="fa fa-save fa-fw ic-dfa"></i>Editar</button>
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+
+
+        <div *ngIf="panelListaBeanSelected" class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Lista de Usuarios</h3>
+            </div>
+            <div class="panel-body">
+
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="row bg-teal tabla-cabecera-botones">
+                            <div class="col-md-12">
+                                <h5>EXISTEN :{{totalLista}} EN TOTAL</h5>
+                            </div>
+                            <div class="col-md-2">
+                                <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-2">
+                                <label>Del {{inicio}} al {{fin}}</label>
+                            </div>
+
+                            <div class="col-md-2">
+                                <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-5">
+                                    <label> Tamaño Pagina</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                        <option [ngValue]="10">10</option>
+                                        <option [ngValue]="15">15</option>
+                                        <option [ngValue]="20">20</option>
+                                        <option [ngValue]="30">30</option>
+                                        <option [ngValue]="100">100</option>
+                                        <option [ngValue]="500">500</option>
+                                        <option [ngValue]="1000">1000</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class=" table-responsive tabla-dfa">
+
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr class="bg-teal tam-cabecera">
+                                        <th>N°</th>
+                                        <th>ACCION</th>
+                                        <th>ACCION</th>
+                                        <th>ACCION</th>
+                                        <th>ID USUARIO</th>
+                                        <th>USUARIO</th>
+                                        <th>EMPLEADO</th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr *ngFor="let prove of listaUsuarios;let j = index" class="bg-cyan tam-cuerpo">
+                                        <td>{{inicio+j}}</td>
+                                        <td>
+                                            <button (click)="eliminar(prove)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button (click)="abrirPanelEditar(prove)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-plus-square fa-fw ic-dfa"></i>Editar
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button (click)="abrirPanelEditarRoles(prove)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-plus-square fa-fw ic-dfa"></i>Editar Roles
+                                            </button>
+                                        </td>
+                                        <td>{{prove.id_usuario}}</td>
+                                        <td>{{prove.ulogin}}</td>
+                                        <td>{{prove.nombres}} {{prove.apellido_paterno}} {{prove.apellido_materno}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div *ngIf="panelRolesSelected" class="login-panel panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Roles Usuario</h3>
+        </div>
+        <div class="panel-body">
+
+            <div class="row">
+                <div class="col-md-12 tabla-cabecera-botones">
+                    <div class="col-md-3">
+                        <button (click)="regresar()" class="btn btn-primary btn-block">
+                            <i class="fa fa-reply fa-fw ic-dfa"></i>Regresar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class=" table-responsive tabla-dfa">
+
+                        <div class="col-md-12 bg-teal tabla-cabecera-botones">
+
+                            <div class="col-md-3">
+                                <button (click)="abrirVentanaRol()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-plus fa-fw ic-dfa"></i>crear Nuevo Rol </button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <button (click)="abrirModalRol()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-plus fa-fw ic-dfa"></i>agregar Rol
+                                </button>
+                            </div>
+
+                            <div class="col-md-4">
+                                <button (click)="activarPanelReferencia()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-plus fa-fw ic-dfa"></i>Agregar Perfil Referencia
+                                </button>
+                            </div>
+
+                            <div class="col-md-3">
+                                <button (click)="activarPanelModi()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-eye fa-fw ic-dfa"></i>Ver Todos Permisos </button>
+                            </div>
+                        </div>
+
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr class="bg-teal tam-cabecera">
+                                    <th>ACCION</th>
+                                    <th>ACCION</th>
+                                    <th>ID ROL</th>
+                                    <th>PERFIL</th>
+                                    <th>DESCRIPCION</th>
+                                    <th>ID USUARIO</th>
+                                    <th>LOGIN</th>
+                                    <th>CONFIGURABLE</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr *ngFor="let perfil of listaPerfil;let j = index" class="bg-cyan tam-cuerpo">
+                                    <td>
+                                        <button (click)="quitarPerfil(perfil)" class="btn btn-primary btn-block">
+                                            <i class="fa fa-trash fa-fw ic-dfa"></i>Quitar
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button [disabled]="perfil.configurable==0 || usuarioModificar!=perfil.id_usuario" (click)="activarPanelModiRol(perfil)"
+                                            class="btn btn-primary btn-block">
+                                            <i class="fa fa-plus-square fa-fw ic-dfa"></i>Agregar/Modificar Permisos
+                                        </button>
+                                    </td>
+
+                                    <td>{{perfil.id_rol}}</td>
+                                    <td>{{perfil.nombre}}</td>
+                                    <td>{{perfil.descripcion}}</td>
+                                    <td>{{perfil.id_usuario}}</td>
+                                    <td>{{perfil.ulogin}}</td>
+                                    <td>{{perfil.configurable}}</td>
+
+
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+
+
+    <div *ngIf="panelPermisosSelected">
+
+
+        <div class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">MODIFICACION PERMISOS - PERSONALIZADA</h3>
+            </div>
+            <div class="panel-body">
+
+
+
+
+
+
+                <div class="col-md-12 bg-teal tabla-cabecera-botones">
+
+                    <div *ngIf="modificarRol" class="col-md-3">
+                        <button (click)="guardar()" class="btn btn-primary btn-block">
+                            <i class="fa fa-save fa-fw ic-dfa"></i>Guardar Permisos</button>
+                    </div>
+
+                    <div class="col-md-3">
+                        <button (click)="activarPanelPermisos()" class="btn btn-primary btn-block">
+                            <i class="fa fa fa-reply fa-fw ic-dfa"></i>Regresar</button>
+                    </div>
+                </div>
+
+
+
+                <div *ngIf="modificarRol" class="row ">
+
+                    <div class="col-md-12">
+                        <div class="col-md-10 rol-modificado">
+                            <div class="col-md-6">
+                                <p>Rol:&nbsp;{{rolModificar.nombre}} &nbsp; Login:&nbsp;{{rolModificar.ulogin}}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p>Descripcion:&nbsp;{{rolModificar.descripcion}}</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="row">
+                    <div class="col-md-12 tabla-dfa" *ngFor="let vi of vistas;let i = index">
+
+                        <div class="tabla-cabecera-formularios">
+                            <span class="titulo-formu">FORMULARIO:</span> {{vi.vista}}
+                        </div>
+
+                        <div class=" table-responsive">
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr class="bg-teal tam-cabecera">
+                                        <th>TIENE PERMISO</th>
+                                        <th>TIENE PERMISO</th>
+                                        <th>ID DETALLE VIEW</th>
+                                        <th>ID COMPONENTE</th>
+                                        <th>COMPONENTE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr *ngFor="let compo of componentes[vi.vista];let j = index" class="bg-cyan tam-cuerpo" (click)="elegirFila(componentes[vi.vista],j)">
+                                        <td>{{compo.selected}}</td>
+
+
+
+                                        <!--
+                                                                        <td> <input type="checkbox" class="filled-in chk-col-pink" id="elegir"  ngControl="compo" [(ngModel)]="compo.selected"  name="tienePermiso" > </td>
+                                                                     -->
+                                        <td>
+                                            <input type="checkbox" class="filled-in chk-col-pink" id="elegir" [checked]="compo.selected" (change)="selectPermiso(vi,compo,i,j)"> </td>
+                                        <td>{{compo.id_detalle_view}}</td>
+                                        <td>{{compo.id_componente}}</td>
+                                        <td>{{compo.componente}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!--# MODAL DEL PERFIL DE REFERENCIA-->
+
+<!--<button id="modalPerfil" hidden="hidden" (click)="activarBuscarDoc($event)"  data-toggle="modal" data-target="#PnlModalPerfil"></button>-->
+<button id="modalPerfil" hidden="hidden" data-toggle="modal" data-target="#modalPerfilPnl"></button>
+
+<div class="modal fade" id="modalPerfilPnl">
+    <div class="modal-dialog modal-dialog-center">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button (click)="cerrarModalRef()" class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS PERFIL REFERENCIA</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+
+                <div class="col-md-12 datos-ref" *ngIf="panelReferenciaSelected">
+
+                    <div class="col-md-12">
+                        <div class="col-md-4 col-xd-6">
+                            <div class="form-group">
+                                <label>Usuario Referencia:</label>
+                                <input class="form-control" required placeholder="dflores" type="text" [(ngModel)]="loginRefSelected" name="txtLoginRef">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label> Accion</label>
+                            <button (click)="buscarRoles()" class="btn btn-primary btn-block">
+                                <i class="fa fa-search fa-fw ic-dfa"></i>Buscar Roles</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class=" table-responsive tabla-dfa">
+
+                            <div class="col-md-12 bg-teal tabla-cabecera-botones">
+
+                                <div class="col-md-4">
+                                    <input type="checkbox" name="rememberme2" id="rememberme2" class="filled-in chk-col-pink" [(ngModel)]="allSelected" (ngModelChange)="selectAllPerRef()">
+                                    <label for="rememberme2">Seleccionar Todos</label>
+                                </div>
+                                <div class="col-md-offset-2 col-md-6">
+                                    <button (click)="agregarRoles()" class="btn btn-primary btn-block">
+                                        <i class="fa fa-plus-square fa-fw ic-dfa"></i>Agregar Rol(es) a usuario: {{loginSelected}}</button>
+                                </div>
+
+                            </div>
+
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr class="bg-teal tam-cabecera">
+                                        <th>SELECCIONADO</th>
+                                        <th>SELECCIONADO</th>
+                                        <th>DESCRIPCION</th>
+                                        <th>ID ROL</th>
+                                        <th>ID USUARIO</th>
+                                        <th>ROL</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr *ngFor="let per of listaPerfilRef;let j = index" class="bg-cyan tam-cuerpo">
+                                        <td>{{per.selected}}</td>
+                                        <td>
+                                            <input type="checkbox" class="filled-in chk-col-pink" id="elegir" [(ngModel)]="per.selected" name='txtPerfilSeleccionado'> </td>
+                                        <td>{{per.descripcion}}</td>
+                                        <td>{{per.id_rol}}</td>
+                                        <td>{{per.id_usuario}}</td>
+                                        <td>{{per.nombre}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="modal-footer">
+                <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                <!--(click)="activarBuscar($event)"-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<button id="modalPDF" hidden="hidden" data-toggle="modal" data-target="#modalPDFPnl"></button>
+<div class="modal fade" id="modalPDFPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <!--<h4 class="modal-title">{{tituloPDF}}</h4>-->
+            </div>
+            <div id="mostrarPDF" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <!-- <button (click)="activarBuscar($event)" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+               -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<button id="modalRol" hidden="hidden" data-toggle="modal" data-target="#modalRolPnl"></button>
+<div class="modal fade" id="modalRolPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS ROL</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="col-md-12 datos-ref">
+
+                    <div class="col-md-12">
+                        <div class="col-md-4 col-xd-6">
+                            <div class="form-group">
+                                <label>Nombre:</label>
+                                <input class="form-control" required placeholder="ROL-dflores" type="text" [(ngModel)]="rolNombre" name="txtRolNombre">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-xd-6">
+                            <div class="form-group">
+                                <label>Configurable</label>
+                                <input class="form-control" type="checkbox" [(ngModel)]="rolConfigurable">
+                                <!--<div class="col-md-6">
+                                    <label class="checkbox-inline">
+                                        <input class="form-control" type="checkbox" id="checkboxEnLinea3" value="opcion_3">
+                                    </label>
+                                </div>
+                                -->
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+
+                        <div class="col-md-4 col-xd-6">
+                            <div class="form-group">
+                                <label>Descripcion:</label>
+                                <textarea class="form-control" required placeholder="Rol creado para dflores" type="text" [(ngModel)]="rolDescripcion" name="txtRolDescripcion"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-xd-6">
+                            <label> Accion</label>
+                            <button (click)="crearRol()" class="btn btn-primary btn-block">
+                                <i class="fa fa-save fa-fw ic-dfa"></i>Guardar</button>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                <!--(click)="activarBuscar($event)"-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<button id="modalEmpleado" hidden="hidden" data-toggle="modal" data-target="#modalEmpleadoPnl"></button>
+<div class="modal fade" id="modalEmpleadoPnl">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>Datos Empleado</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <form-empleado [buttonSelectedActivated]="buttonSelectedActivatedEmple" (empleadoSeleccionado)="obtenerEmpleadoDatosExternos($event)"></form-empleado>
+
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<button id="modalFormuRol" hidden="hidden" data-toggle="modal" data-target="#modalFormuRolPnl"></button>
+<div class="modal fade" id="modalFormuRolPnl">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>Datos Rol</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                <form-rol [buttonSelectedActivated]="buttonSelectedActivatedRol" (rolSeleccionado)="obtenerRolDatosExternos($event)"></form-rol>
+
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<button id="modalRolAgregar" hidden="hidden" data-toggle="modal" data-target="#modalRolAgregarPnl"></button>
+<div class="modal fade" id="modalRolAgregarPnl">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>Rol a Agregar</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+                Los datos del Rol seleccionado son :
+
+                <fieldset>
+                    <legend>Datos Rol</legend>
+
+                    <div class="col-md-12 col-xd-2">
+
+                        <div class="col-md-4 col-xd-2">
+                            <div class="input-group">
+                                <span class="input-group-addon">Id Rol:</span>
+                                <span class="form-control">
+                                    <span *ngIf="rolSelected!=null"> {{rolSelected.id_rol}}</span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-xd-2">
+                            <div class="input-group">
+                                <span class="input-group-addon">Nombre.</span>
+                                <span class="form-control">
+                                    <span *ngIf="rolSelected!=null"> {{rolSelected.nombre}}</span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-xd-2">
+                            <div class="input-group">
+                                <span class="input-group-addon">Descripcion: </span>
+                                <span class="form-control">
+                                    <span *ngIf="rolSelected!=null"> {{rolSelected.descripcion}}</span>
+                                </span>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-12 col-xd-2">
+                        <div class="col-md-3">
+                            <button (click)="guardarRol()" class="btn btn-primary btn-block">
+                                <i class="fa fa-savefa-fw ic-dfa"></i>Confirmar</button>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>

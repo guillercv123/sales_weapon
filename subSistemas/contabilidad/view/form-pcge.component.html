@@ -1,0 +1,413 @@
+<!--
+    <div class="row">
+        <div class="col-md-12" >    
+        -->
+<div *ngIf="transferido">
+    Transfiriendo..
+    <div class="loader">Loading...</div>
+</div>
+
+
+<div *ngIf="tienePermisoView">
+
+
+    <div *ngIf="!panelPermisosSelected">
+
+
+
+        <ul *ngIf="!panelEditarSelected" class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" href="#buscarContaPcge">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#nuevoContaPcge">
+                    <i class="fa fa-plus fa-fw ic-dfa"></i>Nuevo</a>
+            </li>
+
+        </ul>
+        <div *ngIf="!panelEditarSelected" class="tab-content">
+
+            <div id="buscarContaPcge" class="tab-pane fade in active">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Busqueda de ContaPcge</h3>
+                    </div>
+                    <div class="panel-body">
+
+
+                        <div class="col-md-12 col-xd-2">
+
+
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Id Conta Pcge: </label>
+                                    <input class="form-control" required placeholder="1" type="text" [(ngModel)]="idContaPcgeSelected" name="txtIdContaPcge">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Codigo: </label>
+                                    <input class="form-control" required placeholder="1010" type="text" [(ngModel)]="codigoSelected" name="txtCodigo">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Descripcion: </label>
+                                    <input class="form-control" required placeholder="Descripcion" type="text" [(ngModel)]="descripcionSelected" name="txtDescripcion">
+                                </div>
+                            </div>
+
+                            <!-- <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Direccion: </label>
+                                    <input class="form-control" required placeholder="Av. España 302" type="text" [(ngModel)]="direccionSelected" name="txtsimbolo">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Local: </label>
+                                    <select class="form-control" required [(ngModel)]="localSelected" name="cbLocales">
+                                        <option *ngFor="let a of locales; let i = index" [ngValue]="a">{{a.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-3 col-xd-3">
+                                <div class="form-group">
+                                    <label>Orden Presentacion: </label>
+                                    <input class="form-control" required placeholder="1" type="number" [(ngModel)]="ordenPresentacionSelected" name="txtOrdenPresentacion">
+                                </div>
+                            </div> -->
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="buscar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-search fa-fw ic-dfa"></i>Ejecutar</button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="nuevoContaPcge" class="tab-pane fade ">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Registro de Conta Pcge</h3>
+                    </div>
+                    <div class="panel-body">
+
+
+                        <div class="col-md-12 col-xd-2">
+
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Código: </label>
+                                    <input class="form-control" required placeholder="1010" type="text" [(ngModel)]="codigoSelected" name="txtCodigo">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Descripcion: </label>
+                                    <input class="form-control" required placeholder="Descripcion" type="text" [(ngModel)]="descripcionSelected" name="txtDescripcion">
+                                </div>
+                            </div>
+
+                            <!-- <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Direccion: </label>
+                                    <input class="form-control" required placeholder="Av. España 302" type="text" [(ngModel)]="direccionSelected" name="txtsimbolo">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Local: </label>
+                                    <select class="form-control" required [(ngModel)]="localSelected" name="cbLocales">
+                                        <option *ngFor="let a of locales; let i = index" [ngValue]="a">{{a.nombre}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-2 col-xd-2">
+                                <div class="form-group">
+                                    <label>Orden Presentacion: </label>
+                                    <input class="form-control" required placeholder="1" type="number" [(ngModel)]="ordenPresentacionSelected" name="txtOrdenPresentacion">
+                                </div>
+                            </div> -->
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="registrar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-save fa-fw ic-dfa"></i>Guardar</button>
+                            </div>
+
+
+                            <div class="col-md-2">
+                                    <label> Accion</label>
+                                    <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                        <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+    
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <div *ngIf="panelEditarSelected" class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Editar Conta Pcge</h3>
+
+            </div>
+            <div class="panel-body">
+
+                <div class="col-md-12 tabla-cabecera-botones">
+                    <button (click)="regresar()" class="btn btn-primary btn-block">
+                        <i class="fa fa-reply fa-fw ic-dfa"></i>Regresar
+                    </button>
+                </div>
+
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="form-group">
+                        <label>Codigo: </label>
+                        <input class="form-control" required placeholder="1010" type="text" [(ngModel)]="codigoSelected" name="txtCodigo">
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="form-group">
+                        <label>Descripcion: </label>
+                        <input class="form-control" required placeholder="Descripcion" type="text" [(ngModel)]="descripcionSelected" name="txtDescripcion">
+                    </div>
+                </div>
+
+                <!-- <div class="col-md-12 col-xd-2">
+                    <div class="form-group">
+                        <label>Direccion: </label>
+                        <input class="form-control" required placeholder="Av. España 302" type="text" [(ngModel)]="direccionSelected" name="txtsimbolo">
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="form-group">
+                        <label>Local: </label>
+                        <select class="form-control" required [(ngModel)]="localSelected" name="cbLocales">
+                            <option *ngFor="let a of locales; let i = index" [ngValue]="a">{{a.nombre}} </option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="col-md-12 col-xd-2">
+                    <div class="form-group">
+                        <label>Orden Presentacion: </label>
+                        <input class="form-control" required placeholder="1" type="number" [(ngModel)]="ordenPresentacionSelected" name="txtOrdenPresentacion">
+                    </div>
+                </div> -->
+
+
+                <div class="col-md-2">
+                    <label> Accion</label>
+                    <button (click)="editar()" class="btn btn-primary btn-block">
+                        <i class="fa fa-save fa-fw ic-dfa"></i>Editar</button>
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+
+
+        <div *ngIf="panelListaBeanSelected" class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Lista de Conta Pcge</h3>
+            </div>
+            <div class="panel-body">
+
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="row bg-teal tabla-cabecera-botones">
+                            <div class="col-md-2">
+                                <h5>Total:{{totalLista}}</h5>
+                            </div>
+                            <div class="col-md-1">
+                                <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-2">
+                                <label>Del {{inicio}} al {{fin}}</label>
+                            </div>
+
+                            <div class="col-md-1">
+                                <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-5">
+                                    <label> Tam. Pagina</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                        <option [ngValue]="10">10</option>
+                                        <option [ngValue]="15">15</option>
+                                        <option [ngValue]="20">20</option>
+                                        <option [ngValue]="30">30</option>
+                                        <option [ngValue]="100">100</option>
+                                        <option [ngValue]="500">500</option>
+                                        <option [ngValue]="1000">1000</option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-1">
+                             
+                                    <button class="btn-primary icono-dfa" (click)="exportarExcel();">
+                                        <img src="assets/img/xls.png" width="24"> XLS</button>
+                
+                            </div>
+                            <div class="col-md-1">
+                              
+                                    <button class="btn-primary icono-dfa" (click)="exportarPdf();">
+                                        <img src="assets/img/pdf.png" width="24"> PDF</button>
+                              
+                            </div>
+                        </div>
+
+                        <div class=" table-responsive tabla-dfa">
+                            <!--<div class="row">
+                                    <div class="col-md-3">
+                                        <div class="list-group border-bottom">
+                                            <button class="list-group-item" onclick="$('#customers').tableExport({type:'json',escape:'false'});"><img src="http://demos.w3lessons.info/assets/images/icons/json.png" width="24"> JSON</button>
+                                            <button class="list-group-item" onclick="$('#table-almacenes').tableExport({type:'json',escape:'false',ignoreColumn:'[2,3]'});"><img src="http://demos.w3lessons.info/assets/images/icons/json.png" width="24"> JSON (ignoreColumn)</button>
+                                            <button class="list-group-item" onclick="$('#table-almacenes').tableExport({type:'json',escape:'true'});"><img src="http://demos.w3lessons.info/assets/images/icons/json.png" width="24"> JSON (with Escape)</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="list-group border-bottom">
+                                            <button class="list-group-item" onclick="$('#table-almacenes').tableExport({type:'xml',escape:'false'});"><img src="http://demos.w3lessons.info/assets/images/icons/xml.png" width="24"> XML</button>
+                                            <button class="list-group-item" onclick="$('#table-almacenes').tableExport({type:'sql'});"><img src="http://demos.w3lessons.info/assets/images/icons/sql.png" width="24"> SQL</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="list-group border-bottom">
+                                            <button class="list-group-item" onclick="$('#table-almacenes').tableExport({type:'csv',escape:'false'});"><img src="http://demos.w3lessons.info/assets/images/icons/csv.png" width="24"> CSV</button>
+                                            <button class="list-group-item" onclick="$('#table-almacenes').tableExport({type:'txt',escape:'false'});"><img src="http://demos.w3lessons.info/assets/images/icons/txt.png" width="24"> TXT</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="list-group border-bottom">
+                                            <button class="list-group-item" (click)="exportarExcel();"><img src="http://demos.w3lessons.info/assets/images/icons/xls.png" width="24"> XLS</button>
+                                            <button class="list-group-item" onclick="$('#table-almacenes').tableExport({type:'doc',escape:'false'});"><img src="http://demos.w3lessons.info/assets/images/icons/word.png" width="24"> Word</button>
+                                            <button class="list-group-item" onclick="$('#table-almacenes').tableExport({type:'powerpoint',escape:'false'});"><img src="http://demos.w3lessons.info/assets/images/icons/ppt.png" width="24"> PowerPoint</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="list-group border-bottom">
+                                            <button class="list-group-item" onclick="$('#table-almacenes').tableExport({type:'png',escape:'false'});"><img src="http://demos.w3lessons.info/assets/images/icons/png.png" width="24"> PNG</button>
+                                            <button class="list-group-item" (click)="exportarPdf();" ><img src="http://demos.w3lessons.info/assets/images/icons/pdf.png" width="24"> PDF</button>
+                                        </div>
+                                    </div>
+                                </div>-->
+
+                            <table id="table-almacenes" class="table table-condensed">
+                                <thead>
+                                    <tr class="bg-teal tam-cabecera">
+                                        <th>N°</th>
+                                        <th>ACCION</th>
+                                        <th>ACCION</th>
+                                        <th>ID CONTA PCGE</th>
+                                        <th>CODIGO</th>
+                                        <th>DESCRIPCION</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr *ngFor="let lc of listaContasPcge;let j = index" class="bg-cyan tam-cuerpo">
+                                        <td>{{inicio+j}}</td>
+                                        <td>
+                                            <button (click)="eliminar(lc)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button (click)="abrirPanelEditar(lc)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-plus-square fa-fw ic-dfa"></i>Editar
+                                            </button>
+                                        </td>
+
+                                        <td>{{lc.id_conta_pcge}}</td>
+                                        <td>{{lc.codigo}}</td>
+                                        <td>{{lc.descripcion}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+<button id="modalPDF" hidden="hidden" data-toggle="modal" data-target="#modalPDFPnl"></button>
+<div class="modal fade" id="modalPDFPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <!--<h4 class="modal-title">{{tituloPDF}}</h4>-->
+            </div>
+            <div id="mostrarPDF" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <!-- <button (click)="activarBuscar($event)" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+               -->
+            </div>
+        </div>
+    </div>
+</div>

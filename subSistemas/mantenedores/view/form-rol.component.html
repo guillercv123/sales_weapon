@@ -1,0 +1,399 @@
+<!--
+    <div class="row">
+        <div class="col-md-12" >    
+        -->
+<div *ngIf="transferido">
+    Transfiriendo..
+    <div class="loader">Loading...</div>
+</div>
+
+
+<div *ngIf="tienePermisoView">
+
+
+    <div *ngIf="!panelPermisosSelected">
+
+
+
+        <ul *ngIf="!panelEditarSelected" class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" href="#buscarRol">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#nuevoRol">
+                    <i class="fa fa-plus fa-fw ic-dfa"></i>Nuevo</a>
+            </li>
+
+        </ul>
+        <div *ngIf="!panelEditarSelected" class="tab-content">
+
+            <div id="buscarRol" class="tab-pane fade in active">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Busqueda de Rol</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="col-md-12 col-xd-2">
+
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Id Rol: </label>
+                                    <input class="form-control" required placeholder="1" type="number" [(ngModel)]="idRolSelected" name="txtIdRol">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Nombre: </label>
+                                    <input class="form-control" required placeholder="ADMINISTRADOR" type="text" [(ngModel)]="nombreSelected" name="txtNombre">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Descripcion: </label>
+                                    <input class="form-control" required placeholder="rol creado para todos los administradores" type="text" [(ngModel)]="descripcionSelected" name="txtDescripcion">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Usuario: </label>
+                                    <input class="form-control" required placeholder="dflores" type="text" [(ngModel)]="uloginSelected" name="txtUlogin">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="buscar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-search fa-fw ic-dfa"></i>Ejecutar</button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="nuevoRol" class="tab-pane fade ">
+
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Registro de Rol</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="col-md-12 col-xd-2">
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Nombre: </label>
+                                    <input class="form-control" required placeholder="ADMINISTRADOR" type="text" [(ngModel)]="nombreSelected" name="txtNombre">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xd-2">
+                                <div class="form-group">
+                                    <label>Descripcion: </label>
+                                    <input class="form-control" required placeholder="rol creado para todos los administradores" type="text" [(ngModel)]="descripcionSelected" name="txtDescripcion">
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-4 col-xd-6">
+                                <div class="form-group">
+                                    <label>Configurable</label>
+                                    <input class="form-control" type="checkbox" [(ngModel)]="configurableSelected">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="registrar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-save fa-fw ic-dfa"></i>Guardar</button>
+                            </div>
+                            <div class="col-md-2">
+                                <label> Accion</label>
+                                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <div *ngIf="panelEditarSelected">
+
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Editar Rol</h3>
+
+                </div>
+                <div class="panel-body">
+
+
+                    <div class="col-md-12 tabla-cabecera-botones">
+
+                        <div class="col-md-2">
+                            <button (click)="regresar()" class="btn btn-primary btn-block">
+                                <i class="fa fa-reply fa-fw ic-dfa"></i>Regresar
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-12 col-xd-12">
+                        <div class="col-md-3 col-xd-2">
+                            <div class="form-group">
+                                <label>Nombre: </label>
+                                <input class="form-control" required placeholder="ADMINISTRADOR" type="text" [(ngModel)]="nombreSelected" name="txtNombre">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-xd-2">
+                            <div class="form-group">
+                                <label>Descripcion: </label>
+                                <input class="form-control" required placeholder="rol creado para todos los administradores" type="text" [(ngModel)]="descripcionSelected" name="txtDescripcion">
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-3 col-xd-6">
+                            <div class="form-group">
+                                <label>Configurable</label>
+                                <input class="form-control" type="checkbox" [(ngModel)]="configurableSelected">
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <label> Accion</label>
+                            <button (click)="editar()" class="btn btn-primary btn-block">
+                                <i class="fa fa-save fa-fw ic-dfa"></i>Editar</button>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Lista Permisos </h3>
+                </div>
+                <div class="panel-body">
+
+
+                    <div *ngIf="modificarRol" class="row ">
+
+                        <div class="col-md-12">
+                            <div class="col-md-10 rol-modificado">
+                                <div class="col-md-6">
+                                    <p>Rol:&nbsp;{{rolModificar.nombre}} &nbsp; Login:&nbsp;{{rolModificar.ulogin}}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>Descripcion:&nbsp;{{rolModificar.descripcion}}</p>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+                    <div class="row">
+                        <div class="col-md-12 tabla-dfa" *ngFor="let vi of vistas;let i = index">
+
+                            <div class="tabla-cabecera-formularios">
+                                <span class="titulo-formu">FORMULARIO:</span> {{vi.vista}}
+                            </div>
+
+                            <div class=" table-responsive">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr class="bg-teal tam-cabecera">
+                                            <th>TIENE PERMISO</th>
+                                            <th>TIENE PERMISO</th>
+                                            <th>ID DETALLE VIEW</th>
+                                            <th>ID COMPONENTE</th>
+                                            <th>COMPONENTE</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr *ngFor="let compo of componentes[vi.vista];let j = index" class="bg-cyan tam-cuerpo" (click)="elegirFila(componentes[vi.vista],j)">
+                                            <td>{{compo.selected}}</td>
+
+
+
+                                            <!--
+                                                                        <td> <input type="checkbox" class="filled-in chk-col-pink" id="elegir"  ngControl="compo" [(ngModel)]="compo.selected"  name="tienePermiso" > </td>
+                                                                     -->
+                                            <td>
+                                                <input type="checkbox" class="filled-in chk-col-pink" id="elegir" [checked]="compo.selected" (change)="selectPermiso(vi,compo,i,j)"> </td>
+                                            <td>{{compo.id_detalle_view}}</td>
+                                            <td>{{compo.id_componente}}</td>
+                                            <td>{{compo.componente}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div *ngIf="panelListaBeanSelected" class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Lista de roles</h3>
+            </div>
+            <div class="panel-body">
+
+
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="row bg-teal tabla-cabecera-botones">
+                            <div class="col-md-12">
+                                <h5>EXISTEN :{{totalLista}} EN TOTAL</h5>
+                            </div>
+                            <div class="col-md-2">
+                                <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-2">
+                                <label>Del {{inicio}} al {{fin}}</label>
+                            </div>
+
+                            <div class="col-md-2">
+                                <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                    <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-5">
+                                    <label> Tamaño Pagina</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                        <option [ngValue]="10">10</option>
+                                        <option [ngValue]="15">15</option>
+                                        <option [ngValue]="20">20</option>
+                                        <option [ngValue]="30">30</option>
+                                        <option [ngValue]="100">100</option>
+                                        <option [ngValue]="500">500</option>
+                                        <option [ngValue]="1000">1000</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class=" table-responsive tabla-dfa">
+
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr class="bg-teal tam-cabecera">
+                                        <th>N°</th>
+                                        <th *ngIf="buttonSelectedActivated">ACCION</th>
+                                        <th *ngIf="!buttonSelectedActivated">ACCION</th>
+                                        <th *ngIf="!buttonSelectedActivated">ACCION</th>
+                                        <th>ID ROL</th>
+                                        <th>NOMBRE</th>
+                                        <th>DESCRIPCION</th>
+                                        <th>ID USUARIO</th>
+                                        <th>CONFIGURABLE</th>
+                                        <th>LOGIN</th>
+                                        <th>NOMBRES</th>
+                                        <th>APELLIDO PATERNO</th>
+                                        <th>APELLIDO MATERNO</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr *ngFor="let prove of listaRoles;let j = index" class="bg-cyan tam-cuerpo">
+                                        <td>{{inicio+j}}</td>
+                                        <td *ngIf="buttonSelectedActivated">
+                                                <button (click)="seleccionar(prove)" class="btn btn-primary btn-block">
+                                                    <i class="fa fa-hand-o-up fa-fw ic-dfa"></i>Select.
+                                                </button>
+                                        </td>
+                                        <td *ngIf="!buttonSelectedActivated">
+                                            <button (click)="eliminar(prove)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                            </button>
+                                        </td>
+                                        <td *ngIf="!buttonSelectedActivated">
+                                            <button (click)="abrirPanelEditar(prove)" class="btn btn-primary btn-block">
+                                                <i class="fa fa-plus-square fa-fw ic-dfa"></i>Editar
+                                            </button>
+                                        </td>
+
+                                        <td>{{prove.id_rol}}</td>
+                                        <td>{{prove.nombre}}</td>
+                                        <td>{{prove.descripcion}}</td>
+                                        <td>{{prove.id_usuario}}</td>
+                                        <td>{{prove.configurable}}</td>
+                                        <td>{{prove.ulogin}}</td>
+                                        <td>{{prove.nombres}}</td>
+                                        <td>{{prove.apellido_paterno}}</td>
+                                        <td>{{prove.apellido_materno}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

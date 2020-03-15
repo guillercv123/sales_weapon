@@ -1,0 +1,290 @@
+<div class="login-panel panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Busqueda de Conductor</h3>
+    </div>
+    <div class="panel-body">
+
+
+        <div class="col-md-12 col-xd-2">
+
+
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Id Conductor Vehiculo: </label>
+                    <input class="form-control" required placeholder="1" type="text"
+                        [(ngModel)]="idConductorVehiculoSelected" name="txtIdConductorVehiculo">
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Marca Vehiculo: </label>
+                    <input class="form-control" required placeholder="Toyota" type="text" [(ngModel)]="marcaSelected"
+                        name="txtMarca">
+                </div>
+            </div>
+
+
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Nro Licencia Conducir: </label>
+                    <input class="form-control" required placeholder="234" type="text" [(ngModel)]="nroLicenciaConducir"
+                        name="txtNroLicenciaConducir">
+                </div>
+            </div>
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Nro Placa: </label>
+                    <input class="form-control" required placeholder="A34" type="text" [(ngModel)]="nroPlacaSelected"
+                        name="txtNroPlaca">
+                </div>
+            </div>
+
+            <div class="col-md-3 col-xd-2">
+                <div class="form-group">
+                    <label>Nro Constancia: </label>
+                    <input class="form-control" required placeholder="234" type="text"
+                        [(ngModel)]="nroConstanciaInscripcion" name="txtNroConstancia">
+                </div>
+            </div>
+
+            <div class="col-md-5 col-xd-2">
+                <div class="form-group">
+                    <label>Persona: </label>
+
+                    <div class="input-group">
+                        <label class="form-control">{{nombrePersonaSelected}}</label>
+                        <span class="input-group-btn">
+                            <button (click)="abrirModalPersona()" class="btn btn-primary btn-block">
+                                <i class="fa fa-search fa-fw ic-dfa"></i>
+                                <i class="fa fa-users fa-fw ic-dfa"></i>
+                            </button>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <label> Accion</label>
+                <button (click)="buscar()" class="btn btn-primary btn-block">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Ejecutar</button>
+            </div>
+
+            <div class="col-md-2">
+                <label> Accion</label>
+                <button (click)="limpiar()" class="btn btn-primary btn-block">
+                    <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+            </div>
+
+
+        </div>
+
+
+    </div>
+</div>
+
+
+
+<div class="login-panel panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Lista de Conductores</h3>
+    </div>
+    <div class="panel-body">
+
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="row bg-teal tabla-cabecera-botones">
+                    <div class="col-md-2">
+                        <h5>Total:{{totalLista}}</h5>
+                    </div>
+                    <div class="col-md-1">
+                        <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                            <i class="fa fa-backward fa-fw ic-dfa"></i>
+                        </button>
+                    </div>
+                    <div class="col-md-2">
+                        <label>Del {{inicio}} al {{fin}}</label>
+                    </div>
+
+                    <div class="col-md-1">
+                        <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                            <i class="fa fa-forward fa-fw ic-dfa"></i>
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="col-md-5">
+                            <label> Tam. Pagina</label>
+                        </div>
+                        <div class="col-md-4">
+                            <select name="txtTamPagina" class="form-control" [(ngModel)]="tamPagina">
+                                <option [ngValue]="10">10</option>
+                                <option [ngValue]="15">15</option>
+                                <option [ngValue]="20">20</option>
+                                <option [ngValue]="30">30</option>
+                                <option [ngValue]="100">100</option>
+                                <option [ngValue]="500">500</option>
+                                <option [ngValue]="1000">1000</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-1">
+
+                        <button class="btn-primary icono-dfa" (click)="exportarExcel();">
+                            <img src="assets/img/xls.png" width="24"> XLS</button>
+
+                    </div>
+                    <div class="col-md-1">
+
+                        <button class="btn-primary icono-dfa" (click)="exportarPdf();">
+                            <img src="assets/img/pdf.png" width="24"> PDF</button>
+
+                    </div>
+                </div>
+
+                <div class=" table-responsive tabla-dfa">
+                    <!--<div class="row">
+                                            <div class="col-md-3">
+                                                <div class="list-group border-bottom">
+                                                    <button class="list-group-item" onclick="$('#customers').tableExport({type:'json',escape:'false'});"><img src="http://demos.w3lessons.info/assets/images/icons/json.png" width="24"> JSON</button>
+                                                    <button class="list-group-item" onclick="$('#table-almacenes').tableExport({type:'json',escape:'false',ignoreColumn:'[2,3]'});"><img src="http://demos.w3lessons.info/assets/images/icons/json.png" width="24"> JSON (ignoreColumn)</button>
+                                                    <button class="list-group-item" onclick="$('#table-almacenes').tableExport({type:'json',escape:'true'});"><img src="http://demos.w3lessons.info/assets/images/icons/json.png" width="24"> JSON (with Escape)</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="list-group border-bottom">
+                                                    <button class="list-group-item" onclick="$('#table-almacenes').tableExport({type:'xml',escape:'false'});"><img src="http://demos.w3lessons.info/assets/images/icons/xml.png" width="24"> XML</button>
+                                                    <button class="list-group-item" onclick="$('#table-almacenes').tableExport({type:'sql'});"><img src="http://demos.w3lessons.info/assets/images/icons/sql.png" width="24"> SQL</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="list-group border-bottom">
+                                                    <button class="list-group-item" onclick="$('#table-almacenes').tableExport({type:'csv',escape:'false'});"><img src="http://demos.w3lessons.info/assets/images/icons/csv.png" width="24"> CSV</button>
+                                                    <button class="list-group-item" onclick="$('#table-almacenes').tableExport({type:'txt',escape:'false'});"><img src="http://demos.w3lessons.info/assets/images/icons/txt.png" width="24"> TXT</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="list-group border-bottom">
+                                                    <button class="list-group-item" (click)="exportarExcel();"><img src="http://demos.w3lessons.info/assets/images/icons/xls.png" width="24"> XLS</button>
+                                                    <button class="list-group-item" onclick="$('#table-almacenes').tableExport({type:'doc',escape:'false'});"><img src="http://demos.w3lessons.info/assets/images/icons/word.png" width="24"> Word</button>
+                                                    <button class="list-group-item" onclick="$('#table-almacenes').tableExport({type:'powerpoint',escape:'false'});"><img src="http://demos.w3lessons.info/assets/images/icons/ppt.png" width="24"> PowerPoint</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="list-group border-bottom">
+                                                    <button class="list-group-item" onclick="$('#table-almacenes').tableExport({type:'png',escape:'false'});"><img src="http://demos.w3lessons.info/assets/images/icons/png.png" width="24"> PNG</button>
+                                                    <button class="list-group-item" (click)="exportarPdf();" ><img src="http://demos.w3lessons.info/assets/images/icons/pdf.png" width="24"> PDF</button>
+                                                </div>
+                                            </div>
+                                        </div>-->
+
+                    <table id="table-almacenes" class="table table-condensed">
+                        <thead>
+                            <tr class="bg-teal tam-cabecera">
+                                <th>N°</th>
+                                <th *ngIf="buttonSelected">ACCION</th>
+                                <th *ngIf="!buttonSelected">ACCION</th>
+                                <th *ngIf="!buttonSelected">ACCION</th>
+                                <th>ID CONDUCTOR VEHICULO</th>
+                                <th>ID PERSONA</th>
+                                <th>CONDUCTOR</th>
+                                <th>NRO DOCUMENTO</th>
+                                <th>NRO PLACA</th>
+                                <th>MARCA</th>
+                                <th>NRO CONSTANCIA INSCRIPCION</th>
+                                <th>NRO LICENCIA CONDUCIR</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let obj of listaConductores;let j = index" class="bg-cyan tam-cuerpo">
+                                <td>{{inicio+j}}</td>
+                                <td *ngIf="buttonSelected">
+                                    <button (click)="seleccionar(obj)" class="btn btn-primary btn-block">
+                                        <i class="fa fa-hand-o-up fa-fw ic-dfa"></i>Select.
+                                    </button>
+                                </td>
+                                <td *ngIf="!buttonSelected">
+                                    <button (click)="eliminar(obj)" class="btn btn-primary btn-block">
+                                        <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                    </button>
+                                </td>
+                                <td *ngIf="!buttonSelected">
+                                    <button (click)="abrirPanelEditar(obj)" class="btn btn-primary btn-block">
+                                        <i class="fa fa-plus-square fa-fw ic-dfa"></i>Editar
+                                    </button>
+                                </td>
+
+                                <td>{{obj.id_conductor_vehiculo}}</td>
+                                <td>{{obj.id_persona}}</td>
+                                <td>{{obj.conductor}}</td>
+                                <td>{{obj.numero_documento_conductor}}</td>
+                                <td>{{obj.nro_placa}}</td>
+                                <td>{{obj.marca}}</td>
+                                <td>{{obj.nro_constancia_inscripcion}}</td>
+                                <td>{{obj.nro_licencia_conducir}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+<button id="modalPDF" hidden="hidden" data-toggle="modal" data-target="#modalPDFPnl"></button>
+<div class="modal fade" id="modalPDFPnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <!--<h4 class="modal-title">{{tituloPDF}}</h4>-->
+            </div>
+            <div id="mostrarPDF" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <!-- <button (click)="activarBuscar($event)" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+               -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<button id="modalPersona1" hidden="hidden" data-toggle="modal" data-target="#modalPersona1Pnl"></button>
+<div class="modal fade" id="modalPersona1Pnl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label>DATOS PERSONA</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+
+
+                <form-find-persona (dataExterna)="obtenerDatosPersonaExterna($event)">
+                </form-find-persona>
+
+            </div>
+            <div class="modal-footer">
+                <!--<button class="btn btn-primary" data-dismiss="modal">Cancelar</button>-->
+                <!--(click)="activarBuscar($event)"-->
+            </div>
+        </div>
+    </div>
+</div>

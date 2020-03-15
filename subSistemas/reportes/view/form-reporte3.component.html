@@ -1,0 +1,81 @@
+<!--
+    <div class="row">
+        <div class="col-md-12" >    
+        -->
+        <div *ngIf="transferido">
+            Transfiriendo..
+            <div class="loader">Loading...</div>
+        </div>
+        
+        
+        <div *ngIf="tienePermisoView">
+        
+        
+            <div *ngIf="!panelPermisosSelected">
+        
+                <ul *ngIf="!panelEditarSelected" class="nav nav-tabs">
+                    <li  class="active">
+                        <a data-toggle="tab" href="#reporte1">
+                            <i class="fa fa-search fa-fw ic-dfa"></i>Reporte 3</a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#reporte2">
+                            <i class="fa fa-plus fa-fw ic-dfa"></i>Reporte 3</a>
+                    </li>
+        
+                </ul>
+                <div *ngIf="!panelEditarSelected" class="tab-content">
+                    <div id="reporte1" class="tab-pane fade in active">
+        
+                        <div class="login-panel panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Reporte 3</h3>
+                            </div>
+                            <div class="panel-body">
+                                    
+                    
+                            </div>
+                        </div>
+        
+                    </div>
+        
+        
+                    <div id="reporte2" class="tab-pane fade  ">
+        
+                        <div class="login-panel panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Reporte 3</h3>
+                            </div>
+                            <div class="panel-body">
+             
+                            </div>
+                        </div>
+        
+                    </div>
+        
+                </div>
+        
+        
+            </div>
+        
+        </div>
+        
+        
+        
+        <button id="modalPDF" hidden="hidden" data-toggle="modal" data-target="#modalPDFPnl"></button>
+        <div class="modal fade" id="modalPDFPnl">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                        <!--<h4 class="modal-title">{{tituloPDF}}</h4>-->
+                    </div>
+                    <div id="mostrarPDF" class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <!-- <button (click)="activarBuscar($event)" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                       -->
+                    </div>
+                </div>
+            </div>
+        </div>

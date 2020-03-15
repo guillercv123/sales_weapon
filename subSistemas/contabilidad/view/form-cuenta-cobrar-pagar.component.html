@@ -1,0 +1,962 @@
+<!--
+    <div class="row">
+        <div class="col-md-12" >    
+        -->
+<div *ngIf="transferido">
+    Transfiriendo..
+    <div class="loader">Loading...</div>
+</div>
+
+
+
+<div *ngIf="tienePermisoView">
+
+
+    <div *ngIf="!panelPermisosSelected">
+
+
+
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" href="#buscarCuentaPagar">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Cuentas por Pagar</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#buscarCuentaCobrar">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Cuentas por Cobrar</a>
+            </li>
+
+        </ul>
+        <div class="tab-content">
+
+            <div id="buscarCuentaPagar" class="tab-pane fade in active">
+                
+                <div id="panel-compras">
+                    <form-find-compra (seleccionMultipleAction)="seleccionMultipleAction($event)" 
+                                      (variasFacturasAction)="cajearVariasFacturas($event)">
+                    </form-find-compra>
+                </div>
+
+
+
+                <div id="panel-amortizacion" style="display:none">
+
+                        <div class="login-panel panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Compra/Venta a Amortizar /Pagar</h3>
+                                </div>
+                                <div class="panel-body">
+                
+                                    <div class="col-md-12">
+                                        <div class="col-md-2">
+                                                <button (click)="regresar()" class="btn btn-primary btn-block">
+                                                    <i class="fa fa-reply fa-fw ic-dfa"></i>Regresar
+                                                </button>
+                                        </div>
+                
+                                        <div class="col-md-2">
+                                                <button (click)="registrar()" class="btn btn-primary btn-block">
+                                                    <i class="fa fa-save fa-fw ic-dfa"></i>Guardar
+                                                </button>
+                                        </div>
+                                    </div>
+                                            
+                                    <div *ngIf="compraAmortizar!=null" class="col-md-12 col-xd-2">
+                
+                                        <div class="col-md-5 col-xd-2">
+                                            <div class="form-group">
+                                                <label>Nro Documento: </label>
+                                                <span>{{ compraAmortizar.codigo_tipo_comprobante}} - {{ compraAmortizar.serie_comprobante }} - {{ compraAmortizar.numero_comprobante}}</span>
+                                            </div>
+                                        </div>
+                
+                                        <div class="col-md-5 col-xd-2">
+                                                <div class="form-group">
+                                                    <label>Fecha: </label>
+                                                    <span>{{ compraAmortizar.fecha}} </span>
+                                                </div>
+                                            </div>
+                
+                                            <div class="col-md-5 col-xd-2">
+                                                    <div class="form-group">
+                                                        <label>Vencimiento: </label>
+                                                        <span>{{ compraAmortizar.dias_credito}} </span>
+                                                    </div>
+                                            </div>
+                
+                                            <div class="col-md-5 col-xd-2">
+                                                    <div class="form-group">
+                                                        <label>Moneda: </label>
+                                                        <span>{{ compraAmortizar.nombre_tipo_moneda}} </span>
+                                                    </div>
+                                            </div>
+                                            
+                
+                                            <div class="col-md-5 col-xd-2">
+                                                <div class="form-group">
+                                                    <label>Proveedor: </label>
+                                                    <span>{{ compraAmortizar.ruc_proveedor}} - {{ compraAmortizar.nombres_proveedor}} </span>
+                                                </div>
+                                            </div>
+                
+                
+                                            <div class="col-md-5 col-xd-2">
+                                                    <div class="form-group">
+                                                        <label>Importe Total: </label>
+                                                        <span>{{ compraAmortizar.monto_total}}</span>
+                                                    </div>
+                                            </div>
+                    
+                                            <div class="col-md-5 col-xd-2">
+                                                    <div class="form-group">
+                                                        <label>Saldo: </label>
+                                                        <span>{{ compraAmortizar.saldo}}</span>
+                                                    </div>
+                                            </div>
+                                
+                                    </div>
+                
+                                </div>
+                        </div>
+                
+                        <div class="login-panel panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Lista de Amortizaciones / Pagos</h3>
+                                </div>
+                                <div class="panel-body">
+                    
+                                    <div class="row">
+                                        <div class="col-md-12">
+                    
+                                            <div class="row bg-teal tabla-cabecera-botones">
+                                               
+                                                <div class="col-md-2">
+                                                    <button (click)="abrirModalAmortizacion()" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-plus fa-fw ic-dfa"></i>
+                                                        Agregar
+                                                    </button>
+                                                </div>
+                                                
+                                            </div>
+                    
+                                            <div class=" table-responsive tabla-dfa">
+                                                <table class="table table-condensed">
+                                                    <thead>
+                                                        <tr class="bg-teal tam-cabecera">
+                                                            <th>N°</th>
+                                                            <th>ACCION</th>
+                                                            <th>FECHA</th>
+                                                            <th>IMPORTE</th>
+                                                            <th>TIPO CAMBIO</th>
+                                                            <th>TIPO MONEDA</th>
+                                                            <th>CUENTA BANCO</th>
+                                                            <th>CHEQUE</th>
+                                                            <th>NRO OPERACION</th>
+                                                            <th>OBSERVACION</th>
+                                                        </tr>
+                                                    </thead>
+                    
+                                                    <tbody>
+                                                        <tr *ngFor="let obj of lista_pagos;let j = index" class="bg-cyan tam-cuerpo">
+                                                            <td>{{inicio+j}}</td>
+                                                            <td>
+                                                                <button (click)="eliminarItem(j)" class="btn btn-primary btn-block">
+                                                                    <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                                                </button>
+                                                            </td>
+                                                            <td>{{obj.fecha}}</td>
+                                                            <td>{{obj.importe}}</td>
+                                                            <td>{{obj.tipo_cambio}}</td>
+                                                            <td>{{obj.tipo_moneda.nombre}}</td>
+                                                            <td>{{obj.cuenta_banco}}</td>
+                                                            <td>{{obj.cheque}}</td>
+                                                            <td>{{obj.nro_operacion}}</td>
+                                                            <td>{{obj.observacion}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                    
+                    
+                    
+                                </div>
+                        </div>
+                
+                </div>
+                
+                
+                <div id="panel-letras" style="display:none">
+                
+                    <div class="login-panel panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Canjear Varias Letras</h3>
+                            </div>
+                            <div class="panel-body">
+                
+                                <div class="col-md-12">
+                                    <div class="col-md-2">
+                                            <button (click)="regresar()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-reply fa-fw ic-dfa"></i>Regresar
+                                            </button>
+                                    </div>
+                
+                                    <div class="col-md-2">
+                                            <button (click)="registrarLetras()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-save fa-fw ic-dfa"></i>Guardar
+                                            </button>
+                                    </div>
+                                </div>
+                                        
+                                <div *ngIf="compraAmortizar!=null" class="col-md-12 col-xd-2">
+                    
+                                        <div class="col-md-5 col-xd-2">
+                                            <div class="form-group">
+                                                <label>Proveedor: </label>
+                                                <div><span>{{ compraAmortizar.ruc_proveedor}} - {{ compraAmortizar.nombres_proveedor}} </span></div>
+                                            </div>
+                                        </div>
+                
+                
+                                        <div class="col-md-2 col-xd-2">
+                                                <div class="form-group">
+                                                    <label>Importe Total: </label>
+                                                    <div><span>{{ compraAmortizar.monto_total}}</span></div>
+                                                </div>
+                                        </div>
+                
+                                        <div class="col-md-2 col-xd-2">
+                                                <div class="form-group">
+                                                    <label>Saldo: </label>
+                                                    <div><span>{{ compraAmortizar.saldo}}</span></div>
+                                                </div>
+                                        </div>
+                            
+                                        <div class="col-md-3 col-xd-2">
+                                                <div class="form-group">
+                                                        <label>Tipo Moneda: </label>
+                                                        <select class="form-control" (change)="cambiarTipoMoneda()" required [(ngModel)]="tipo_moneda_letra" name="cbTipoMoneda">
+                                                            <option *ngFor="let ti of tiposMoneda; let i = index" [ngValue]="ti">{{ti.nombre}}
+                                                            </option>
+                                                        </select>
+                                                </div>    
+                                        </div>
+                
+                                </div>
+                
+                            </div>
+                    </div>
+                
+                    <div class="login-panel panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Lista de Letras</h3>
+                            </div>
+                            <div class="panel-body">
+                
+                                <div class="row">
+                                    <div class="col-md-12">
+                
+                                        <div class=" table-responsive tabla-dfa">
+                                            <table class="table table-condensed">
+                                                <thead>
+                                                    <tr class="bg-teal tam-cabecera">
+                                                        <th>N°</th>
+                                                        <th>ACCION</th>
+                                                        <th>NRO LETRA</th>
+                                                        <th>NRO LETRA UNICO</th>
+                                                        <th>FECHA</th>
+                                                        <th>NRO DIAS LETRA</th>
+                                                        <th>FECHA VENC.</th>
+                                                        <th>TIPO LETRA</th>
+                                                        <th>BANCO</th>
+                                                        <th>TIPO MONEDA</th>
+                                                        <th>IMPORTE</th>
+                                                        
+                                                    </tr>
+                                                </thead>
+                
+                                                <tbody>
+                                                    <tr *ngFor="let obj of lista_pagos_letras;let j = index" class="bg-cyan tam-cuerpo">
+                                                        <td>{{inicio+j}}</td>
+                                                        <td>
+                                                            <button (click)="eliminarItemLetra(j)" class="btn btn-primary btn-block">
+                                                                <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                                            </button>
+                                                        </td>
+                                                    
+                                                        <td>
+                                                            <input class="form-control" type="number" [(ngModel)]="obj.nro_letra" >
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control" type="text" [(ngModel)]="obj.nro_letra_unico" >
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control" type="date" [(ngModel)]="obj.fecha_letra" >
+                                                        </td>
+                                                        <td>
+                                                            <input (change)="calcularFechaVencimiento(obj,j)" class="form-control" type="number" [(ngModel)]="obj.nro_dias_letra" >
+                                                        </td>
+                
+                                                        <td>
+                                                            <input disabled class="form-control" type="date" [(ngModel)]="obj.fecha_vencimiento" >
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-control" [(ngModel)]="obj.tipo_letra">
+                                                                <option value="BANCO COBRANZA GARANTIA">    BANCO COBRANZA GARANTIA </option>
+                                                                <option value="BANCO COBRANZA LIBRE">       BANCO COBRANZA LIBRE </option>
+                                                                <option value="BANCO DESCUENTO">            BANCO DESCUENTO </option>
+                                                                <option value="EN CARTERA">                 EN CARTERA </option>
+                                                            </select>
+                
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-control" [(ngModel)]="obj.banco_letra">
+                                                                <option value="BCR">    BANCO CENTRAL RESERVA DEL PERU </option>    
+                                                                <option value="BBVA">   BANCO CONTINENTAL </option>
+                                                                <option value="BCP">    BANCO DE CREDITO DEL PERU </option>
+                                                                <option value="BN">     BANCO DE LA NACION </option>
+                                                                <option value="BANCO FINANCIERO">     BANCO FINANCIERO </option>
+                                                                <option value="CITIBANK">     CITIBANK DEL PERU S.A. </option>
+                                                                <option value="INTERBANK">  INTERBANK </option>
+                                                                <option value="SCOTIABANK"> BANCO SCOTIABANK </option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                                <input disabled class="form-control" type="text" [(ngModel)]="obj.tipo_moneda" >
+                                                            </td>
+                                                        <td>
+                                                            <input class="form-control" type="number" [(ngModel)]="obj.importe_letra" >
+                                                        </td>
+                
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                
+                
+                
+                            </div>
+                    </div>
+                
+                
+                </div>
+                
+
+            </div>
+
+            <div id="buscarCuentaCobrar" class="tab-pane fade ">
+    
+                <div id="panel-ventas">
+                    <form-find-venta (seleccionMultipleAction)="seleccionMultipleVentaAction($event)" 
+                                      (variasFacturasAction)="cajearVariasFacturasVenta($event)">
+                    </form-find-venta>
+                </div>
+
+
+
+                <div id="panel-ventas-amortizacion" style="display:none">
+
+                        <div class="login-panel panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Compra a Amortizar /Pagar</h3>
+                                </div>
+                                <div class="panel-body">
+                
+                                    <div class="col-md-12">
+                                        <div class="col-md-2">
+                                                <button (click)="regresar()" class="btn btn-primary btn-block">
+                                                    <i class="fa fa-reply fa-fw ic-dfa"></i>Regresar
+                                                </button>
+                                        </div>
+                
+                                        <div class="col-md-2">
+                                                <button (click)="registrar()" class="btn btn-primary btn-block">
+                                                    <i class="fa fa-save fa-fw ic-dfa"></i>Guardar
+                                                </button>
+                                        </div>
+                                    </div>
+                                           
+                                    
+                                    <div *ngIf="ventaAmortizar!=null" class="col-md-12 col-xd-2">
+                
+                                        <div class="col-md-5 col-xd-2">
+                                            <div class="form-group">
+                                                <label>Nro Documento: </label>
+                                                <span>{{ ventaAmortizar.codigo_tipo_comprobante}} - {{ ventaAmortizar.serie_comprobante }} - {{ ventaAmortizar.numero_comprobante}}</span>
+                                            </div>
+                                        </div>
+                
+                                        <div class="col-md-5 col-xd-2">
+                                                <div class="form-group">
+                                                    <label>Fecha: </label>
+                                                    <span>{{ ventaAmortizar.fecha}} </span>
+                                                </div>
+                                            </div>
+                
+                                            <div class="col-md-5 col-xd-2">
+                                                    <div class="form-group">
+                                                        <label>Vencimiento: </label>
+                                                        <span>{{ ventaAmortizar.dias_credito}} </span>
+                                                    </div>
+                                            </div>
+                
+                                            <div class="col-md-5 col-xd-2">
+                                                    <div class="form-group">
+                                                        <label>Moneda: </label>
+                                                        <span>{{ ventaAmortizar.nombre_tipo_moneda}} </span>
+                                                    </div>
+                                            </div>
+                                            
+                
+                                            <div class="col-md-5 col-xd-2">
+                                                <div class="form-group">
+                                                    <label>Cliente: </label>
+                                                    <span>{{ ventaAmortizar.numero_documento_cliente}} - {{ ventaAmortizar.nombres_cliente}} </span>
+                                                </div>
+                                            </div>
+                
+                
+                                            <div class="col-md-5 col-xd-2">
+                                                    <div class="form-group">
+                                                        <label>Importe Total: </label>
+                                                        <span>{{ ventaAmortizar.monto_total}}</span>
+                                                    </div>
+                                            </div>
+                    
+                                            <div class="col-md-5 col-xd-2">
+                                                    <div class="form-group">
+                                                        <label>Saldo: </label>
+                                                        <span>{{ ventaAmortizar.saldo}}</span>
+                                                    </div>
+                                            </div>
+                                
+                                    </div>
+                
+                                </div>
+                        </div>
+                
+                        <div class="login-panel panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Lista de Amortizaciones / Pagos</h3>
+                                </div>
+                                <div class="panel-body">
+                    
+                                    <div class="row">
+                                        <div class="col-md-12">
+                    
+                                            <div class="row bg-teal tabla-cabecera-botones">
+                                               
+                                                <div class="col-md-2">
+                                                    <button (click)="abrirModalAmortizacion()" class="btn btn-primary btn-block">
+                                                        <i class="fa fa-plus fa-fw ic-dfa"></i>
+                                                        Agregar
+                                                    </button>
+                                                </div>
+                                                
+                                            </div>
+                    
+                                            <div class=" table-responsive tabla-dfa">
+                                                <table class="table table-condensed">
+                                                    <thead>
+                                                        <tr class="bg-teal tam-cabecera">
+                                                            <th>N°</th>
+                                                            <th>ACCION</th>
+                                                            <th>FECHA</th>
+                                                            <th>IMPORTE</th>
+                                                            <th>TIPO CAMBIO</th>
+                                                            <th>TIPO MONEDA</th>
+                                                            <th>CUENTA BANCO</th>
+                                                            <th>CHEQUE</th>
+                                                            <th>NRO OPERACION</th>
+                                                            <th>OBSERVACION</th>
+                                                        </tr>
+                                                    </thead>
+                    
+                                                    <tbody>
+                                                        <tr *ngFor="let obj of lista_pagos;let j = index" class="bg-cyan tam-cuerpo">
+                                                            <td>{{inicio+j}}</td>
+                                                            <td>
+                                                                <button (click)="eliminarItem(j)" class="btn btn-primary btn-block">
+                                                                    <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                                                </button>
+                                                            </td>
+                                                            <td>{{obj.fecha}}</td>
+                                                            <td>{{obj.importe}}</td>
+                                                            <td>{{obj.tipo_cambio}}</td>
+                                                            <td>{{obj.tipo_moneda.nombre}}</td>
+                                                            <td>{{obj.cuenta_banco}}</td>
+                                                            <td>{{obj.cheque}}</td>
+                                                            <td>{{obj.nro_operacion}}</td>
+                                                            <td>{{obj.observacion}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                    
+                    
+                    
+                                </div>
+                        </div>
+                
+                </div>
+                
+                
+                <div id="panel-ventas-letras" style="display:none">
+                
+                    <div class="login-panel panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Canjear Varias Letras</h3>
+                            </div>
+                            <div class="panel-body">
+                
+                                <div class="col-md-12">
+                                    <div class="col-md-2">
+                                            <button (click)="regresar()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-reply fa-fw ic-dfa"></i>Regresar
+                                            </button>
+                                    </div>
+                
+                                    <div class="col-md-2">
+                                            <button (click)="registrarLetras()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-save fa-fw ic-dfa"></i>Guardar
+                                            </button>
+                                    </div>
+                                </div>
+                                        
+                                <div *ngIf="compraAmortizar!=null" class="col-md-12 col-xd-2">
+                    
+                                        <div class="col-md-5 col-xd-2">
+                                            <div class="form-group">
+                                                <label>Proveedor: </label>
+                                                <div><span>{{ compraAmortizar.ruc_proveedor}} - {{ compraAmortizar.nombres_proveedor}} </span></div>
+                                            </div>
+                                        </div>
+                
+                
+                                        <div class="col-md-2 col-xd-2">
+                                                <div class="form-group">
+                                                    <label>Importe Total: </label>
+                                                    <div><span>{{ compraAmortizar.monto_total}}</span></div>
+                                                </div>
+                                        </div>
+                
+                                        <div class="col-md-2 col-xd-2">
+                                                <div class="form-group">
+                                                    <label>Saldo: </label>
+                                                    <div><span>{{ compraAmortizar.saldo}}</span></div>
+                                                </div>
+                                        </div>
+                            
+                                        <div class="col-md-3 col-xd-2">
+                                                <div class="form-group">
+                                                        <label>Tipo Moneda: </label>
+                                                        <select class="form-control" (change)="cambiarTipoMoneda()" required [(ngModel)]="tipo_moneda_letra" name="cbTipoMoneda">
+                                                            <option *ngFor="let ti of tiposMoneda; let i = index" [ngValue]="ti">{{ti.nombre}}
+                                                            </option>
+                                                        </select>
+                                                </div>    
+                                        </div>
+                
+                                </div>
+                
+                            </div>
+                    </div>
+                
+                    <div class="login-panel panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Lista de Letras</h3>
+                            </div>
+                            <div class="panel-body">
+                
+                                <div class="row">
+                                    <div class="col-md-12">
+                
+                                        <div class=" table-responsive tabla-dfa">
+                                            <table class="table table-condensed">
+                                                <thead>
+                                                    <tr class="bg-teal tam-cabecera">
+                                                        <th>N°</th>
+                                                        <th>ACCION</th>
+                                                        <th>NRO LETRA</th>
+                                                        <th>NRO LETRA UNICO</th>
+                                                        <th>FECHA</th>
+                                                        <th>NRO DIAS LETRA</th>
+                                                        <th>FECHA VENC.</th>
+                                                        <th>TIPO LETRA</th>
+                                                        <th>BANCO</th>
+                                                        <th>TIPO MONEDA</th>
+                                                        <th>IMPORTE</th>
+                                                        
+                                                    </tr>
+                                                </thead>
+                
+                                                <tbody>
+                                                    <tr *ngFor="let obj of lista_pagos_letras;let j = index" class="bg-cyan tam-cuerpo">
+                                                        <td>{{inicio+j}}</td>
+                                                        <td>
+                                                            <button (click)="eliminarItemLetra(j)" class="btn btn-primary btn-block">
+                                                                <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                                            </button>
+                                                        </td>
+                                                    
+                                                        <td>
+                                                            <input class="form-control" type="number" [(ngModel)]="obj.nro_letra" >
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control" type="text" [(ngModel)]="obj.nro_letra_unico" >
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control" type="date" [(ngModel)]="obj.fecha_letra" >
+                                                        </td>
+                                                        <td>
+                                                            <input (change)="calcularFechaVencimiento(obj,j)" class="form-control" type="number" [(ngModel)]="obj.nro_dias_letra" >
+                                                        </td>
+                
+                                                        <td>
+                                                            <input disabled class="form-control" type="date" [(ngModel)]="obj.fecha_vencimiento" >
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-control" [(ngModel)]="obj.tipo_letra">
+                                                                <option value="BANCO COBRANZA GARANTIA">    BANCO COBRANZA GARANTIA </option>
+                                                                <option value="BANCO COBRANZA LIBRE">       BANCO COBRANZA LIBRE </option>
+                                                                <option value="BANCO DESCUENTO">            BANCO DESCUENTO </option>
+                                                                <option value="EN CARTERA">                 EN CARTERA </option>
+                                                            </select>
+                
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-control" [(ngModel)]="obj.banco_letra">
+                                                                <option value="BCR">    BANCO CENTRAL RESERVA DEL PERU </option>    
+                                                                <option value="BBVA">   BANCO CONTINENTAL </option>
+                                                                <option value="BCP">    BANCO DE CREDITO DEL PERU </option>
+                                                                <option value="BN">     BANCO DE LA NACION </option>
+                                                                <option value="BANCO FINANCIERO">     BANCO FINANCIERO </option>
+                                                                <option value="CITIBANK">     CITIBANK DEL PERU S.A. </option>
+                                                                <option value="INTERBANK">  INTERBANK </option>
+                                                                <option value="SCOTIABANK"> BANCO SCOTIABANK </option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                                <input disabled class="form-control" type="text" [(ngModel)]="obj.tipo_moneda" >
+                                                            </td>
+                                                        <td>
+                                                            <input class="form-control" type="number" [(ngModel)]="obj.importe_letra" >
+                                                        </td>
+                
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                
+                
+                
+                            </div>
+                    </div>
+                
+                
+                </div>
+                
+
+
+
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<button id="modalAmortizacion" hidden="hidden" data-toggle="modal" data-target="#modalAmortizacionPnl"></button>
+<div class="modal fade" id="modalAmortizacionPnl">
+    <div class="modal-dialog modal-dialog-center">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label >Agregar Amortizacion/Pago</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+               
+
+                    <div class="col-md-12 col-xd-12">
+
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Fecha: </label>
+                                    <input class="form-control" required placeholder="" type="date" [(ngModel)]="fecha"
+                                        name="txtFecha">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Importe: </label>
+                                    <input class="form-control" required placeholder="" type="number" [(ngModel)]="importe"
+                                        name="txtImporte">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Tipo Cambio: </label>
+                                    <input class="form-control" required placeholder="" type="number" [(ngModel)]="tipo_cambio"
+                                        name="txtTipoCambio">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-xd-2">
+                                    <div class="form-group">
+                                            <label>Tipo Moneda: </label>
+                                            <select class="form-control" required [(ngModel)]="tipo_moneda" name="cbTipoMoneda">
+                                                <option *ngFor="let ti of tiposMoneda; let i = index" [ngValue]="ti">{{ti.nombre}}
+                                                </option>
+                                            </select>
+                                    </div>    
+                            </div>
+
+                           
+
+                            <div class="col-md-5 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Cuenta Banco: </label>
+                                        <select class="form-control" [(ngModel)]="cuenta_banco">
+                                                <option value="BCR">    BANCO CENTRAL RESERVA DEL PERU </option>    
+                                                <option value="BBVA">   BANCO CONTINENTAL </option>
+                                                <option value="BCP">    BANCO DE CREDITO DEL PERU </option>
+                                                <option value="BN">     BANCO DE LA NACION </option>
+                                                <option value="BANCO FINANCIERO">     BANCO FINANCIERO </option>
+                                                <option value="CITIBANK">     CITIBANK DEL PERU S.A. </option>
+                                                <option value="INTERBANK">  INTERBANK </option>
+                                                <option value="SCOTIABANK"> BANCO SCOTIABANK </option>
+                                        </select>
+                                        
+                                    </div>
+                            </div>
+                            <div class="col-md-5 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Cheque: </label>
+                                        <input class="form-control" required placeholder="" type="text" [(ngModel)]="cheque"
+                                            name="txtCheque">
+                                    </div>
+                            </div>
+
+                            <div class="col-md-5 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Nro Operacion: </label>
+                                        <input class="form-control" required placeholder="" type="text" [(ngModel)]="nro_operacion"
+                                            name="txtNroOperacion">
+                                    </div>
+                            </div>
+
+                            <div class="col-md-5 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Observacion: </label>
+                                        <input class="form-control" required placeholder="" type="text" [(ngModel)]="observacion"
+                                            name="txtObservacion">
+                                    </div>
+                            </div>
+
+
+
+                            <div class="col-md-12 col-xd-2">
+
+                                    <div class="col-md-3">
+                                        <label> Accion</label>
+                                        <button (click)="agregar()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-save fa-fw ic-dfa"></i>Agregar</button>
+                                    </div>
+                                   
+        
+                            </div>
+
+                        </div>
+
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<button id="modalNroLetras" hidden="hidden" data-toggle="modal" data-target="#modalNroLetrasPnl"></button>
+<div class="modal fade" id="modalNroLetrasPnl">
+    <div class="modal-dialog modal-dialog-center">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label >Nro Letras</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+               
+
+                    <div class="col-md-12 col-xd-12">
+
+                            <div class="col-md-12 col-xd-12">
+                                <div class="form-group">
+                                    <label>Nro de Letras: </label>
+                                    <input class="form-control" required placeholder="" type="number" [(ngModel)]="nro_letras"
+                                        name="txtNroLetras">
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12 col-xd-2">
+
+                                    <div class="col-md-12">
+                                        <label> Accion</label>
+                                        <button (click)="aceptar()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-save fa-fw ic-dfa"></i>Aceptar</button>
+                                    </div>
+                                   
+        
+                            </div>
+
+                        </div>
+
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<button id="modalNroLetras" hidden="hidden" data-toggle="modal" data-target="#modalNroLetrasPnl"></button>
+<div class="modal fade" id="modalNroLetrasPnl">
+    <div class="modal-dialog modal-dialog-center">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label >Nro Letras</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+               
+
+                    <div class="col-md-12 col-xd-12">
+
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Nro de Letra: </label>
+                                    <input class="form-control" required placeholder="" type="number" [(ngModel)]="nro_letra"
+                                        name="txtNroLetras">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Nro de Letra Unico: </label>
+                                    <input class="form-control" required placeholder="" type="number" [(ngModel)]="nro_letra_unico"
+                                        name="txtNroLetras">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Fecha: </label>
+                                    <input class="form-control" required placeholder="" type="date" [(ngModel)]="fecha_letra"
+                                        name="txtNroLetras">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Nro Dias: </label>
+                                    <input class="form-control" required placeholder="" type="number" [(ngModel)]="nro_dias_letra"
+                                        name="txtNroLetras">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Tipo Letra: </label>
+                                    <input class="form-control" required placeholder="" type="number" [(ngModel)]="tipo_letra"
+                                        name="txtNroLetras">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Banco: </label>
+                                    <input class="form-control" required placeholder="" type="number" [(ngModel)]="banco_letra"
+                                        name="txtNroLetras">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Importe: </label>
+                                    <input class="form-control" required placeholder="" type="number" [(ngModel)]="importe_letra"
+                                        name="txtNroLetras">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Importe Restante: </label>
+                                    <input class="form-control" required placeholder="" type="number" [(ngModel)]="importe_restante_letra"
+                                        name="txtNroLetras">
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-xd-2">
+
+                                    <div class="col-md-3">
+                                        <label> Accion</label>
+                                        <button (click)="aceptar()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-save fa-fw ic-dfa"></i>Aceptar</button>
+                                    </div>
+                                   
+        
+                            </div>
+
+                        </div>
+
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>

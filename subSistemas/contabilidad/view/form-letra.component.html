@@ -1,0 +1,496 @@
+<!--
+    <div class="row">
+        <div class="col-md-12" >    
+        -->
+<div *ngIf="transferido">
+    Transfiriendo..
+    <div class="loader">Loading...</div>
+</div>
+
+
+
+<div *ngIf="tienePermisoView">
+
+
+    <div *ngIf="!panelPermisosSelected">
+
+
+
+        <ul *ngIf="!panelEditarSelected" class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" href="#buscarLetra">
+                    <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</a>
+            </li>
+            <!-- <li>
+                <a data-toggle="tab" href="#nuevoLetra">
+                    <i class="fa fa-plus fa-fw ic-dfa"></i>Nuevo</a>
+            </li> -->
+
+        </ul>
+        <div *ngIf="!panelEditarSelected" class="tab-content">
+
+            <div id="buscarLetra" class="tab-pane fade in active">
+                
+                <div id="panel-letras">
+                    <div class="login-panel panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Busqueda de Letras</h3>
+                        </div>
+                        <div class="panel-body">
+
+
+
+
+
+                            <div class="col-md-12 col-xd-2">
+                                <div class="col-md-4 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Numero de Documento: </label>
+                                        <input class="form-control" type="number" [(ngModel)]="num_docSelect"
+                                            name="txtnum_doc">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-xd-12">
+
+                                <div class="col-md-2">
+                                    <label> Accion</label>
+                                    <button (click)="buscar()" class="btn btn-primary btn-block">
+                                        <i class="fa fa-search fa-fw ic-dfa"></i>Buscar</button>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label> Accion</label>
+                                    <button (click)="limpiar()" class="btn btn-primary btn-block">
+                                        <i class="fa fa-paint-brush fa-fw ic-dfa"></i>Limpiar</button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="login-panel panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Lista de Letras</h3>
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="row bg-teal tabla-cabecera-botones">
+                                        <div class="col-md-12">
+                                            <h5>EXISTEN :{{totalLista}} EN TOTAL</h5>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button (click)="paginaAnterior()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-backward fa-fw ic-dfa"></i>
+                                            </button>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Del {{inicio}} al {{fin}}</label>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <button (click)="paginaSiguiente()" class="btn btn-primary btn-block">
+                                                <i class="fa fa-forward fa-fw ic-dfa"></i>
+                                            </button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="col-md-5">
+                                                <label> Tamaño Pagina</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select name="txtTamPagina" class="form-control"
+                                                    [(ngModel)]="tamPagina">
+                                                    <option [ngValue]="10">10</option>
+                                                    <option [ngValue]="15">15</option>
+                                                    <option [ngValue]="20">20</option>
+                                                    <option [ngValue]="30">30</option>
+                                                    <option [ngValue]="100">100</option>
+                                                    <option [ngValue]="500">500</option>
+                                                    <option [ngValue]="1000">1000</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class=" table-responsive tabla-dfa">
+                                        <table class="table table-condensed">
+                                            <thead>
+                                                <tr class="bg-teal tam-cabecera">
+                                                    <th>N°</th>
+                                                    <!-- <th>ACCION</th> -->
+                                                    <th>ACCION</th>
+                                                    <!-- <th>ACCION</th> -->
+                                                    <th>ID LETRA</th>
+                                                   <!-- <th>PROVEEDOR</th> -->
+                                                    <!-- <th>RUC</th> -->
+                                                    <th>DEUDA</th>
+                                                    <th>NRO LETRA</th>
+                                                    <th>NRO LETRA UNICO</th>
+                                                    <th>FECHA</th>
+                                                    <th>FECHA VENC.</th>
+                                                    <th>NRO DIAS</th>
+                                                    <th>TIPO</th>
+                                                    <th>BANCO</th>
+                                                    <th>IMPORTE</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <tr *ngFor="let obj of letras;let j = index" class="bg-cyan tam-cuerpo">
+                                                    <td>{{inicio+j}}</td>
+                                                    <!-- <td>
+                                                        <button (click)="eliminar(obj)"
+                                                            class="btn btn-primary btn-block">
+                                                            <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                                        </button>
+                                                    </td> -->
+                                                    <td>
+                                                        <button (click)="amortizar(obj)"
+                                                            class="btn btn-primary btn-block">
+                                                            <i class="fa fa-money fa-fw ic-dfa"></i>Amortizar/Pagar
+                                                        </button>
+                                                    </td>
+                                                    <!-- <td>
+                                                        <button (click)="abrirPanelEditar(obj)"
+                                                            class="btn btn-primary btn-block">
+                                                            <i class="fa fa-plus-square fa-fw ic-dfa"></i>Editar
+                                                        </button>
+                                                    </td> -->
+
+                                                    <td>{{obj.id_letra}}</td>
+                                                    <!-- <td>{{obj.proveedor}}</td> -->
+                                                    <!-- <td>{{obj.ruc_proveedor}}</td> -->
+
+                                                    <td >
+                                                        <span class="{{obj.saldo>0?'deuda-compra':''}}">{{obj.simbolo_tipo_moneda}}{{completar_ceros_derecha(obj.saldo,2)}}</span>
+                                                    </td>
+                                                    <td>{{obj.nro_letra}}</td>
+                                                    <td>{{obj.nro_letra_unico}}</td>
+                                                    <td>{{obj.fecha}}</td>
+                                                    <td>{{obj.fecha_vencimiento}}</td>
+                                                    <td>{{obj.nro_dias}}</td>
+                                                    <td>{{obj.tipo}}</td>
+                                                    <td>{{obj.banco}}</td>
+                                                    <td>{{obj.importe }}</td>
+
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="panel-amortizacion" style="display:none">
+
+                    <div class="login-panel panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Letra a Amortizar /Pagar</h3>
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+                                    <button (click)="regresar()" class="btn btn-primary btn-block">
+                                        <i class="fa fa-reply fa-fw ic-dfa"></i>Regresar
+                                    </button>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <button (click)="registrar()" class="btn btn-primary btn-block">
+                                        <i class="fa fa-save fa-fw ic-dfa"></i>Guardar
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div *ngIf="letraAmortizar!=null" class="col-md-12 col-xd-2">
+
+                                <div class="col-md-5 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Nro Documento: </label>
+                                        <span>{{ letraAmortizar.id_letra}} -
+                                            {{ letraAmortizar.nro_letra }} -
+                                            {{ letraAmortizar.nro_letra_unico}}</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-5 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Fecha: </label>
+                                        <span>{{ letraAmortizar.fecha}} </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-5 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Vencimiento: </label>
+                                        <span>{{ letraAmortizar.fecha_vencimiento}} </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-5 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Moneda: </label>
+                                        <span>{{ letraAmortizar.tipo_moneda}} </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-5 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Tipo Letra: </label>
+                                            <span>{{ letraAmortizar.tipo}} </span>
+                                        </div>
+                                </div>
+
+                                <div class="col-md-5 col-xd-2">
+                                        <div class="form-group">
+                                            <label>Banco: </label>
+                                            <span>{{ letraAmortizar.banco}} </span>
+                                        </div>
+                                </div>
+
+                                <div class="col-md-5 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Proveedor: </label>
+                                        <span>{{ letraAmortizar.ruc_proveedor}} -
+                                            {{ letraAmortizar.proveedor}} </span>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-5 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Importe Total: </label>
+                                        <span>{{ letraAmortizar.importe}}</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-5 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Saldo: </label>
+                                        <span>{{ letraAmortizar.saldo}}</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="login-panel panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Lista de Amortizaciones / Pagos</h3>
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="row bg-teal tabla-cabecera-botones">
+
+                                        <div class="col-md-2">
+                                            <button (click)="abrirModalAmortizacion()"
+                                                class="btn btn-primary btn-block">
+                                                <i class="fa fa-plus fa-fw ic-dfa"></i>
+                                                Agregar
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+                                    <div class=" table-responsive tabla-dfa">
+                                        <table class="table table-condensed">
+                                            <thead>
+                                                <tr class="bg-teal tam-cabecera">
+                                                    <th>N°</th>
+                                                    <th>ACCION</th>
+                                                    <th>FECHA</th>
+                                                    <th>IMPORTE</th>
+                                                    <th>TIPO CAMBIO</th>
+                                                    <th>TIPO MONEDA</th>
+                                                    <th>CUENTA BANCO</th>
+                                                    <th>CHEQUE</th>
+                                                    <th>NRO OPERACION</th>
+                                                    <th>OBSERVACION</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <tr *ngFor="let obj of lista_pagos;let j = index"
+                                                    class="bg-cyan tam-cuerpo">
+                                                    <td>{{inicio+j}}</td>
+                                                    <td>
+                                                        <button (click)="eliminarItem(j)"
+                                                            class="btn btn-primary btn-block">
+                                                            <i class="fa fa-trash fa-fw ic-dfa"></i>Eliminar
+                                                        </button>
+                                                    </td>
+                                                    <td>{{obj.fecha}}</td>
+                                                    <td>{{obj.importe}}</td>
+                                                    <td>{{obj.tipo_cambio}}</td>
+                                                    <td>{{obj.tipo_moneda.nombre}}</td>
+                                                    <td>{{obj.cuenta_banco}}</td>
+                                                    <td>{{obj.cheque}}</td>
+                                                    <td>{{obj.nro_operacion}}</td>
+                                                    <td>{{obj.observacion}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- <div id="nuevoLetra" class="tab-pane fade ">
+
+
+            </div> -->
+        </div>
+
+
+
+
+
+
+
+    </div>
+
+</div>
+
+
+
+<button id="modalAmortizacion" hidden="hidden" data-toggle="modal" data-target="#modalAmortizacionPnl"></button>
+<div class="modal fade" id="modalAmortizacionPnl">
+    <div class="modal-dialog modal-dialog-center">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" area-hidden="true" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <label >Agregar Amortizacion/Pago</label>
+                </h4>
+            </div>
+
+            <div class="modal-body">
+               
+
+                    <div class="col-md-12 col-xd-12">
+
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Fecha: </label>
+                                    <input class="form-control" required placeholder="" type="date" [(ngModel)]="fecha"
+                                        name="txtFecha">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Importe: </label>
+                                    <input class="form-control" required placeholder="" type="number" [(ngModel)]="importe"
+                                        name="txtImporte">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-xd-2">
+                                <div class="form-group">
+                                    <label>Tipo Cambio: </label>
+                                    <input class="form-control" required placeholder="" type="number" [(ngModel)]="tipo_cambio"
+                                        name="txtTipoCambio">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-xd-2">
+                                    <div class="form-group">
+                                            <label>Tipo Moneda: </label>
+                                            <select class="form-control" required [(ngModel)]="tipo_moneda" name="cbTipoMoneda">
+                                                <option *ngFor="let ti of tiposMoneda; let i = index" [ngValue]="ti">{{ti.nombre}}
+                                                </option>
+                                            </select>
+                                    </div>    
+                            </div>
+
+                           
+
+                            <div class="col-md-5 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Cuenta Banco: </label>
+                                        <select class="form-control" [(ngModel)]="cuenta_banco">
+                                                <option value="BCR">    BANCO CENTRAL RESERVA DEL PERU </option>    
+                                                <option value="BBVA">   BANCO CONTINENTAL </option>
+                                                <option value="BCP">    BANCO DE CREDITO DEL PERU </option>
+                                                <option value="BN">     BANCO DE LA NACION </option>
+                                                <option value="BANCO FINANCIERO">     BANCO FINANCIERO </option>
+                                                <option value="CITIBANK">     CITIBANK DEL PERU S.A. </option>
+                                                <option value="INTERBANK">  INTERBANK </option>
+                                                <option value="SCOTIABANK"> BANCO SCOTIABANK </option>
+                                        </select>
+                                        
+                                    </div>
+                            </div>
+                            <div class="col-md-5 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Cheque: </label>
+                                        <input class="form-control" required placeholder="" type="text" [(ngModel)]="cheque"
+                                            name="txtCheque">
+                                    </div>
+                            </div>
+
+                            <div class="col-md-5 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Nro Operacion: </label>
+                                        <input class="form-control" required placeholder="" type="text" [(ngModel)]="nro_operacion"
+                                            name="txtNroOperacion">
+                                    </div>
+                            </div>
+
+                            <div class="col-md-5 col-xd-2">
+                                    <div class="form-group">
+                                        <label>Observacion: </label>
+                                        <input class="form-control" required placeholder="" type="text" [(ngModel)]="observacion"
+                                            name="txtObservacion">
+                                    </div>
+                            </div>
+
+
+
+                            <div class="col-md-12 col-xd-2">
+
+                                    <div class="col-md-3">
+                                        <label> Accion</label>
+                                        <button (click)="agregar()" class="btn btn-primary btn-block">
+                                            <i class="fa fa-save fa-fw ic-dfa"></i>Agregar</button>
+                                    </div>
+                                   
+        
+                            </div>
+
+                        </div>
+
+
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
